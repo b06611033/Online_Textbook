@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "incremental": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": true,
+    "alwaysStrict": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "build"
+  },
+  "exclude": [
+    "node_modules",
+    "src/migrations"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
+}

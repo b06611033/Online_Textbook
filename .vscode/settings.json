@@ -1,0 +1,33 @@
+{
+	"editor.insertSpaces": false,
+	"eslint.enable": true,
+	"typescript.format.enable": false,
+	"eslint.autoFixOnSave": true,
+	"npm.packageManager": "yarn",
+	"eslint.packageManager": "yarn",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		{ "language": "typescript", "autoFix": true },
+		{ "language": "typescriptreact", "autoFix": true }
+],
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"[javascriptreact]": {
+		"editor.formatOnSave": true
+	},
+	"[javascript]": {
+		"editor.formatOnSave": true
+	},
+	"[typescript]": {
+		"editor.formatOnSave": true
+	},
+	"[typescriptreact]": {
+		"editor.formatOnSave": true
+	},
+	"files.watcherExclude": {
+		"**/.git/objects/**": true,
+		"**/.git/subtree-cache/**": true,
+		"**/node_modules/**": true,
+		"**/products/**": true
+	}
+}

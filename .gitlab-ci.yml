@@ -1,0 +1,23 @@
+image: node:10
+
+stages:
+  - setup
+  - build
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - yarn
+
+setup:
+  stage: setup
+  script:
+    - yarn lint
+
+build:
+  stage: build
+  script:
+    - yarn build

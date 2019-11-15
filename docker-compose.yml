@@ -1,0 +1,33 @@
+version: "3.6"
+
+services:
+  mariadb:
+    image: mariadb:10
+    container_name: myma-store-server-mariadb
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: yasskin
+      MYSQL_DATABASE: MYMAStore
+    ports:
+      - 3306:3306
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: myma-store-server-phpmyadmin
+    restart: "no"
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb
+    ports:
+      - 3307:80
+
+  server:
+    container_name: myma-store-server
+    restart: "no"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080

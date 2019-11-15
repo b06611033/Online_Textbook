@@ -1,0 +1,6 @@
+*.log
+*.env
+build
+docker
+node_modules
+products
