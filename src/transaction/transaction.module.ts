@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
 import SubscriptionRepository from "../subscription/subscription.repository";
-import ConfigModule from "../config/config.module";
 import TransactionController from "./transaction.controller";
 import TransactionService from "./transaction.service";
 import TransactionRepository from "./transaction.repository";

@@ -1,29 +1,30 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { Controller, Logger, UseGuards, Get, Req, Res } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiUseTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Response, Request } from "express";
+import { JwtService } from "@nestjs/jwt";
 import User from "../user/user.entity";
-import ConfigService from "../config/config.service";
-import AuthService from "./auth.service";
+import EnvConfigService from "../server-config/env-config.service";
 import AuthProvider from "./auth.provider";
 import Role from "./role";
 import Roles from "./role.decorator";
 import RoleGuard from "./guards/role.guard";
+import JwtPayload from "./jwt-payload";
 
-@ApiUseTags("auth")
+@ApiTags("auth")
 @Controller("auth")
 export default class AuthController {
 	private static readonly logger = new Logger(AuthController.name);
 
 	public constructor(
-		private readonly authService: AuthService,
-		private readonly configService: ConfigService
+		private readonly jwtService: JwtService,
+		private readonly envConfigService: EnvConfigService
 	) {}
 
 	@Get("google/login")
 	@UseGuards(AuthGuard(AuthProvider.GOOGLE))
-	// eslint-disable-next-line class-methods-use-this
+	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-empty-function
 	public googleLogin(): void {}
 
 	@Get("google/callback")
@@ -32,8 +33,8 @@ export default class AuthController {
 		@Req() req: IncomingMessage & Request,
 		@Res() res: ServerResponse & Response
 	): void {
-		res.cookie("jwt", this.authService.generateJwtForUser((req.user as User).id));
-		res.redirect(this.configService.mymaStoreDomain);
+		res.cookie("jwt", this.jwtService.sign({ sub: (req.user as User).id } as JwtPayload));
+		res.redirect(this.envConfigService.mymaStoreDomain);
 	}
 
 	@Get("jwt/login")

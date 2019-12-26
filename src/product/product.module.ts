@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import ConfigModule from "../config/config.module";
 import UserRepository from "../user/user.repository";
 import AuthModule from "../auth/auth.module";
+import ServerConfigModule from "../server-config/server-config.module";
 import ProductController from "./product.controller";
 import ProductService from "./product.service";
 import ProductRepository from "./product.repository";
@@ -10,7 +10,7 @@ import ProductRepository from "./product.repository";
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ProductRepository, UserRepository]),
-		ConfigModule,
+		ServerConfigModule,
 		AuthModule
 	],
 	controllers: [ProductController],

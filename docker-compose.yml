@@ -23,11 +23,11 @@ services:
     ports:
       - 3307:80
 
-  server:
-    container_name: myma-store-server
-    restart: "no"
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    ports:
-      - 8080:8080
+  # server:
+  #   container_name: myma-store-server
+  #   restart: "no"
+  #   build:
+  #     context: ./
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8080:8080

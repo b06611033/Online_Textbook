@@ -2,22 +2,22 @@ import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { JwtModule } from "@nestjs/jwt";
-import ConfigModule from "../config/config.module";
-import JwtConfigService from "../config/jwt-config.service";
+import JwtConfigService from "../server-config/jwt-config.service";
 import UserRepository from "../user/user.repository";
 import ProductRepository from "../product/product.repository";
+import ServerConfigModule from "../server-config/server-config.module";
 import AuthController from "./auth.controller";
-import AuthService from "./auth.service";
 import GoogleStrategy from "./strategies/google.strategy";
 import JwtStrategy from "./strategies/jwt.strategy";
+import AuthService from "./auth.service";
 
 @Module({
 	imports: [
-		ConfigModule,
+		ServerConfigModule,
 		TypeOrmModule.forFeature([UserRepository, ProductRepository]),
 		PassportModule.register({ session: true }),
 		JwtModule.registerAsync({
-			imports: [ConfigModule],
+			imports: [ServerConfigModule],
 			useClass: JwtConfigService
 		})
 	],

@@ -8,36 +8,42 @@ import {
 	UpdateDateColumn,
 	JoinTable
 } from "typeorm";
-import { ApiResponseModelProperty } from "@nestjs/swagger";
+import { ApiResponseProperty } from "@nestjs/swagger";
 import { Type, Exclude } from "class-transformer";
 import Product from "../product/product.entity";
 import User from "../user/user.entity";
 
 @Entity()
 export default class Company {
-	@ApiResponseModelProperty({ example: 1 })
+	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "company_id" })
 	public readonly id: number;
 
-	@ApiResponseModelProperty({ example: "MY Math Apps" })
+	@ApiResponseProperty({ example: "MY Math Apps" })
 	@Column()
 	public readonly name: string;
 
-	@ApiResponseModelProperty({ type: Product })
-	@OneToMany(type => Product, product => product.company)
+	@ApiResponseProperty({ type: Product })
+	@OneToMany(
+		type => Product,
+		product => product.company
+	)
 	@Type(() => Product)
 	public readonly products: Product[];
 
-	@ApiResponseModelProperty({ type: User })
-	@ManyToMany(type => User, user => user.companies)
+	@ApiResponseProperty({ type: User })
+	@ManyToMany(
+		type => User,
+		user => user.companies
+	)
 	@JoinTable({
-		name: "employees",
+		name: "employee",
 		joinColumn: { name: "company_id" },
 		inverseJoinColumn: { name: "user_id" }
 	})
 	public readonly employees: User[];
 
-	@ApiResponseModelProperty({ type: String, example: new Date().toISOString() })
+	@ApiResponseProperty({ type: String, example: new Date().toISOString() })
 	@CreateDateColumn({ name: "created_at" })
 	public readonly createdAt: Date;
 

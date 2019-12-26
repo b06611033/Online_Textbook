@@ -7,7 +7,7 @@ import {
 	TerminusEndpoint
 } from "@nestjs/terminus";
 import { Injectable, Logger } from "@nestjs/common";
-import ConfigService from "./config.service";
+import EnvConfigService from "./env-config.service";
 
 @Injectable()
 export default class TerminusConfigService implements TerminusOptionsFactory {
@@ -17,32 +17,32 @@ export default class TerminusConfigService implements TerminusOptionsFactory {
 		private readonly typeOrm: TypeOrmHealthIndicator,
 		private readonly memory: MemoryHealthIndicator,
 		private readonly disk: DiskHealthIndicator,
-		private readonly configService: ConfigService
+		private readonly envConfigService: EnvConfigService
 	) {}
 
 	public createTerminusOptions(): TerminusModuleOptions {
 		TerminusConfigService.logger.log("Creating Terminus options");
 
-		let healthIndicators = [async () => this.typeOrm.pingCheck("database")];
+		const healthIndicators = [async () => this.typeOrm.pingCheck("database")];
 
-		if (this.configService.diskThresholdPercentage !== undefined) {
+		if (this.envConfigService.diskThresholdPercentage !== undefined) {
 			healthIndicators.push(async () =>
 				this.disk.checkStorage("disk_storage", {
-					thresholdPercent: this.configService.diskThresholdPercentage!,
+					thresholdPercent: this.envConfigService.diskThresholdPercentage!,
 					path: "/"
 				})
 			);
 		}
 
-		if (this.configService.memoryHeapThreshold !== undefined) {
+		if (this.envConfigService.memoryHeapThreshold !== undefined) {
 			healthIndicators.push(async () =>
-				this.memory.checkHeap("memory_heap", this.configService.memoryHeapThreshold!)
+				this.memory.checkHeap("memory_heap", this.envConfigService.memoryHeapThreshold!)
 			);
 		}
 
-		if (this.configService.memoryRssThreshold !== undefined) {
+		if (this.envConfigService.memoryRssThreshold !== undefined) {
 			healthIndicators.push(async () =>
-				this.memory.checkHeap("memory_rss", this.configService.memoryRssThreshold!)
+				this.memory.checkHeap("memory_rss", this.envConfigService.memoryRssThreshold!)
 			);
 		}
 

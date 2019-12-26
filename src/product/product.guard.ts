@@ -24,7 +24,7 @@ export default class ProductGuard implements CanActivate {
 
 	public async canActivate(ctx: ExecutionContext): Promise<boolean> {
 		const request = ctx.switchToHttp().getRequest<IncomingMessage & Request>();
-		const file = request.url.split("/api/v1/products").slice(1)[0];
+		const file = request.url.split("/api/v1/products/:product").slice(1)[0];
 
 		// Only check HTML files otherwise the assets won't load
 		if (!file.endsWith(".html")) {
@@ -46,7 +46,7 @@ export default class ProductGuard implements CanActivate {
 				throw new UnauthorizedException("Must be logged in to view this product.");
 			}
 
-			const userId = (this.authService.jwtService.decode(request.cookies.jwt) as JwtPayload).id;
+			const userId = (this.authService.jwtService.decode(request.cookies.jwt) as JwtPayload).sub;
 			const hasValidSubscription = await this.userRepository.validUserSubscriptionForProduct(
 				userId,
 				product.id

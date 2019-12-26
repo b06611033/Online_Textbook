@@ -9,17 +9,19 @@ import User from "../user/user.entity";
 type SubscriptionOmitProps = "createdAt" | "updatedAt" | "id" | "product" | "transactions";
 
 export default class MYMAStore1560460502518 implements MigrationInterface {
-	private readonly users: Omit<
-		User,
-		| "id"
-		| "createdAt"
-		| "updatedAt"
-		| "jwt"
-		| "googleAccessToken"
-		| "transactions"
-		| "companies"
-		| "products"
-	>[] = [
+	private readonly users: Array<
+		Omit<
+			User,
+			| "id"
+			| "createdAt"
+			| "updatedAt"
+			| "jwt"
+			| "googleAccessToken"
+			| "transactions"
+			| "companies"
+			| "products"
+		>
+	> = [
 		{
 			name: "Phillip Yasskin",
 			admin: true,
@@ -32,10 +34,9 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		}
 	];
 
-	private readonly companies: Omit<
-		Company,
-		"id" | "employees" | "createdAt" | "updatedAt" | "products"
-	>[] = [
+	private readonly companies: Array<
+		Omit<Company, "id" | "employees" | "createdAt" | "updatedAt" | "products">
+	> = [
 		{
 			name: "MY Math Apps"
 		},
@@ -44,10 +45,9 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		}
 	];
 
-	private readonly products: Omit<
-		Product,
-		"company" | "authors" | "createdAt" | "updatedAt" | "id" | "subscriptions"
-	>[] = [
+	private readonly products: Array<
+		Omit<Product, "company" | "authors" | "createdAt" | "updatedAt" | "id" | "subscriptions">
+	> = [
 		{
 			title: "Calculus 1",
 			codeName: "MYMACalc1",
@@ -88,9 +88,12 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		}
 	];
 
-	private readonly subscriptions: (
-		| Omit<Subscription, SubscriptionOmitProps>
-		| Omit<Subscription, SubscriptionOmitProps | "downloadLimit">)[][] = [
+	private readonly subscriptions: Array<
+		Array<
+			| Omit<Subscription, SubscriptionOmitProps>
+			| Omit<Subscription, SubscriptionOmitProps | "downloadLimit">
+		>
+	> = [
 		[
 			{
 				length: 120,
@@ -226,5 +229,6 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		]);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	public async down(queryRunner: QueryRunner): Promise<void> {}
 }

@@ -14,7 +14,7 @@ import {
 	Req
 } from "@nestjs/common";
 import {
-	ApiUseTags,
+	ApiTags,
 	ApiOkResponse,
 	ApiNotFoundResponse,
 	ApiForbiddenResponse,
@@ -22,20 +22,28 @@ import {
 } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { plainToClass } from "class-transformer";
 import AuthProvider from "../auth/auth.provider";
 import Roles from "../auth/role.decorator";
 import Role from "../auth/role";
 import RoleGuard from "../auth/guards/role.guard";
+import TransactionRepository from "../transaction/transaction.repository";
+import TransactionsDto from "../transaction/dto/responses/transactions.dto";
 import User from "./user.entity";
 import UserService from "./user.service";
-import UpdateUserDto from "./dto/update-user.dto";
+import UpdateUserDto from "./dto/requests/update-user.dto";
+import UserRepository from "./user.repository";
 
-@ApiUseTags("users")
+@ApiTags("users")
 @Controller("users")
 export default class UserController {
-	public constructor(private readonly userService: UserService) {}
+	public constructor(
+		private readonly userService: UserService,
+		private readonly userRepository: UserRepository,
+		private readonly transactionRepository: TransactionRepository
+	) {}
 
-	@Get()
+	@Get(":id")
 	@ApiBearerAuth()
 	@ApiOkResponse({ type: User, description: "User successfully retrieved" })
 	@ApiNotFoundResponse({ description: "User does not exist" })
@@ -43,8 +51,8 @@ export default class UserController {
 	@Roles(Role.USER)
 	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
 	@UseInterceptors(ClassSerializerInterceptor)
-	public async get(@Query("userId") id: number): Promise<User> {
-		const user = await this.userService.findById(id);
+	public async getUser(@Param("id") id: number): Promise<User> {
+		const user = await this.userRepository.findOne(id);
 		if (user === undefined) {
 			throw new NotFoundException(`User of ID ${id} does not exist`);
 		}
@@ -57,10 +65,10 @@ export default class UserController {
 	@ApiNotFoundResponse({ description: "User does not exist" })
 	@ApiForbiddenResponse({ description: "Forbidden resource" })
 	@ApiBearerAuth()
-	@Roles(Role.ADMIN)
+	@Roles(Role.USER)
 	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
-	public delete(@Param("id") id: number): Promise<boolean> {
-		return this.userService.delete(id);
+	public async delete(@Param("id") id: number): Promise<void> {
+		await this.userRepository.delete({ id });
 	}
 
 	@Patch(":id")
@@ -74,11 +82,12 @@ export default class UserController {
 		@Param("id") id: number,
 		@Body() updateUserDto: UpdateUserDto
 	): Promise<void> {
-		if ((await this.userService.findById(id)) === undefined) {
+		const user = await this.userRepository.findOne(id);
+		if (user === undefined) {
 			throw new NotFoundException(`User of ID ${id} does not exist`);
 		}
 
-		await this.userService.update(id, updateUserDto);
+		await this.userRepository.update(user.id, updateUserDto);
 	}
 
 	@Get("me")
@@ -91,5 +100,19 @@ export default class UserController {
 	// eslint-disable-next-line class-methods-use-this
 	public me(@Req() req: IncomingMessage & Request): User | undefined {
 		return req.user as User;
+	}
+
+	@Get(":id/transactions")
+	@ApiOkResponse({
+		type: TransactionsDto,
+		description: "Transactions successfully retrieved"
+	})
+	@Roles(Role.USER)
+	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@UseInterceptors(ClassSerializerInterceptor)
+	public async getUserTransactions(@Param("id") id: number): Promise<TransactionsDto> {
+		const transactions = await this.transactionRepository.findByUserId(id);
+
+		return plainToClass(TransactionsDto, { transactions } as TransactionsDto);
 	}
 }

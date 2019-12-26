@@ -1,3 +1,3 @@
 export default interface JwtPayload {
-	readonly id: number;
+	readonly sub: number;
 }

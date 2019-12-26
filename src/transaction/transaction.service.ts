@@ -3,12 +3,7 @@ import SubscriptionRepository from "../subscription/subscription.repository";
 import User from "../user/user.entity";
 import TransactionRepository from "./transaction.repository";
 import Transaction from "./transaction.entity";
-import CreateTransactionDto from "./dto/create-paypal-transaction.dto";
-import TransactionsResponseDto from "./dto/transactions-response.dto";
-
-export declare type FindOptions = {
-	userId?: number;
-};
+import CreateTransactionDto from "./dto/requests/create-paypal-transaction.dto";
 
 @Injectable()
 export default class TransactionService {
@@ -32,26 +27,7 @@ export default class TransactionService {
 			}),
 			user
 		};
+
 		return this.transactionRepository.save(transaction);
-	}
-
-	public async find(findOptions?: FindOptions): Promise<TransactionsResponseDto> {
-		let transactions: Transaction[] = [];
-
-		if (findOptions !== undefined) {
-			transactions = await this.transactionRepository
-				.createQueryBuilder("transaction")
-				.innerJoinAndSelect("transaction.subscriptions", "subscription")
-				.innerJoin("transaction.user", "user", "user.id = :id", {
-					id: findOptions.userId
-				})
-				.getMany();
-		} else {
-			transactions = await this.transactionRepository.find();
-		}
-
-		return {
-			transactions
-		};
 	}
 }

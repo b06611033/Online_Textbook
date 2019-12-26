@@ -1,12 +1,15 @@
 import { NestFactory } from "@nestjs/core";
-import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipe, ClassSerializerInterceptor, CacheInterceptor } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
 import ApplicationModule from "./app.module";
+import EnvConfigService from "./server-config/env-config.service";
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create<NestExpressApplication>(ApplicationModule);
+
+	const envConfigService = app.get(EnvConfigService);
 
 	app.enableCors({
 		origin: ["https://mymathapps.com", "https://dev.mymathapps.com"],
@@ -16,14 +19,21 @@ async function bootstrap(): Promise<void> {
 	});
 	app.use(cookieParser());
 	app.setGlobalPrefix("/api/v1");
-	app.useGlobalPipes(new ValidationPipe({ transform: true }));
+	app.useGlobalPipes(
+		new ValidationPipe({
+			transform: true,
+			whitelist: true,
+			forbidNonWhitelisted: true,
+			forbidUnknownValues: true,
+			disableErrorMessages: envConfigService.nodeEnv === "production"
+		})
+	);
 
 	const meta = new DocumentBuilder()
 		.addBearerAuth()
 		.setTitle("MYMA Store API")
 		.setDescription("MYMA Store API documentation")
 		.setVersion("1.0.0")
-		.setBasePath("api/v1")
 		.build();
 	const metaDocument = SwaggerModule.createDocument(app, meta);
 	SwaggerModule.setup("api/v1/docs", app, metaDocument);
