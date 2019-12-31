@@ -15,7 +15,6 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 			| "id"
 			| "createdAt"
 			| "updatedAt"
-			| "jwt"
 			| "googleAccessToken"
 			| "transactions"
 			| "companies"
@@ -28,7 +27,7 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 			email: "yasskin@tamu.edu"
 		},
 		{
-			name: "Eli Prisman",
+			name: "Matthew Prisman",
 			admin: true,
 			email: "prisman@gmail.com"
 		}
@@ -38,7 +37,7 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		Omit<Company, "id" | "employees" | "createdAt" | "updatedAt" | "products">
 	> = [
 		{
-			name: "MY Math Apps"
+			name: "MYMathApps"
 		},
 		{
 			name: "Prisman Math"
@@ -49,27 +48,27 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		Omit<Product, "company" | "authors" | "createdAt" | "updatedAt" | "id" | "subscriptions">
 	> = [
 		{
-			title: "Calculus 1",
+			title: "MYMathApps Calculus 1: Differential Calculus",
 			codeName: "MYMACalc1",
-			tagLine: "Tutoring for tutors",
+			tagLine: "Viewing and doing, a wizard's guid to calculus",
 			startPage: "MContents.html"
 		},
 		{
-			title: "Calculus 2",
+			title: "MYMathApps Calculus 2: Integral Calculus",
 			codeName: "MYMACalc2",
-			tagLine: "Tutoring for tutors",
+			tagLine: "Viewing and doing, a wizard's guid to calculus",
 			startPage: "MContents.html"
 		},
 		{
-			title: "Calculus 3",
+			title: "MYMathApps Calculus 3: Multi-variable Calculus",
 			codeName: "MYMACalc3",
-			tagLine: "Tutoring for tutors",
+			tagLine: "Viewing and doing, a wizard's guid to calculus",
 			startPage: "MContents.html"
 		},
 		{
 			title: "Maplets for Calculus",
 			codeName: "M4C",
-			tagLine: "Tutoring for tutors"
+			tagLine: "Tutoring without the tutor"
 		},
 		{
 			title: "Introduction to Derivative Securities",

@@ -19,7 +19,7 @@ export default class Company {
 	@PrimaryGeneratedColumn({ name: "company_id" })
 	public readonly id: number;
 
-	@ApiResponseProperty({ example: "MY Math Apps" })
+	@ApiResponseProperty({ example: "MYMathApps" })
 	@Column()
 	public readonly name: string;
 

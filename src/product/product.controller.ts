@@ -8,7 +8,6 @@ import {
 	Delete,
 	UseGuards,
 	Param,
-	Query,
 	Res,
 	Req,
 	BadRequestException,
@@ -58,23 +57,23 @@ export default class ProductController {
 	}
 
 	@Get()
-	@ApiOkResponse({ type: ProductsDto, description: "Successfully retrieved" })
-	@ApiNotFoundResponse({ description: "No product with that code name exists" })
-	public async get(@Query("codeName") codeName?: string): Promise<ProductsDto> {
-		if (codeName !== undefined) {
-			const product = await this.productRepository.findOne({ codeName });
-			if (product === undefined) {
-				throw new NotFoundException();
-			}
-
-			return plainToClass(ProductsDto, { products: [product] } as ProductsDto);
-		}
-
+	@ApiOkResponse({ type: [ProductsDto], description: "Successfully retrieved" })
+	public async getAllProducts(): Promise<ProductsDto> {
 		const products = await this.productRepository.findAll();
 
-		return plainToClass(ProductsDto, {
-			products
-		} as ProductsDto);
+		return plainToClass(ProductsDto, { products } as ProductsDto);
+	}
+
+	@Get(":codeName")
+	@ApiOkResponse({ type: ProductsDto, description: "Successfully retrieved" })
+	@ApiNotFoundResponse({ description: "No product with that code name exists" })
+	public async getProduct(@Param("codeName") codeName: string): Promise<ProductsDto> {
+		const product = await this.productRepository.findOne({ codeName });
+		if (product === undefined) {
+			throw new NotFoundException();
+		}
+
+		return plainToClass(ProductsDto, { products: [product] } as ProductsDto);
 	}
 
 	@Delete(":id")
