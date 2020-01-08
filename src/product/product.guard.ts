@@ -23,8 +23,10 @@ export default class ProductGuard implements CanActivate {
 	) {}
 
 	public async canActivate(ctx: ExecutionContext): Promise<boolean> {
-		const request = ctx.switchToHttp().getRequest<IncomingMessage & Request>();
-		const file = request.url.split("/api/v1/products/:product").slice(1)[0];
+		const request = ctx.switchToHttp().getRequest<IncomingMessage & Request & { file?: string }>();
+		const file = request.url.split("/api/v1/products/content/").slice(1)[0];
+
+		request.file = file;
 
 		// Only check HTML files otherwise the assets won't load
 		if (!file.endsWith(".html")) {

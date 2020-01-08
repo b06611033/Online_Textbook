@@ -1,8 +1,19 @@
 import { IncomingMessage } from "http";
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import {
+	Injectable,
+	Logger,
+	NotFoundException,
+	InternalServerErrorException
+} from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
-import { Strategy, StrategyOptions, Profile, VerifyCallback } from "passport-google-oauth20";
+import {
+	Strategy,
+	StrategyOptions,
+	Profile,
+	VerifyCallback,
+	StrategyOptionsWithRequest
+} from "passport-google-oauth20";
 import AuthService from "../auth.service";
 import AuthProvider from "../auth.provider";
 import EnvConfigService from "../../server-config/env-config.service";
@@ -21,8 +32,9 @@ export default class GoogleStrategy extends PassportStrategy(Strategy, AuthProvi
 			clientID: envConfigService.googleOAuthClientId,
 			clientSecret: envConfigService.googleOAuthClientSecret,
 			callbackURL: `${envConfigService.googleOAuthCallback}/api/v1/auth/google/callback`,
+			passReqToCallback: true,
 			scope: ["profile", "email"]
-		} as StrategyOptions);
+		} as StrategyOptionsWithRequest);
 	}
 
 	public async validate(
@@ -32,28 +44,24 @@ export default class GoogleStrategy extends PassportStrategy(Strategy, AuthProvi
 		profile: Profile,
 		done: VerifyCallback
 	): Promise<void> {
-		if (req.method === "GET") {
-			const user = await this.userRepository
+		const user =
+			(await this.userRepository
 				.createQueryBuilder("user")
 				.select(["user.id", "user.admin"])
 				.where("user.email = :email", { email: profile!.emails![0].value })
-				.getOne();
-
-			if (user === undefined) {
-				return done(new NotFoundException());
-			}
-
-			return done(undefined, user);
-		} else if (req.method === "POST") {
-			const user = await this.userRepository.save(
+				.getOne()) ??
+			(await this.userRepository.save(
 				this.userRepository.create({
 					name: profile.displayName,
 					email: profile.emails![0].value,
 					googleAccessToken: accessToken
 				})
-			);
+			));
 
-			return done(undefined, user);
+		if (user === undefined) {
+			return done(new InternalServerErrorException());
 		}
+
+		return done(undefined, user);
 	}
 }

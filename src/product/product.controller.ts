@@ -85,16 +85,18 @@ export default class ProductController {
 		await this.productRepository.delete({ id });
 	}
 
-	@Get(":product/*")
-	@ApiExcludeEndpoint() // FIXME: Workaround for @nestjs/swagger
+	@Get("content/:product/*")
 	@ApiBadRequestResponse({ description: "File does not exist" })
 	@UseGuards(ProductGuard)
 	public product(
-		@Req() req: IncomingMessage & Request,
+		@Req() req: IncomingMessage & Request & { file?: string },
 		@Res() res: ServerResponse & Response
 	): void {
-		const file = req.url.split("/api/v1/products").slice(1)[0];
-		const path = `${this.envConfigService.productsPath}/${file}`;
+		if (req.file === undefined) {
+			throw new BadRequestException("File is undefined");
+		}
+
+		const path = `${this.envConfigService.productsPath}/${req.file}`;
 
 		if (!fs.existsSync(path)) {
 			throw new BadRequestException("File does not exist");
