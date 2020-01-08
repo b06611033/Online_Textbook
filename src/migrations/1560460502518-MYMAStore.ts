@@ -50,19 +50,19 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		{
 			title: "MYMathApps Calculus 1: Differential Calculus",
 			codeName: "MYMACalc1",
-			tagLine: "Viewing and doing, a wizard's guid to calculus",
+			tagLine: "Viewing and doing, a wizard's guide to calculus",
 			startPage: "MContents.html"
 		},
 		{
 			title: "MYMathApps Calculus 2: Integral Calculus",
 			codeName: "MYMACalc2",
-			tagLine: "Viewing and doing, a wizard's guid to calculus",
+			tagLine: "Viewing and doing, a wizard's guide to calculus",
 			startPage: "MContents.html"
 		},
 		{
 			title: "MYMathApps Calculus 3: Multi-variable Calculus",
 			codeName: "MYMACalc3",
-			tagLine: "Viewing and doing, a wizard's guid to calculus",
+			tagLine: "Viewing and doing, a wizard's guide to calculus",
 			startPage: "MContents.html"
 		},
 		{
@@ -72,18 +72,15 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		},
 		{
 			title: "Introduction to Derivative Securities",
-			codeName: "IntroToDerSecurities",
-			tagLine: "Tutoring for tutors"
+			codeName: "IntroToDerSecurities"
 		},
 		{
 			title: "Fixed Income Fundamentals",
-			codeName: "FixedIncomeFund",
-			tagLine: "Tutoring for tutors"
+			codeName: "FixedIncomeFund"
 		},
 		{
 			title: "Essays in Portfolio Management",
-			codeName: "EssaysInPortfolioMgmt",
-			tagLine: "Tutoring for tutors"
+			codeName: "EssaysInPortfolioMgmt"
 		}
 	];
 
