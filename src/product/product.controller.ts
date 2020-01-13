@@ -68,7 +68,11 @@ export default class ProductController {
 	@ApiOkResponse({ type: ProductsDto, description: "Successfully retrieved" })
 	@ApiNotFoundResponse({ description: "No product with that code name exists" })
 	public async getProduct(@Param("codeName") codeName: string): Promise<ProductsDto> {
-		const product = await this.productRepository.findOne({ codeName });
+		const product = await this.productRepository.findOne(
+			{ codeName },
+			{ relations: ["subscriptions", "company"] }
+		);
+
 		if (product === undefined) {
 			throw new NotFoundException();
 		}

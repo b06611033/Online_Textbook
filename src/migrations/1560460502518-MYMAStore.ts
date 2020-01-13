@@ -72,15 +72,15 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		},
 		{
 			title: "Introduction to Derivative Securities",
-			codeName: "IntroToDerSecurities"
+			codeName: "IntroductionToDerivativeSecurities"
 		},
 		{
 			title: "Fixed Income Fundamentals",
-			codeName: "FixedIncomeFund"
+			codeName: "FixedIncomeFundamentals"
 		},
 		{
 			title: "Essays in Portfolio Management",
-			codeName: "EssaysInPortfolioMgmt"
+			codeName: "EssaysInPortfolioManagement"
 		}
 	];
 
