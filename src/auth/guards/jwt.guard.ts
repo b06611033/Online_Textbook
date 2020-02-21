@@ -1,10 +1,10 @@
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { Injectable, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Observable } from "rxjs";
-import { Request } from "express";
+import type { Observable } from "rxjs";
+import type { Request } from "express";
 import AuthProvider from "../auth.provider";
-import User from "../../user/user.entity";
+import type User from "../../user/user.entity";
 
 @Injectable()
 export default class JwtAuthGuard extends AuthGuard(AuthProvider.JWT) {

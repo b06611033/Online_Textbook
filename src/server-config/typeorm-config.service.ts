@@ -1,7 +1,7 @@
 import { join } from "path";
 import { Injectable, Logger } from "@nestjs/common";
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from "@nestjs/typeorm";
-import EnvConfigService from "./env-config.service";
+import type EnvConfigService from "./env-config.service";
 
 @Injectable()
 export default class TypeOrmConfigService implements TypeOrmOptionsFactory {

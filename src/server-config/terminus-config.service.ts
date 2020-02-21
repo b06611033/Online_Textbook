@@ -7,7 +7,7 @@ import {
 	TerminusEndpoint
 } from "@nestjs/terminus";
 import { Injectable, Logger } from "@nestjs/common";
-import EnvConfigService from "./env-config.service";
+import type EnvConfigService from "./env-config.service";
 
 @Injectable()
 export default class TerminusConfigService implements TerminusOptionsFactory {

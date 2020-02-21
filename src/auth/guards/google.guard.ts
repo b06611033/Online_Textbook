@@ -1,8 +1,8 @@
 import { Injectable, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Observable } from "rxjs";
+import type { Observable } from "rxjs";
 import AuthProvider from "../auth.provider";
-import User from "../../user/user.entity";
+import type User from "../../user/user.entity";
 
 @Injectable()
 export default class GoogleAuthGuard extends AuthGuard(AuthProvider.GOOGLE) {

@@ -1,23 +1,17 @@
-import { IncomingMessage } from "http";
-import {
-	Injectable,
-	Logger,
-	NotFoundException,
-	InternalServerErrorException
-} from "@nestjs/common";
+import type { IncomingMessage } from "http";
+import { Injectable, Logger, InternalServerErrorException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { Request } from "express";
+import type { Request } from "express";
 import {
 	Strategy,
-	StrategyOptions,
 	Profile,
 	VerifyCallback,
 	StrategyOptionsWithRequest
 } from "passport-google-oauth20";
-import AuthService from "../auth.service";
+import type AuthService from "../auth.service";
 import AuthProvider from "../auth.provider";
-import EnvConfigService from "../../server-config/env-config.service";
-import UserRepository from "../../user/user.repository";
+import type EnvConfigService from "../../server-config/env-config.service";
+import type UserRepository from "../../user/user.repository";
 
 @Injectable()
 export default class GoogleStrategy extends PassportStrategy(Strategy, AuthProvider.GOOGLE) {

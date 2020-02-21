@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import type { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export default class AuthService {

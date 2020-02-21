@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import Joi from "@hapi/joi";
-import { ConfigService } from "@nestjs/config";
+import type { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export default class EnvConfigService {
