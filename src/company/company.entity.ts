@@ -31,7 +31,7 @@ export default class Company {
 	@Type(() => Product)
 	public readonly products: Product[];
 
-	@ApiResponseProperty({ type: User })
+	@ApiResponseProperty({ type: [User] })
 	@ManyToMany(
 		type => User,
 		user => user.companies
@@ -41,6 +41,7 @@ export default class Company {
 		joinColumn: { name: "company_id" },
 		inverseJoinColumn: { name: "user_id" }
 	})
+	@Type(() => User)
 	public readonly employees: User[];
 
 	@ApiResponseProperty({ type: String, example: new Date().toISOString() })
