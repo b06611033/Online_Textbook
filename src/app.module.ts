@@ -1,9 +1,12 @@
+import path from "path";
 import {
 	Module,
 	CacheModule,
 	CacheInterceptor,
 	ValidationPipe,
-	ClassSerializerInterceptor
+	ClassSerializerInterceptor,
+	NestModule,
+	MiddlewareConsumer
 } from "@nestjs/common";
 import Joi from "@hapi/joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -12,6 +15,7 @@ import { TerminusModule } from "@nestjs/terminus";
 import { ConfigModule } from "@nestjs/config";
 import { NestEmitterModule } from "nest-emitter";
 import { EventEmitter } from "typeorm/platform/PlatformTools";
+import { ServeStaticModule } from "@nestjs/serve-static";
 import TerminusConfigService from "./server-config/terminus-config.service";
 import TypeOrmConfigService from "./server-config/typeorm-config.service";
 import ProductModule from "./product/product.module";
@@ -22,6 +26,9 @@ import CompanyModule from "./company/company.module";
 import ServerConfigModule from "./server-config/server-config.module";
 import AuthenticationModule from "./authentication/authentication.module";
 import AuthorizationModule from "./authorization/authorization.module";
+import LoggerMiddleware from "./middleware/logger.middleware";
+import EnvConfigService from "./server-config/env-config.service";
+import ServeStaticConfigService from "./server-config/serve-static-config.service";
 
 @Module({
 	imports: [
@@ -67,7 +74,6 @@ import AuthorizationModule from "./authorization/authorization.module";
 				JWT_SECRET: Joi.string()
 					.required()
 					.description("The JWT secret to sign all tokens with"),
-				PRODUCTS_PATH: Joi.string().description("Root path of where products are located on disk"),
 				DISK_THRESHOLD_PERCENTAGE: Joi.number().description("Disk usage percentage to warn at"),
 				MEMORY_HEAP_THRESHOLD: Joi.number().description("Heap usage percentage to warn at"),
 				MEMORY_RSS_THRESHOLD: Joi.number().description(
@@ -77,11 +83,18 @@ import AuthorizationModule from "./authorization/authorization.module";
 					.default("localhost")
 					.description(
 						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect."
-					)
+					),
+				STATIC_SITE_PATH: Joi.string()
+					.default(path.join(__dirname, "..", "..", "client", "build", "public"))
+					.description("Where the static files to serve are")
 			})
 		}),
 		CacheModule.register(),
 		NestEmitterModule.forRoot(new EventEmitter()),
+		ServeStaticModule.forRootAsync({
+			imports: [ServerConfigModule],
+			useClass: ServeStaticConfigService
+		}),
 		ServerConfigModule,
 		AuthenticationModule,
 		AuthorizationModule,
@@ -107,4 +120,13 @@ import AuthorizationModule from "./authorization/authorization.module";
 	]
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export default class ApplicationModule {}
+export default class ApplicationModule implements NestModule {
+	public constructor(private readonly envConfigService: EnvConfigService) {}
+
+	// eslint-disable-next-line class-methods-use-this
+	public configure(consumer: MiddlewareConsumer): void {
+		if (this.envConfigService.nodeEnv === "development") {
+			consumer.apply(LoggerMiddleware).forRoutes("*");
+		}
+	}
+}

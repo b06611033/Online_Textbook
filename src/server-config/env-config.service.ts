@@ -60,10 +60,8 @@ export default class EnvConfigService {
 		return String(this.configService.get("JWT_SECRET"));
 	}
 
-	public get productsPath(): string | undefined {
-		const path = this.configService.get("PRODUCTS_PATH");
-
-		return path === undefined ? undefined : String(path);
+	public get staticSitePath(): string {
+		return String(this.configService.get("STATIC_SITE_PATH"));
 	}
 
 	public get diskThresholdPercentage(): number | undefined {

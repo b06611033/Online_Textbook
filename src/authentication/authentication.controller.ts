@@ -63,12 +63,12 @@ export default class AuthenticationController {
 	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
 	@Post("local/sign-up")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
-	public localSignUp(
+	public async localSignUp(
 		@Req() req: IncomingMessage & Request,
 		@Res() res: ServerResponse & Response
-	): void {
+	): Promise<void> {
 		const user = req.user as User;
-		res.cookie("jwt", this.authenticationService.createJwt(user));
+		res.cookie("jwt", await this.authenticationService.createJwt(user));
 		res.send(JSON.stringify(plainToClass(User, user)));
 	}
 
@@ -78,12 +78,12 @@ export default class AuthenticationController {
 	@ApiUnauthorizedResponse({ description: "User with given credentials does not exist" })
 	@Post("local/login")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
-	public localLogin(
+	public async localLogin(
 		@Req() req: IncomingMessage & Request,
 		@Res() res: ServerResponse & Response
-	): void {
+	): Promise<void> {
 		const user = req.user as User;
-		res.cookie("jwt", this.authenticationService.createJwt(user));
+		res.cookie("jwt", await this.authenticationService.createJwt(user));
 		res.send(JSON.stringify(plainToClass(User, user)));
 	}
 }

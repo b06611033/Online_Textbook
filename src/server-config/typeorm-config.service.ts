@@ -10,7 +10,7 @@ export default class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
 	public constructor(private readonly envConfigService: EnvConfigService) {}
 
-	public createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
+	public createTypeOrmOptions(): TypeOrmModuleOptions {
 		TypeOrmConfigService.logger.log("Creating database options");
 		TypeOrmConfigService.logger.log(
 			`Migrations located in "${TypeOrmConfigService.migrationsDir}"`

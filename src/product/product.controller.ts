@@ -1,5 +1,4 @@
-import { ServerResponse, IncomingMessage } from "http";
-import fs from "fs";
+import { ServerResponse } from "http";
 import {
 	Body,
 	Controller,
@@ -9,9 +8,9 @@ import {
 	UseGuards,
 	Param,
 	Res,
-	Req,
-	BadRequestException,
-	NotFoundException
+	NotFoundException,
+	HttpStatus,
+	HttpCode
 } from "@nestjs/common";
 import {
 	ApiTags,
@@ -19,18 +18,18 @@ import {
 	ApiBadRequestResponse,
 	ApiOkResponse,
 	ApiBearerAuth,
-	ApiNotFoundResponse
+	ApiNotFoundResponse,
+	ApiUnauthorizedResponse
 } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { plainToClass } from "class-transformer";
-import { Response, Request } from "express";
+import { Response } from "express";
 import EnvConfigService from "../server-config/env-config.service";
 import Roles from "../authorization/decorators/role.decorator";
 import RoleName from "../authorization/role-name";
 import AuthenticationProvider from "../authentication/authentication.provider";
 import RoleGuard from "../authorization/guards/role.guard";
 import ProductGuard from "./product.guard";
-import ProductService from "./product.service";
 import Product from "./product.entity";
 import CreateProductDto from "./dto/requests/create-product.dto";
 import ProductsDto from "./dto/responses/products.dto";
@@ -39,11 +38,7 @@ import ProductRepository from "./product.repository";
 @ApiTags("products")
 @Controller("products")
 export default class ProductController {
-	public constructor(
-		private readonly envConfigService: EnvConfigService,
-		private readonly productService: ProductService,
-		private readonly productRepository: ProductRepository
-	) {}
+	public constructor(private readonly productRepository: ProductRepository) {}
 
 	@Post()
 	@ApiCreatedResponse({ type: Product, description: "Successfully created a product" })
@@ -88,23 +83,13 @@ export default class ProductController {
 		await this.productRepository.delete({ id });
 	}
 
-	@Get("content/:product/*")
+	@Get("access/:product")
 	@ApiBadRequestResponse({ description: "File does not exist" })
+	@ApiUnauthorizedResponse({ description: "User is not authorized to view this content" })
 	@UseGuards(ProductGuard)
-	public product(
-		@Req() req: IncomingMessage & Request & { file?: string },
-		@Res() res: ServerResponse & Response
-	): void {
-		if (req.file === undefined) {
-			throw new BadRequestException("File is undefined");
-		}
-
-		const path = `${this.envConfigService.productsPath}/${req.file}`;
-
-		if (!fs.existsSync(path)) {
-			throw new BadRequestException("File does not exist");
-		}
-
-		res.sendFile(path);
+	// eslint-disable-next-line class-methods-use-this
+	public product(@Param("product") product: string, @Res() res: ServerResponse & Response): void {
+		res.cookie(`${product}-Access`, "true", { httpOnly: true, sameSite: "strict", secure: true });
+		res.redirect(`file:///home/tristan957/Projects/myma-store-server/products/${product}`);
 	}
 }

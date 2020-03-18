@@ -20,7 +20,6 @@ export default class JwtStrategy extends PassportStrategy(Strategy, Authenticati
 	}
 
 	public async validate(payload: JwtPayload, done: VerifiedCallback): Promise<User> {
-		console.log("validate");
 		const user = await this.userRepository.findOne(payload.sub);
 		if (user === undefined) {
 			throw new UnauthorizedException();

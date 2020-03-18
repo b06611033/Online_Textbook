@@ -11,14 +11,18 @@ export default class AuthenticationService {
 		private readonly userRepository: UserRepository
 	) {}
 
-	public createJwt(user: User): string {
-		return this.jwtService.sign({
+	public createJwt(user: User): Promise<string> {
+		return this.jwtService.signAsync({
+			name: user.email,
 			sub: user.id,
 			roles: user.roles.map(role => role.name)
 		} as JwtPayload);
 	}
 
 	public validateUser(email: string, hashedPassword: string): Promise<User | undefined> {
-		return this.userRepository.findOne({ where: { email, hashedPassword } });
+		return this.userRepository.findOne({
+			where: { email, hashedPassword },
+			relations: ["roles"]
+		});
 	}
 }
