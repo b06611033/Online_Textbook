@@ -1,31 +1,35 @@
-import type { IncomingMessage } from "http";
+import { IncomingMessage } from "http";
 import { Injectable, Logger, InternalServerErrorException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import type { Request } from "express";
+import { Request } from "express";
 import {
 	Strategy,
 	Profile,
 	VerifyCallback,
 	StrategyOptionsWithRequest
 } from "passport-google-oauth20";
-import type AuthService from "../auth.service";
-import AuthProvider from "../auth.provider";
-import type EnvConfigService from "../../server-config/env-config.service";
-import type UserRepository from "../../user/user.repository";
+import AuthenticationProvider from "../authentication.provider";
+import EnvConfigService from "../../server-config/env-config.service";
+import UserRepository from "../../user/user.repository";
+import RoleRepository from "../../authorization/role.repository";
+import RoleName from "../../authorization/role-name";
 
 @Injectable()
-export default class GoogleStrategy extends PassportStrategy(Strategy, AuthProvider.GOOGLE) {
+export default class GoogleStrategy extends PassportStrategy(
+	Strategy,
+	AuthenticationProvider.GOOGLE
+) {
 	private static readonly logger = new Logger(GoogleStrategy.name);
 
 	public constructor(
-		private readonly authService: AuthService,
 		private readonly userRepository: UserRepository,
+		private readonly roleRepository: RoleRepository,
 		envConfigService: EnvConfigService
 	) {
 		super({
 			clientID: envConfigService.googleOAuthClientId,
 			clientSecret: envConfigService.googleOAuthClientSecret,
-			callbackURL: `${envConfigService.googleOAuthCallback}/api/v1/auth/google/callback`,
+			callbackURL: `${envConfigService.googleOAuthCallback}/api/v1/authentication/google/callback`,
 			passReqToCallback: true,
 			scope: ["profile", "email"]
 		} as StrategyOptionsWithRequest);
@@ -48,7 +52,8 @@ export default class GoogleStrategy extends PassportStrategy(Strategy, AuthProvi
 				this.userRepository.create({
 					name: profile.displayName,
 					email: profile.emails![0].value,
-					googleAccessToken: accessToken
+					googleAccessToken: accessToken,
+					roles: [(await this.roleRepository.getRoleCache()).USER!]
 				})
 			));
 

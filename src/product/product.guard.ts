@@ -8,9 +8,9 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
+import { JwtService } from "@nestjs/jwt";
 import UserRepository from "../user/user.repository";
-import JwtPayload from "../auth/jwt-payload";
-import AuthService from "../auth/auth.service";
+import JwtPayload from "../authentication/jwt-payload";
 import ProductRepository from "./product.repository";
 
 @Injectable()
@@ -19,7 +19,7 @@ export default class ProductGuard implements CanActivate {
 		private readonly reflector: Reflector,
 		private readonly userRepository: UserRepository,
 		private readonly productRepository: ProductRepository,
-		private readonly authService: AuthService
+		private readonly jwtService: JwtService
 	) {}
 
 	public async canActivate(ctx: ExecutionContext): Promise<boolean> {
@@ -48,7 +48,7 @@ export default class ProductGuard implements CanActivate {
 				throw new UnauthorizedException("Must be logged in to view this product.");
 			}
 
-			const userId = (this.authService.jwtService.decode(request.cookies.jwt) as JwtPayload).sub;
+			const userId = (this.jwtService.decode(request.cookies.jwt) as JwtPayload).sub;
 			const hasValidSubscription = await this.userRepository.validUserSubscriptionForProduct(
 				userId,
 				product.id

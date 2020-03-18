@@ -1,6 +1,6 @@
 import { SetMetadata } from "@nestjs/common";
-import Role from "./role";
+import RoleName from "../role-name";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const Roles = (...roles: Role[]) => SetMetadata("roles", roles);
+const Roles = (...roles: RoleName[]) => SetMetadata("roles", roles);
 export default Roles;

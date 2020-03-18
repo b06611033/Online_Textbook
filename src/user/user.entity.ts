@@ -9,11 +9,12 @@ import {
 	JoinTable
 } from "typeorm";
 import { IsEmail } from "class-validator";
-import { Exclude, Type } from "class-transformer";
+import { Exclude, Type, Transform } from "class-transformer";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import Transaction from "../transaction/transaction.entity";
 import Company from "../company/company.entity";
 import Product from "../product/product.entity";
+import Role from "../authorization/role.entity";
 
 @Entity()
 export default class User {
@@ -25,8 +26,8 @@ export default class User {
 	@Column()
 	public readonly name: string;
 
-	@ApiResponseProperty({ example: "my.email@gmail.com" })
-	@Column()
+	@ApiResponseProperty({ example: "jane.doe@example.com" })
+	@Column({ unique: true })
 	@IsEmail()
 	public readonly email: string;
 
@@ -34,9 +35,22 @@ export default class User {
 	@Column({ name: "google_access_token", nullable: true })
 	public googleAccessToken?: string;
 
-	@ApiResponseProperty({ example: false })
-	@Column({ default: false })
-	public readonly admin: boolean;
+	@Exclude()
+	@Column({ nullable: true })
+	public hashedPassword?: string;
+
+	@ApiResponseProperty({ type: [Role] })
+	@ManyToMany(
+		type => Role,
+		role => role.users
+	)
+	@JoinTable({
+		name: "user_roles",
+		joinColumn: { name: "user_id" },
+		inverseJoinColumn: { name: "role_id" }
+	})
+	@Type(() => Role)
+	public roles: Role[];
 
 	@Exclude()
 	@OneToMany(
@@ -67,11 +81,11 @@ export default class User {
 	})
 	public readonly products: Product[];
 
-	@Exclude()
-	@UpdateDateColumn({ name: "updated_at" })
-	public readonly updatedAt: Date;
-
 	@ApiResponseProperty({ type: String, example: new Date().toISOString() })
 	@CreateDateColumn({ name: "created_at" })
 	public readonly createdAt: Date;
+
+	@ApiResponseProperty({ type: String, example: new Date().toISOString() })
+	@UpdateDateColumn({ name: "updated_at" })
+	public readonly updatedAt: Date;
 }

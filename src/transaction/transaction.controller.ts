@@ -12,7 +12,7 @@ import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
-import AuthProvider from "../auth/auth.provider";
+import AuthenticationProvider from "../authentication/authentication.provider";
 import User from "../user/user.entity";
 import Transaction from "./transaction.entity";
 import TransactionService from "./transaction.service";
@@ -25,7 +25,7 @@ export default class TransactionController {
 
 	@Post("paypal")
 	@ApiBearerAuth()
-	@UseGuards(AuthGuard(AuthProvider.JWT))
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT))
 	@UseInterceptors(ClassSerializerInterceptor)
 	public async create(
 		@Body() createPayPalTrasactionDto: CreatePayPalTransactionDto,

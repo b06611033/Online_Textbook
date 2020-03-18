@@ -19,17 +19,16 @@ import {
 	ApiBadRequestResponse,
 	ApiOkResponse,
 	ApiBearerAuth,
-	ApiExcludeEndpoint,
 	ApiNotFoundResponse
 } from "@nestjs/swagger";
 import { AuthGuard } from "@nestjs/passport";
 import { plainToClass } from "class-transformer";
 import { Response, Request } from "express";
-import AuthProvider from "../auth/auth.provider";
-import Roles from "../auth/role.decorator";
-import Role from "../auth/role";
-import RoleGuard from "../auth/guards/role.guard";
 import EnvConfigService from "../server-config/env-config.service";
+import Roles from "../authorization/decorators/role.decorator";
+import RoleName from "../authorization/role-name";
+import AuthenticationProvider from "../authentication/authentication.provider";
+import RoleGuard from "../authorization/guards/role.guard";
 import ProductGuard from "./product.guard";
 import ProductService from "./product.service";
 import Product from "./product.entity";
@@ -50,8 +49,8 @@ export default class ProductController {
 	@ApiCreatedResponse({ type: Product, description: "Successfully created a product" })
 	@ApiBadRequestResponse({ description: "Bad request" })
 	@ApiBearerAuth()
-	@Roles(Role.ADMIN)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	public create(@Body() createProductDto: CreateProductDto): Promise<Product> {
 		return this.productRepository.save(this.productRepository.create(createProductDto));
 	}
@@ -83,8 +82,8 @@ export default class ProductController {
 	@Delete(":id")
 	@ApiOkResponse({ description: "Product deleted" })
 	@ApiBearerAuth()
-	@Roles(Role.ADMIN)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	public async delete(@Param("id") id: number): Promise<void> {
 		await this.productRepository.delete({ id });
 	}

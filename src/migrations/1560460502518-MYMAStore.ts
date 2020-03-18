@@ -5,10 +5,48 @@ import Product from "../product/product.entity";
 import Subscription from "../subscription/subscription.entity";
 import Company from "../company/company.entity";
 import User from "../user/user.entity";
+import Role from "../authorization/role.entity";
+import RoleName from "../authorization/role-name";
+import Permission from "../authorization/permission.entity";
+import PermissionName from "../authorization/permission-name";
 
 type SubscriptionOmitProps = "createdAt" | "updatedAt" | "id" | "product" | "transactions";
 
 export default class MYMAStore1560460502518 implements MigrationInterface {
+	private readonly permissions: Array<
+		Omit<Permission, "id" | "roles" | "createdAt" | "updatedAt">
+	> = [
+		{
+			name: PermissionName.READ_SELF
+		},
+		{
+			name: PermissionName.READ_OTHERS
+		},
+		{
+			name: PermissionName.UPDATE_SELF
+		},
+		{
+			name: PermissionName.UPDATE_OTHERS
+		},
+		{
+			name: PermissionName.DELETE_SELF
+		},
+		{
+			name: PermissionName.DELETE_OTHERS
+		}
+	];
+
+	private readonly roles: Array<
+		Omit<Role, "id" | "users" | "permissions" | "createdAt" | "updatedAt">
+	> = [
+		{
+			name: RoleName.ADMIN
+		},
+		{
+			name: RoleName.USER
+		}
+	];
+
 	private readonly users: Array<
 		Omit<
 			User,
@@ -19,16 +57,15 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 			| "transactions"
 			| "companies"
 			| "products"
+			| "roles"
 		>
 	> = [
 		{
 			name: "Phillip Yasskin",
-			admin: true,
 			email: "yasskin@tamu.edu"
 		},
 		{
-			name: "Matthew Prisman",
-			admin: true,
+			name: "Eli Prisman",
 			email: "prisman@gmail.com"
 		}
 	];
@@ -177,10 +214,20 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 	];
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
+		const permissionRepository = queryRunner.manager.getRepository(Permission);
+		const roleRepository = queryRunner.manager.getRepository(Role);
 		const userRepository = queryRunner.manager.getRepository(User);
 		const companyRespository = queryRunner.manager.getRepository(Company);
 		const productRepository = queryRunner.manager.getRepository(Product);
 		const subscriptionRepository = queryRunner.manager.getRepository(Subscription);
+
+		const permissions = await Promise.all(
+			this.permissions.map(value => permissionRepository.save(permissionRepository.create(value)))
+		);
+
+		const roles = await Promise.all(
+			this.roles.map(value => roleRepository.save(roleRepository.create(value)))
+		);
 
 		const users = await Promise.all(
 			this.users.map(value => userRepository.save(userRepository.create(value)))
@@ -199,6 +246,21 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 				)
 			)
 		);
+
+		// Adding permissions to roles
+		await Promise.all([
+			roleRepository.save({ ...roles[0], permissions }),
+			roleRepository.save({
+				...roles[1],
+				permissions: [permissions[0], permissions[2], permissions[4]]
+			})
+		]);
+
+		// Adding roles to users
+		await Promise.all([
+			userRepository.save({ ...users[0], roles }),
+			userRepository.save({ ...users[1], roles })
+		]);
 
 		// Adding authors to products
 		await Promise.all([

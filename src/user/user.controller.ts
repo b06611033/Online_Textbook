@@ -6,7 +6,6 @@ import {
 	Delete,
 	UseGuards,
 	Param,
-	Query,
 	NotFoundException,
 	Body,
 	UseInterceptors,
@@ -23,12 +22,12 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
-import AuthProvider from "../auth/auth.provider";
-import Roles from "../auth/role.decorator";
-import Role from "../auth/role";
-import RoleGuard from "../auth/guards/role.guard";
+import AuthenticationProvider from "../authentication/authentication.provider";
 import TransactionRepository from "../transaction/transaction.repository";
 import TransactionsDto from "../transaction/dto/responses/transactions.dto";
+import Roles from "../authorization/decorators/role.decorator";
+import RoleName from "../authorization/role-name";
+import RoleGuard from "../authorization/guards/role.guard";
 import User from "./user.entity";
 import UserService from "./user.service";
 import UpdateUserDto from "./dto/requests/update-user.dto";
@@ -48,8 +47,8 @@ export default class UserController {
 	@ApiOkResponse({ type: User, description: "User successfully retrieved" })
 	@ApiNotFoundResponse({ description: "User does not exist" })
 	@ApiForbiddenResponse({ description: "Forbidden resource" })
-	@Roles(Role.USER)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.USER, RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	@UseInterceptors(ClassSerializerInterceptor)
 	public async getUser(@Param("id") id: number): Promise<User> {
 		const user = await this.userRepository.findOne(id);
@@ -65,8 +64,8 @@ export default class UserController {
 	@ApiNotFoundResponse({ description: "User does not exist" })
 	@ApiForbiddenResponse({ description: "Forbidden resource" })
 	@ApiBearerAuth()
-	@Roles(Role.USER)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.USER, RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	public async delete(@Param("id") id: number): Promise<void> {
 		await this.userRepository.delete({ id });
 	}
@@ -76,8 +75,8 @@ export default class UserController {
 	@ApiOkResponse({ type: User, description: "User successfully update" })
 	@ApiNotFoundResponse({ description: "User does not exist" })
 	@ApiForbiddenResponse({ description: "Forbidden resource" })
-	@Roles(Role.USER)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.USER, RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	public async update(
 		@Param("id") id: number,
 		@Body() updateUserDto: UpdateUserDto
@@ -95,7 +94,7 @@ export default class UserController {
 	@ApiOkResponse({ type: User, description: "User successfully retrieved" })
 	@ApiNotFoundResponse({ description: "User does not exist" })
 	@ApiForbiddenResponse({ description: "Forbidden resource" })
-	@UseGuards(AuthGuard(AuthProvider.JWT))
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT))
 	@UseInterceptors(ClassSerializerInterceptor)
 	// eslint-disable-next-line class-methods-use-this
 	public me(@Req() req: IncomingMessage & Request): User | undefined {
@@ -107,8 +106,8 @@ export default class UserController {
 		type: TransactionsDto,
 		description: "Transactions successfully retrieved"
 	})
-	@Roles(Role.USER)
-	@UseGuards(AuthGuard(AuthProvider.JWT), RoleGuard)
+	@Roles(RoleName.USER, RoleName.ADMIN)
+	@UseGuards(AuthGuard(AuthenticationProvider.JWT), RoleGuard)
 	@UseInterceptors(ClassSerializerInterceptor)
 	public async getUserTransactions(@Param("id") id: number): Promise<TransactionsDto> {
 		const transactions = await this.transactionRepository.findByUserId(id);

@@ -1,7 +1,7 @@
 import { join } from "path";
 import { Injectable, Logger } from "@nestjs/common";
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from "@nestjs/typeorm";
-import type EnvConfigService from "./env-config.service";
+import EnvConfigService from "./env-config.service";
 
 @Injectable()
 export default class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -24,6 +24,7 @@ export default class TypeOrmConfigService implements TypeOrmOptionsFactory {
 			password: this.envConfigService.mymaStoreDatabasePassword,
 			database: this.envConfigService.mymaStoreDatabase,
 			entities: [`${__dirname}/../**/*.entity{.ts,.js}`],
+			subscribers: [`${__dirname}/../**/*.subscriber{.ts,.js}`],
 			synchronize: this.envConfigService.nodeEnv !== "production",
 			migrationsRun: true,
 			migrationsTableName: "migration",

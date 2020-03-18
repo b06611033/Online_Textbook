@@ -1,14 +1,14 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, ExtractJwt, StrategyOptions, VerifiedCallback } from "passport-jwt";
-import type JwtPayload from "../jwt-payload";
-import AuthProvider from "../auth.provider";
-import type EnvConfigService from "../../server-config/env-config.service";
-import type User from "../../user/user.entity";
-import type UserRepository from "../../user/user.repository";
+import JwtPayload from "../jwt-payload";
+import AuthenticationProvider from "../authentication.provider";
+import EnvConfigService from "../../server-config/env-config.service";
+import User from "../../user/user.entity";
+import UserRepository from "../../user/user.repository";
 
 @Injectable()
-export default class JwtStrategy extends PassportStrategy(Strategy, AuthProvider.JWT) {
+export default class JwtStrategy extends PassportStrategy(Strategy, AuthenticationProvider.JWT) {
 	public constructor(
 		private readonly userRepository: UserRepository,
 		envConfigService: EnvConfigService
@@ -20,6 +20,7 @@ export default class JwtStrategy extends PassportStrategy(Strategy, AuthProvider
 	}
 
 	public async validate(payload: JwtPayload, done: VerifiedCallback): Promise<User> {
+		console.log("validate");
 		const user = await this.userRepository.findOne(payload.sub);
 		if (user === undefined) {
 			throw new UnauthorizedException();

@@ -1,7 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import type { NestExpressApplication } from "@nestjs/platform-express";
+import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
 import ApplicationModule from "./app.module";
 import EnvConfigService from "./server-config/env-config.service";
@@ -21,7 +21,7 @@ async function bootstrap(): Promise<void> {
 	app.setGlobalPrefix("/api/v1");
 	app.useGlobalPipes(
 		new ValidationPipe({
-			transform: true,
+			transform: false,
 			whitelist: true,
 			forbidNonWhitelisted: true,
 			forbidUnknownValues: true,
@@ -30,6 +30,7 @@ async function bootstrap(): Promise<void> {
 	);
 
 	const meta = new DocumentBuilder()
+		.addBasicAuth()
 		.addBearerAuth()
 		.setTitle("MYMA Store API")
 		.setDescription("MYMA Store API documentation")

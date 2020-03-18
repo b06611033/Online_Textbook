@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { JwtOptionsFactory, JwtModuleOptions } from "@nestjs/jwt";
-import type EnvConfigService from "./env-config.service";
+import EnvConfigService from "./env-config.service";
 
 @Injectable()
 export default class JwtConfigService implements JwtOptionsFactory {

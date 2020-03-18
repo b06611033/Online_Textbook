@@ -10,15 +10,18 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { TerminusModule } from "@nestjs/terminus";
 import { ConfigModule } from "@nestjs/config";
+import { NestEmitterModule } from "nest-emitter";
+import { EventEmitter } from "typeorm/platform/PlatformTools";
 import TerminusConfigService from "./server-config/terminus-config.service";
 import TypeOrmConfigService from "./server-config/typeorm-config.service";
-import AuthModule from "./auth/auth.module";
 import ProductModule from "./product/product.module";
 import TransactionModule from "./transaction/transaction.module";
 import SubscriptionModule from "./subscription/subscription.module";
 import UserModule from "./user/user.module";
 import CompanyModule from "./company/company.module";
 import ServerConfigModule from "./server-config/server-config.module";
+import AuthenticationModule from "./authentication/authentication.module";
+import AuthorizationModule from "./authorization/authorization.module";
 
 @Module({
 	imports: [
@@ -78,8 +81,10 @@ import ServerConfigModule from "./server-config/server-config.module";
 			})
 		}),
 		CacheModule.register(),
+		NestEmitterModule.forRoot(new EventEmitter()),
 		ServerConfigModule,
-		AuthModule,
+		AuthenticationModule,
+		AuthorizationModule,
 		ProductModule,
 		TransactionModule,
 		SubscriptionModule,

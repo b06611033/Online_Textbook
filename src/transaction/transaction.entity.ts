@@ -27,6 +27,7 @@ export default class Transaction {
 		subscription => subscription.transactions
 	)
 	@JoinTable({
+		name: "line_items",
 		joinColumn: { name: "transaction_id" },
 		inverseJoinColumn: { name: "subscription_id" }
 	})

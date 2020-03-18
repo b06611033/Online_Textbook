@@ -1,8 +1,10 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { JwtModule } from "@nestjs/jwt";
 import UserRepository from "../user/user.repository";
-import AuthModule from "../auth/auth.module";
 import ServerConfigModule from "../server-config/server-config.module";
+import AuthorizationModule from "../authorization/authorization.module";
+import JwtConfigService from "../server-config/jwt-config.service";
 import ProductController from "./product.controller";
 import ProductService from "./product.service";
 import ProductRepository from "./product.repository";
@@ -11,7 +13,8 @@ import ProductRepository from "./product.repository";
 	imports: [
 		TypeOrmModule.forFeature([ProductRepository, UserRepository]),
 		ServerConfigModule,
-		AuthModule
+		AuthorizationModule,
+		JwtModule.registerAsync({ useExisting: JwtConfigService, imports: [ServerConfigModule] })
 	],
 	controllers: [ProductController],
 	providers: [ProductService],
