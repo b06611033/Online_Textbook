@@ -99,6 +99,6 @@ export default class ProductController {
 		// }
 
 		res.cookie("Content-Access", "true", { httpOnly: true, sameSite: "strict", secure: true });
-		res.redirect(`${this.envConfigService.productsLocation}`);
+		res.redirect(301, this.envConfigService.productsLocation);
 	}
 }

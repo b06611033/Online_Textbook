@@ -12,11 +12,11 @@ function App() {
 				<nav className="navbar navbar-expand-lg navbar-light fixed-top">
 					<div className="container">
 						<Link className="navbar-brand" to={"/sign-in"}>
-							<span style={{ color: "green", "font-weight": "bold" }}>MY</span>
-							<span style={{ color: "blue", "font-weight": "bold" }}>Math</span>
-							<span style={{ color: "red", "font-weight": "bold" }}>Apps</span>
+							<span style={{ color: "green", "fontWeight": "bold" }}>MY</span>
+							<span style={{ color: "blue", "fontWeight": "bold" }}>Math</span>
+							<span style={{ color: "red", "fontWeight": "bold" }}>Apps</span>
 						</Link>
-						<div class="collapse navbar-collapse" id="navbarNav">
+						<div className="collapse navbar-collapse" id="navbarNav">
 							<ul className="navbar-nav">
 								<li className="nav-item">
 									<Link className="nav-link" to={"/sign-in"}>
