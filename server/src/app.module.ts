@@ -82,11 +82,14 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 				MYMA_STORE_DOMAIN: Joi.string()
 					.default("localhost")
 					.description(
-						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect."
+						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect"
 					),
 				STATIC_SITE_PATH: Joi.string()
 					.default(path.join(__dirname, "..", "..", "client", "build", "public"))
-					.description("Where the static files to serve are")
+					.description("Where the static files to serve are"),
+				PRODUCTS_LOCATION: Joi.string()
+					.required()
+					.description("Where the textbook is being served")
 			})
 		}),
 		CacheModule.register(),
