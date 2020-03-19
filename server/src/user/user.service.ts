@@ -1,8 +1,8 @@
+import crypto from "crypto";
 import { Injectable, Logger } from "@nestjs/common";
 import RoleRepository from "../authorization/role.repository";
 import UserRepository from "./user.repository";
 import User from "./user.entity";
-import crypto from "crypto";
 
 @Injectable()
 export default class UserService {

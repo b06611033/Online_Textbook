@@ -8,12 +8,12 @@ import ProductRepository from "../product/product.repository";
 import JwtConfigService from "../server-config/jwt-config.service";
 import RoleRepository from "../authorization/role.repository";
 import UserModule from "../user/user.module";
+import EmailModule from "../email/email.module";
 import GoogleStrategy from "./strategies/google.strategy";
 import JwtStrategy from "./strategies/jwt.strategy";
 import AuthenticationService from "./authentication.service";
 import LocalStrategy from "./strategies/local.strategy";
 import AuthenticationController from "./authentication.controller";
-import EmailModule from "../email/email.module";
 
 @Module({
 	imports: [

@@ -4,6 +4,9 @@
 	"typescript.format.enable": false,
 	"npm.packageManager": "yarn",
 	"eslint.packageManager": "yarn",
+	"eslint.workingDirectories": [
+		"server"
+	],
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"[javascriptreact]": {
 		"editor.codeActionsOnSave": {

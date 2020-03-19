@@ -1,15 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import {
-	Controller,
-	Logger,
-	UseGuards,
-	Get,
-	Req,
-	Res,
-	Post,
-	Query,
-	NotFoundException
-} from "@nestjs/common";
+import { Controller, Logger, UseGuards, Get, Req, Res, Post, Query } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import {
 	ApiBearerAuth,
@@ -25,10 +15,9 @@ import { Response, Request } from "express";
 import { plainToClass } from "class-transformer";
 import User from "../user/user.entity";
 import EnvConfigService from "../server-config/env-config.service";
+import EmailService from "../email/email.service";
 import AuthenticationProvider from "./authentication.provider";
 import AuthenticationService from "./authentication.service";
-import UserService from "../user/user.service";
-import EmailService from "../email/email.service";
 
 @ApiTags("authentication")
 @Controller("authentication")
