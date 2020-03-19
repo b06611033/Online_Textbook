@@ -6,6 +6,7 @@ import User from "../../user/user.entity";
 import AuthenticationService from "../authentication.service";
 import UserService from "../../user/user.service";
 import AuthenticationProvider from "../authentication.provider";
+import { QueryFailedError } from "typeorm";
 
 @Injectable()
 export default class LocalStrategy extends PassportStrategy(
@@ -35,14 +36,23 @@ export default class LocalStrategy extends PassportStrategy(
 		const name = req.body.name as string | undefined;
 		const isNewUser = req.path.endsWith("sign-up");
 		if (name !== undefined && !isNewUser) {
-			done(new BadRequestException(), undefined);
+			done(new BadRequestException("Name was not specified"), undefined);
 		}
 
-		const user = isNewUser
-			? await this.userService.createUserFromLocalStrategy(name!, email, hashedPassword)
-			: await this.authenticationService.validateUser(email, hashedPassword);
+		if (isNewUser) {
+			try {
+				done(
+					undefined,
+					await this.userService.createUserFromLocalStrategy(name!, email, hashedPassword)
+				);
+			} catch (e) {
+				done(new BadRequestException("A user with that email address already exists"), undefined);
+			}
+		}
+
+		const user = await this.authenticationService.validateUser(email, hashedPassword);
 		if (user === undefined) {
-			done(new UnauthorizedException(), undefined);
+			done(new UnauthorizedException("Incorrect password was supplied"), undefined);
 		}
 
 		return done(null, user);

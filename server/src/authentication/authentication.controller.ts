@@ -1,14 +1,25 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { Controller, Logger, UseGuards, Get, Req, Res, Post, HttpStatus } from "@nestjs/common";
+import {
+	Controller,
+	Logger,
+	UseGuards,
+	Get,
+	Req,
+	Res,
+	Post,
+	Query,
+	NotFoundException
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import {
 	ApiBearerAuth,
 	ApiTags,
 	ApiBasicAuth,
-	ApiResponse,
 	ApiOkResponse,
 	ApiUnauthorizedResponse,
-	ApiBadRequestResponse
+	ApiBadRequestResponse,
+	ApiInternalServerErrorResponse,
+	ApiNotFoundResponse
 } from "@nestjs/swagger";
 import { Response, Request } from "express";
 import { plainToClass } from "class-transformer";
@@ -16,6 +27,8 @@ import User from "../user/user.entity";
 import EnvConfigService from "../server-config/env-config.service";
 import AuthenticationProvider from "./authentication.provider";
 import AuthenticationService from "./authentication.service";
+import UserService from "../user/user.service";
+import EmailService from "../email/email.service";
 
 @ApiTags("authentication")
 @Controller("authentication")
@@ -24,7 +37,8 @@ export default class AuthenticationController {
 
 	public constructor(
 		private readonly authenticationService: AuthenticationService,
-		private readonly envConfigService: EnvConfigService
+		private readonly envConfigService: EnvConfigService,
+		private readonly emailService: EmailService
 	) {}
 
 	@Get("google/login")
@@ -85,5 +99,16 @@ export default class AuthenticationController {
 		const user = req.user as User;
 		res.cookie("jwt", await this.authenticationService.createJwt(user));
 		res.send(JSON.stringify(plainToClass(User, user)));
+	}
+
+	@ApiOkResponse({
+		description: "Sent an email to the specified address with a temporary password"
+	})
+	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
+	@ApiNotFoundResponse({ description: "User with supplied email does not exist" })
+	@ApiInternalServerErrorResponse({ description: "Unable to send email to the specifed address" })
+	@Get("forgotPassword")
+	public async forgotPassword(@Query("email") email: string): Promise<void> {
+		this.emailService.forgotPassword(email);
 	}
 }

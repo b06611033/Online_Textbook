@@ -64,6 +64,10 @@ export default class EnvConfigService {
 		return String(this.configService.get("STATIC_SITE_PATH"));
 	}
 
+	public get productsLocation(): string {
+		return String(this.configService.get("PRODUCTS_LOCATION"));
+	}
+
 	public get diskThresholdPercentage(): number | undefined {
 		const percentage = this.configService.get("DISK_THRESHOLD_PERCENTAGE");
 

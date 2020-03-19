@@ -11,7 +11,8 @@ import ProductRepository from "./product.repository";
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ProductRepository, UserRepository]),
-		JwtModule.registerAsync({ useExisting: JwtConfigService, imports: [ServerConfigModule] })
+		JwtModule.registerAsync({ useExisting: JwtConfigService, imports: [ServerConfigModule] }),
+		ServerConfigModule
 	],
 	controllers: [ProductController],
 	providers: [ProductService],

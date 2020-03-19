@@ -8,9 +8,7 @@ import {
 	UseGuards,
 	Param,
 	Res,
-	NotFoundException,
-	HttpStatus,
-	HttpCode
+	NotFoundException
 } from "@nestjs/common";
 import {
 	ApiTags,
@@ -24,7 +22,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { plainToClass } from "class-transformer";
 import { Response } from "express";
-import EnvConfigService from "../server-config/env-config.service";
 import Roles from "../authorization/decorators/role.decorator";
 import RoleName from "../authorization/role-name";
 import AuthenticationProvider from "../authentication/authentication.provider";
@@ -34,11 +31,15 @@ import Product from "./product.entity";
 import CreateProductDto from "./dto/requests/create-product.dto";
 import ProductsDto from "./dto/responses/products.dto";
 import ProductRepository from "./product.repository";
+import EnvConfigService from "../server-config/env-config.service";
 
 @ApiTags("products")
 @Controller("products")
 export default class ProductController {
-	public constructor(private readonly productRepository: ProductRepository) {}
+	public constructor(
+		private readonly productRepository: ProductRepository,
+		private readonly envConfigService: EnvConfigService
+	) {}
 
 	@Post()
 	@ApiCreatedResponse({ type: Product, description: "Successfully created a product" })
@@ -83,13 +84,21 @@ export default class ProductController {
 		await this.productRepository.delete({ id });
 	}
 
-	@Get("access/:product")
+	@Get("access/:codeName")
 	@ApiBadRequestResponse({ description: "File does not exist" })
 	@ApiUnauthorizedResponse({ description: "User is not authorized to view this content" })
 	@UseGuards(ProductGuard)
 	// eslint-disable-next-line class-methods-use-this
-	public product(@Param("product") product: string, @Res() res: ServerResponse & Response): void {
-		res.cookie(`${product}-Access`, "true", { httpOnly: true, sameSite: "strict", secure: true });
-		res.redirect(`file:///home/tristan957/Projects/myma-store-server/products/${product}`);
+	public async accessProduct(
+		@Param("codeName") codeName: string,
+		@Res() res: ServerResponse & Response
+	): Promise<void> {
+		const product = await this.productRepository.findOne({ where: { codeName } });
+		if (product === undefined) {
+			throw new NotFoundException(`Code name (${codeName}) does not exist`);
+		}
+
+		res.cookie(`${codeName}-Access`, "true", { httpOnly: true, sameSite: "strict", secure: true });
+		res.redirect(`${this.envConfigService}/${codeName}`);
 	}
 }

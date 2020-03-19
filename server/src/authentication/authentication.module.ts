@@ -13,6 +13,7 @@ import JwtStrategy from "./strategies/jwt.strategy";
 import AuthenticationService from "./authentication.service";
 import LocalStrategy from "./strategies/local.strategy";
 import AuthenticationController from "./authentication.controller";
+import EmailModule from "../email/email.module";
 
 @Module({
 	imports: [
@@ -23,7 +24,8 @@ import AuthenticationController from "./authentication.controller";
 			imports: [ServerConfigModule],
 			useClass: JwtConfigService
 		}),
-		UserModule
+		UserModule,
+		EmailModule
 	],
 	controllers: [AuthenticationController],
 	providers: [GoogleStrategy, JwtStrategy, LocalStrategy, AuthenticationService]

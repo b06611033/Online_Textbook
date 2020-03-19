@@ -8,8 +8,8 @@ import {
 	ManyToMany,
 	JoinTable
 } from "typeorm";
-import { IsEmail } from "class-validator";
-import { Exclude, Type, Transform } from "class-transformer";
+import { IsEmail, IsUUID } from "class-validator";
+import { Exclude, Type } from "class-transformer";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import Transaction from "../transaction/transaction.entity";
 import Company from "../company/company.entity";
@@ -37,7 +37,15 @@ export default class User {
 
 	@Exclude()
 	@Column({ nullable: true })
-	public hashedPassword?: string;
+	public readonly hashedPassword?: string;
+
+	@Exclude()
+	@Column({ default: false })
+	public requestedTemporaryPassword?: boolean;
+
+	@Exclude()
+	@Column({ nullable: true })
+	public temporaryPassword?: string;
 
 	@ApiResponseProperty({ type: [Role] })
 	@ManyToMany(

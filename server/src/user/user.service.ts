@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import RoleRepository from "../authorization/role.repository";
 import UserRepository from "./user.repository";
 import User from "./user.entity";
+import crypto from "crypto";
 
 @Injectable()
 export default class UserService {
@@ -25,5 +26,17 @@ export default class UserService {
 				roles: [(await this.roleRepository.getRoleCache()).USER!]
 			})
 		);
+	}
+
+	public async forgotPassword(email: string): Promise<string> {
+		const user = await this.userRepository.findOneOrFail({ where: { email } });
+		const temporaryPassword = crypto
+			.randomBytes(8)
+			.toString("hex")
+			.substring(0, 8);
+		user.temporaryPassword = temporaryPassword;
+		await this.userRepository.save(user);
+
+		return temporaryPassword;
 	}
 }
