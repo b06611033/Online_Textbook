@@ -84,21 +84,21 @@ export default class ProductController {
 		await this.productRepository.delete({ id });
 	}
 
-	@Get("access/:codeName")
+	@Get("content/access")
 	@ApiBadRequestResponse({ description: "File does not exist" })
 	@ApiUnauthorizedResponse({ description: "User is not authorized to view this content" })
 	@UseGuards(ProductGuard)
 	// eslint-disable-next-line class-methods-use-this
 	public async accessProduct(
-		@Param("codeName") codeName: string,
+		// @Param("codeName") codeName: string,
 		@Res() res: ServerResponse & Response
 	): Promise<void> {
-		const product = await this.productRepository.findOne({ where: { codeName } });
-		if (product === undefined) {
-			throw new NotFoundException(`Code name (${codeName}) does not exist`);
-		}
+		// const product = await this.productRepository.findOne({ where: { codeName } });
+		// if (product === undefined) {
+		// 	throw new NotFoundException(`Code name (${codeName}) does not exist`);
+		// }
 
-		res.cookie(`${codeName}-Access`, "true", { httpOnly: true, sameSite: "strict", secure: true });
-		res.redirect(`${this.envConfigService}/${codeName}`);
+		res.cookie("Content-Access", "true", { httpOnly: true, sameSite: "strict", secure: true });
+		res.redirect(`${this.envConfigService.productsLocation}`);
 	}
 }

@@ -9,7 +9,8 @@ import {
 	ApiUnauthorizedResponse,
 	ApiBadRequestResponse,
 	ApiInternalServerErrorResponse,
-	ApiNotFoundResponse
+	ApiNotFoundResponse,
+	ApiCreatedResponse
 } from "@nestjs/swagger";
 import { Response, Request } from "express";
 import { plainToClass } from "class-transformer";
@@ -62,7 +63,7 @@ export default class AuthenticationController {
 	}
 
 	@ApiBasicAuth()
-	@ApiOkResponse({ type: User, description: "Successfully logged the user in" })
+	@ApiCreatedResponse({ type: User, description: "Successfully logged the user in" })
 	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
 	@Post("local/sign-up")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
