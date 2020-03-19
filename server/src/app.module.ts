@@ -44,7 +44,7 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 			envFilePath: `${process.env.NODE_ENV}.env`,
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string()
-					// .valid(["development", "production", "testing"])
+					.valid("development", "production", "testing")
 					.default("development"),
 				MYMA_STORE_DATABASE_HOST: Joi.string()
 					.hostname()
