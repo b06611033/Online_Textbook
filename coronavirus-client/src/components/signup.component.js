@@ -42,19 +42,10 @@ export default class SignUp extends Component {
 			hashedPassword: CryptoJS.SHA256(user.password + user.email).toString(CryptoJS.enc.Base64)
 		};
 		axios
-			.post("http://localhost:8080/api/authentication/local/sign-up", params)
+			.post(`${process.env.REACT_APP_SERVER_DOMAIN}/api/authentication/local/sign-up`, params)
 			.then(res => {
 				this.setState({ success: true });
-				// axios
-				// 	.get("http://localhost:8080/api/products/content/access")
-				// 	.then(res => {
 				window.location.replace(res.request.responseURL);
-				// })
-				// .catch(err => {
-				// 	if (err.response) {
-				// 		this.setState({ errors: { message: err.response.data.message } });
-				// 	}
-				// });
 			})
 			.catch(err => {
 				if (err.response) {

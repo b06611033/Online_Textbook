@@ -36,18 +36,9 @@ export default class Login extends Component {
 			hashedPassword: CryptoJS.SHA256(user.password + user.email).toString(CryptoJS.enc.Base64)
 		};
 		axios
-			.post("http://localhost:8080/api/authentication/local/login", params)
+			.post(`${process.env.REACT_APP_SERVER_DOMAIN}/api/authentication/local/login`, params)
 			.then(res => {
-				// axios
-				// 	.get("http://localhost:8080/api/products/content/access")
-				// 	.then(res => {
 				window.location.replace(res.request.responseURL);
-				// })
-				// .catch(err => {
-				// 	if (err.response) {
-				// 		this.setState({ errors: { message: err.response.data.message } });
-				// 	}
-				// });
 			})
 			.catch(err => {
 				if (err.response) {
@@ -59,7 +50,7 @@ export default class Login extends Component {
 	errorList() {
 		let _errorList = [];
 		Object.keys(this.state.errors).forEach(key => {
-			_errorList.push(<li>{this.state.errors[key]}</li>);
+			_errorList.push(<li key={key}>{this.state.errors[key]}</li>);
 		});
 		return _errorList;
 	}
