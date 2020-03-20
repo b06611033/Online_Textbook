@@ -34,7 +34,7 @@ import UpdateUserDto from "./dto/requests/update-user.dto";
 import UserRepository from "./user.repository";
 
 @ApiTags("users")
-@Controller("users")
+@Controller("api/users")
 export default class UserController {
 	public constructor(
 		private readonly userService: UserService,

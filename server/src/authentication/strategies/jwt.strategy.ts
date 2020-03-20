@@ -15,7 +15,7 @@ export default class JwtStrategy extends PassportStrategy(Strategy, Authenticati
 	) {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: envConfigService.jwtSecret
+			secretOrKey: envConfigService.mymaJwtSecret
 		} as StrategyOptions);
 	}
 

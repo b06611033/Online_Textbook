@@ -1,3 +1,9 @@
+globals:
+  afterAll: true
+  beforeAll: true
+  describe: true
+  expect: true
+  it: true
 rules:
   # Possible Errors
   for-direction: error

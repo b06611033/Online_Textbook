@@ -26,7 +26,7 @@ import CompanyModule from "./company/company.module";
 import ServerConfigModule from "./server-config/server-config.module";
 import AuthenticationModule from "./authentication/authentication.module";
 import AuthorizationModule from "./authorization/authorization.module";
-import LoggerMiddleware from "./middleware/logger.middleware";
+import LoggerMiddleware from "./meta/middleware/logger.middleware";
 import EnvConfigService from "./server-config/env-config.service";
 import ServeStaticConfigService from "./server-config/serve-static-config.service";
 
@@ -71,7 +71,7 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 				GOOGLE_OAUTH_CALLBACK: Joi.string()
 					.required()
 					.description("Where Google should redirect to after login"),
-				JWT_SECRET: Joi.string()
+				MYMA_JWT_SECRET: Joi.string()
 					.required()
 					.description("The JWT secret to sign all tokens with"),
 				DISK_THRESHOLD_PERCENTAGE: Joi.number().description("Disk usage percentage to warn at"),
@@ -84,12 +84,12 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 					.description(
 						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect"
 					),
-				STATIC_SITE_PATH: Joi.string()
+				MYMA_STATIC_SITE_PATH: Joi.string()
 					.default(path.join(__dirname, "..", "..", "client", "build", "public"))
 					.description("Where the static files to serve are"),
-				PRODUCTS_LOCATION: Joi.string()
+				MYMA_PRODUCTS_PATH: Joi.string()
 					.required()
-					.description("Where the textbook is being served")
+					.description("Where the textbook bulid is at")
 			})
 		}),
 		CacheModule.register(),

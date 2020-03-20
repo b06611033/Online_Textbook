@@ -12,9 +12,9 @@ export default class JwtConfigService implements JwtOptionsFactory {
 		JwtConfigService.logger.log("Creating JWT options");
 
 		return {
-			secret: this.envConfigService.jwtSecret,
+			secret: this.envConfigService.mymaJwtSecret,
 			signOptions: {
-				audience: ["https://mymathapps.com", "http://localhost:3000"]
+				audience: ["https://mymathapps.com"]
 			}
 		};
 	}

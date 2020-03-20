@@ -3,6 +3,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
+import { Request, Response } from "express";
 import ApplicationModule from "./app.module";
 import EnvConfigService from "./server-config/env-config.service";
 
@@ -18,7 +19,11 @@ async function bootstrap(): Promise<void> {
 		credentials: true
 	});
 	app.use(cookieParser());
-	app.setGlobalPrefix("/api/v1");
+	// app.use("/content/MYMACalculus/*", (req: Request, res: Response, next: Function) => {
+	// 	console.log("route");
+	// 	console.log(req.cookies);
+	// 	next();
+	// });
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: false,
@@ -37,7 +42,7 @@ async function bootstrap(): Promise<void> {
 		.setVersion("1.0.0")
 		.build();
 	const metaDocument = SwaggerModule.createDocument(app, meta);
-	SwaggerModule.setup("api/v1/docs", app, metaDocument);
+	SwaggerModule.setup("api/docs", app, metaDocument);
 
 	await app.listen(8080);
 }

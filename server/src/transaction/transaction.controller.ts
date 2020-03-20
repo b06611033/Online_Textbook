@@ -19,7 +19,7 @@ import TransactionService from "./transaction.service";
 import CreatePayPalTransactionDto from "./dto/requests/create-paypal-transaction.dto";
 
 @ApiTags("transactions")
-@Controller("transactions")
+@Controller("api/transactions")
 export default class TransactionController {
 	public constructor(private readonly transactionService: TransactionService) {}
 

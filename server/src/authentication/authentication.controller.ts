@@ -21,7 +21,7 @@ import AuthenticationProvider from "./authentication.provider";
 import AuthenticationService from "./authentication.service";
 
 @ApiTags("authentication")
-@Controller("authentication")
+@Controller("api/authentication")
 export default class AuthenticationController {
 	private static readonly logger = new Logger(AuthenticationController.name);
 
@@ -87,7 +87,10 @@ export default class AuthenticationController {
 		@Res() res: ServerResponse & Response
 	): Promise<void> {
 		const user = req.user as User;
-		res.cookie("jwt", await this.authenticationService.createJwt(user));
+		res.cookie("jwt", await this.authenticationService.createJwt(user), {
+			secure: true,
+			sameSite: "strict"
+		});
 		res.send(JSON.stringify(plainToClass(User, user)));
 	}
 

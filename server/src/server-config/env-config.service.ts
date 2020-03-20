@@ -56,16 +56,16 @@ export default class EnvConfigService {
 		return String(this.configService.get("GOOGLE_OAUTH_CALLBACK"));
 	}
 
-	public get jwtSecret(): string {
-		return String(this.configService.get("JWT_SECRET"));
+	public get mymaJwtSecret(): string {
+		return String(this.configService.get("MYMA_JWT_SECRET"));
 	}
 
-	public get staticSitePath(): string {
-		return String(this.configService.get("STATIC_SITE_PATH"));
+	public get mymaStaticSitePath(): string {
+		return String(this.configService.get("MYMA_STATIC_SITE_PATH"));
 	}
 
-	public get productsLocation(): string {
-		return String(this.configService.get("PRODUCTS_LOCATION"));
+	public get mymaProductsPath(): string {
+		return String(this.configService.get("MYMA_PRODUCTS_PATH"));
 	}
 
 	public get diskThresholdPercentage(): number | undefined {

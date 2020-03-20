@@ -1,0 +1,15 @@
+node_modules
+build
+*.log
+*.md
+Dockerfile
+.prettierrc.yml
+.eslintrc.yml
+*.test.ts
+*.test.js
+.vscode
+.git
+.gitignore
+.gitlab-ci.yml
+products
+jest.config.js
