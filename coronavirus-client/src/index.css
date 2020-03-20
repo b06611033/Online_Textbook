@@ -10,12 +10,12 @@ body {
   display: flex;
   font-weight: 400;
   font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Helvectica', sans-serif;
 }
 
 h1,h2,h3,h4,h5,h6,label,span {
   font-weight: 500;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Helvectica', sans-serif;
 }
 
 body, html, .App, #root, .auth-wrapper {
@@ -29,14 +29,28 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .auth-wrapper {
-  display: flex;
+  /* display: flex; */
+  flex: 1;
   justify-content: center;
   flex-direction: column;
   text-align: left;
 }
 
 .auth-inner {
-  width: 450px;
+  width: 45%;
+  min-width: 350px;
+  max-width: 550px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all .3s;
+}
+
+.auth-inner-large {
+  width: 80%;
+  max-width: 850px;
   margin: auto;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -71,5 +85,15 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .forgot-password a {
+  color: #167bff;
+}
+
+.terms-conditions {
+  font-size: 13px;
+  color: #7f7d7d;
+}
+
+.terms-conditions a {
+  cursor: pointer;
   color: #167bff;
 }

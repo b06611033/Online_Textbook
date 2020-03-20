@@ -7,7 +7,7 @@ services:
     hostname: mariadb
     restart: "no"
     environment:
-      MYSQL_ROOT_PASSWORD: P&kxNtkKi75e
+      MYSQL_ROOT_PASSWORD: yasskin
       MYSQL_DATABASE: MYMAStore
     ports:
       - 3306:3306
@@ -40,4 +40,4 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ${MYMA_PRODUCTS_PATH:-products}:/myma-store/products:ro
+      - ${MYMA_PRODUCTS_PATH:-./products}:/myma-store/products:ro

@@ -73,7 +73,8 @@ export default class AuthenticationController {
 	): Promise<void> {
 		const user = req.user as User;
 		res.cookie("jwt", await this.authenticationService.createJwt(user));
-		res.send(JSON.stringify(plainToClass(User, user)));
+    res.redirect(301, "/content/MYMACalculus"); 
+		/* res.send(JSON.stringify(plainToClass(User, user))); */
 	}
 
 	@ApiBasicAuth()
@@ -91,7 +92,8 @@ export default class AuthenticationController {
 			secure: true,
 			sameSite: "strict"
 		});
-		res.send(JSON.stringify(plainToClass(User, user)));
+    res.redirect(301, "/content/MYMACalculus"); 
+		/* res.send(JSON.stringify(plainToClass(User, user))); */
 	}
 
 	@ApiOkResponse({

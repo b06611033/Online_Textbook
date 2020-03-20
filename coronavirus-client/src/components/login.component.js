@@ -36,18 +36,18 @@ export default class Login extends Component {
 			hashedPassword: CryptoJS.SHA256(user.password + user.email).toString(CryptoJS.enc.Base64)
 		};
 		axios
-			.post("http://localhost:8080/api/v1/authentication/local/login", params)
+			.post("http://localhost:8080/api/authentication/local/login", params)
 			.then(res => {
-				axios
-					.get("http://localhost:8080/api/v1/products/content/access")
-					.then(res => {
-            window.location.replace(res.request.responseURL);
-					})
-					.catch(err => {
-						if (err.response) {
-							this.setState({ errors: { message: err.response.data.message } });
-						}
-					});
+				// axios
+				// 	.get("http://localhost:8080/api/products/content/access")
+				// 	.then(res => {
+				window.location.replace(res.request.responseURL);
+				// })
+				// .catch(err => {
+				// 	if (err.response) {
+				// 		this.setState({ errors: { message: err.response.data.message } });
+				// 	}
+				// });
 			})
 			.catch(err => {
 				if (err.response) {
@@ -85,52 +85,54 @@ export default class Login extends Component {
 	}
 	render() {
 		return (
-			<form onSubmit={this.validateForm} noValidate>
-				<h3>Login</h3>
-				{Object.keys(this.state.errors) !== 0 && (
-					<ul style={{ color: "red" }}>{this.errorList()}</ul>
-				)}
+			<div className="auth-inner">
+				<form onSubmit={this.validateForm} noValidate>
+					<h3>Login</h3>
+					{Object.keys(this.state.errors) !== 0 && (
+						<ul style={{ color: "red" }}>{this.errorList()}</ul>
+					)}
 
-				<div className="form-group">
-					<label>Email Address</label>
-					<input
-						type="email"
-						name="email"
-						value={this.state.user.email}
-						onChange={this.onChange}
-						className="form-control"
-						placeholder="Enter email"
-					/>
-				</div>
-
-				<div className="form-group">
-					<label>Password</label>
-					<input
-						type="password"
-						name="password"
-						value={this.state.user.password}
-						onChange={this.onChange}
-						className="form-control"
-						placeholder="Enter password"
-					/>
-				</div>
-
-				<div className="form-group">
-					<div className="custom-control custom-checkbox">
-						<input type="checkbox" className="custom-control-input" id="customCheck1" />
-						<label className="custom-control-label" htmlFor="customCheck1">
-							Remember me
-						</label>
+					<div className="form-group">
+						<label>Email Address</label>
+						<input
+							type="email"
+							name="email"
+							value={this.state.user.email}
+							onChange={this.onChange}
+							className="form-control"
+							placeholder="Enter email"
+						/>
 					</div>
-				</div>
 
-				<button type="submit" className="btn btn-primary btn-block">
-					Submit
-				</button>
-				<p className="forgot-password text-right">
-					Forgot <a href="/forgot-password">password?</a>
-				</p>
-			</form>
+					<div className="form-group">
+						<label>Password</label>
+						<input
+							type="password"
+							name="password"
+							value={this.state.user.password}
+							onChange={this.onChange}
+							className="form-control"
+							placeholder="Enter password"
+						/>
+					</div>
+
+					<div className="form-group">
+						<div className="custom-control custom-checkbox">
+							<input type="checkbox" className="custom-control-input" id="customCheck1" />
+							<label className="custom-control-label" htmlFor="customCheck1">
+								Remember me
+							</label>
+						</div>
+					</div>
+
+					<button type="submit" className="btn btn-primary btn-block">
+						Submit
+					</button>
+					<p className="forgot-password text-right">
+						Forgot <a href="/forgot-password">password?</a>
+					</p>
+				</form>
+			</div>
 		);
 	}
 }
