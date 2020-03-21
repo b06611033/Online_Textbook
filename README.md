@@ -19,6 +19,10 @@ the client, just rebuild it and refresh your browser. You can in theory start
 the client with `yarn start`, but requests won't be proxied correctly.
 Proxying will be setup at some point. Sorry for the inconvenience.
 
+### Swagger/OpenAPI
+
+The server mounts Swagger/OpenAPI documentation at `/api/docs`.
+
 ### Dependencies
 
 * `yarn`
