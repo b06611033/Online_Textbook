@@ -1,5 +1,16 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { Controller, Logger, UseGuards, Get, Req, Res, Post, Query } from "@nestjs/common";
+import {
+	Controller,
+	Logger,
+	UseGuards,
+	Get,
+	Req,
+	Res,
+	Post,
+	Query,
+	Redirect
+} from "@nestjs/common";
+import { SetCookies } from "@nestjsplus/cookies";
 import { AuthGuard } from "@nestjs/passport";
 import {
 	ApiBearerAuth,
@@ -38,13 +49,24 @@ export default class AuthenticationController {
 
 	@Get("google/callback")
 	@UseGuards(AuthGuard(AuthenticationProvider.GOOGLE))
-	public googleLoginCallback(
-		@Req() req: IncomingMessage & Request,
-		@Res() res: ServerResponse & Response
-	): void {
+	@Redirect("", 301)
+	public async googleLoginCallback(
+		@Req() req: IncomingMessage & Request
+	): Promise<{ url: string }> {
 		const user = req.user as User;
-		res.cookie("jwt", this.authenticationService.createJwt(user));
-		res.redirect(this.envConfigService.mymaStoreDomain);
+		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		// @ts-ignore 2551
+		req._cookies = [
+			{
+				name: "jwt",
+				value: await this.authenticationService.createJwt(user),
+				options: {
+					sameSite: "strict"
+				}
+			}
+		];
+		/* eslint-enable */
+		return { url: this.envConfigService.mymaContentRootRoute };
 	}
 
 	@Get("jwt/login")
@@ -53,13 +75,22 @@ export default class AuthenticationController {
 	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
 	@ApiUnauthorizedResponse({ description: "User with given credentials does not exist" })
 	@UseGuards(AuthGuard(AuthenticationProvider.JWT))
-	public jwtLogin(
-		@Req() req: IncomingMessage & Request,
-		@Res() res: ServerResponse & Response
-	): void {
+	@SetCookies()
+	public async jwtLogin(@Req() req: IncomingMessage & Request): Promise<User> {
 		const user = req.user as User;
-		res.cookie("jwt", this.authenticationService.createJwt(user));
-		res.send(JSON.stringify(plainToClass(User, user)));
+		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		// @ts-ignore 2551
+		req._cookies = [
+			{
+				name: "jwt",
+				value: await this.authenticationService.createJwt(user),
+				options: {
+					sameSite: "strict"
+				}
+			}
+		];
+		/* eslint-enable */
+		return plainToClass(User, user);
 	}
 
 	@ApiBasicAuth()
@@ -67,14 +98,23 @@ export default class AuthenticationController {
 	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
 	@Post("local/sign-up")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
-	public async localSignUp(
-		@Req() req: IncomingMessage & Request,
-		@Res() res: ServerResponse & Response
-	): Promise<void> {
+	@Redirect("", 301)
+	@SetCookies()
+	public async localSignUp(@Req() req: IncomingMessage & Request): Promise<{ url: string }> {
 		const user = req.user as User;
-		res.cookie("jwt", await this.authenticationService.createJwt(user));
-    res.redirect(301, "/content/MYMACalculus"); 
-		/* res.send(JSON.stringify(plainToClass(User, user))); */
+		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		// @ts-ignore 2551
+		req._cookies = [
+			{
+				name: "jwt",
+				value: await this.authenticationService.createJwt(user),
+				options: {
+					sameSite: "strict"
+				}
+			}
+		];
+		/* eslint-enable */
+		return { url: this.envConfigService.mymaContentRootRoute };
 	}
 
 	@ApiBasicAuth()
@@ -83,17 +123,23 @@ export default class AuthenticationController {
 	@ApiUnauthorizedResponse({ description: "User with given credentials does not exist" })
 	@Post("local/login")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
-	public async localLogin(
-		@Req() req: IncomingMessage & Request,
-		@Res() res: ServerResponse & Response
-	): Promise<void> {
+	@Redirect("", 301)
+	@SetCookies()
+	public async localLogin(@Req() req: IncomingMessage & Request): Promise<{ url: string }> {
 		const user = req.user as User;
-		res.cookie("jwt", await this.authenticationService.createJwt(user), {
-			secure: true,
-			sameSite: "strict"
-		});
-    res.redirect(301, "/content/MYMACalculus"); 
-		/* res.send(JSON.stringify(plainToClass(User, user))); */
+		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		// @ts-ignore 2551
+		req._cookies = [
+			{
+				name: "jwt",
+				value: await this.authenticationService.createJwt(user),
+				options: {
+					sameSite: "strict"
+				}
+			}
+		];
+		/* eslint-enable */
+		return { url: this.envConfigService.mymaContentRootRoute };
 	}
 
 	@ApiOkResponse({

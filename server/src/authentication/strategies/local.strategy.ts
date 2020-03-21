@@ -2,11 +2,11 @@ import { Injectable, UnauthorizedException, BadRequestException, Logger } from "
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, IStrategyOptionsWithRequest } from "passport-local";
 import { Request } from "express";
+import { QueryFailedError } from "typeorm";
 import User from "../../user/user.entity";
 import AuthenticationService from "../authentication.service";
 import UserService from "../../user/user.service";
 import AuthenticationProvider from "../authentication.provider";
-import { QueryFailedError } from "typeorm";
 
 @Injectable()
 export default class LocalStrategy extends PassportStrategy(

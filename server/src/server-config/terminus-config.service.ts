@@ -7,6 +7,7 @@ import {
 	TerminusEndpoint
 } from "@nestjs/terminus";
 import { Injectable, Logger } from "@nestjs/common";
+import { isSome } from "fp-ts/lib/Option";
 import EnvConfigService from "./env-config.service";
 
 @Injectable()
@@ -23,31 +24,40 @@ export default class TerminusConfigService implements TerminusOptionsFactory {
 	public createTerminusOptions(): TerminusModuleOptions {
 		TerminusConfigService.logger.log("Creating Terminus options");
 
+		const diskThresholdPercentage = this.envConfigService.diskThresholdPercentage;
+		const memoryHeapThreshold = this.envConfigService.memoryHeapThreshold;
+		const memoryRssThreshold = this.envConfigService.memoryRssThreshold;
+
 		const healthIndicators = [async () => this.typeOrm.pingCheck("database")];
 
-		if (this.envConfigService.diskThresholdPercentage !== undefined) {
+		if (isSome(diskThresholdPercentage)) {
+			TerminusConfigService.logger.log(
+				`Configured disk threshold percentage: ${diskThresholdPercentage.value}`
+			);
 			healthIndicators.push(async () =>
 				this.disk.checkStorage("disk_storage", {
-					thresholdPercent: this.envConfigService.diskThresholdPercentage!,
+					thresholdPercent: diskThresholdPercentage.value,
 					path: "/"
 				})
 			);
 		}
 
-		if (this.envConfigService.memoryHeapThreshold !== undefined) {
+		if (isSome(memoryHeapThreshold)) {
+			TerminusConfigService.logger.log(`Configured heap threshold: ${memoryHeapThreshold.value}`);
 			healthIndicators.push(async () =>
-				this.memory.checkHeap("memory_heap", this.envConfigService.memoryHeapThreshold!)
+				this.memory.checkHeap("memory_heap", memoryHeapThreshold.value)
 			);
 		}
 
-		if (this.envConfigService.memoryRssThreshold !== undefined) {
+		if (isSome(memoryRssThreshold)) {
+			TerminusConfigService.logger.log(`Configured memory RSS threshold: ${memoryRssThreshold}`);
 			healthIndicators.push(async () =>
-				this.memory.checkHeap("memory_rss", this.envConfigService.memoryRssThreshold!)
+				this.memory.checkHeap("memory_rss", memoryRssThreshold.value)
 			);
 		}
 
 		const healthEndpoint: TerminusEndpoint = {
-			url: "/server/health",
+			url: "/admin/server/health",
 			healthIndicators
 		};
 

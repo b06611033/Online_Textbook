@@ -11,6 +11,12 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 
 	public createLoggerOptions(): ServeStaticModuleOptions[] {
 		ServeStaticConfigService.logger.log("Creating ServeStatic options");
+		ServeStaticConfigService.logger.log(
+			`Mounting store content at ${this.envConfigService.mymaContentRootRoute}`
+		);
+		ServeStaticConfigService.logger.log(
+			`Mounting client at ${this.envConfigService.mymaStaticSitePath}`
+		);
 
 		if (!fs.existsSync(this.envConfigService.mymaStaticSitePath)) {
 			if (this.envConfigService.nodeEnv === "production") {
@@ -44,7 +50,7 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 			{
 				rootPath: this.envConfigService.mymaProductsPath,
 				exclude: ["/api/*"],
-				serveRoot: "/content/MYMACalculus"
+				serveRoot: this.envConfigService.mymaContentRootRoute
 			},
 			{
 				rootPath: this.envConfigService.mymaStaticSitePath,

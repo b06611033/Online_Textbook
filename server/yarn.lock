@@ -534,6 +534,15 @@
   dependencies:
     uuid "7.0.2"
 
+"@nestjsplus/cookies@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@nestjsplus/cookies/-/cookies-1.0.4.tgz#35d9aa2acb5e29186f930c2a1eefa95e1d8fa216"
+  integrity sha512-+NZqlkMI+JK+u4jF17fzkAv2jhn5dClNofxQZhLl/h/43RtwOgA//CkdyaLZDAlmaQ5jJEQVwFJRThwBoR8YOQ==
+  dependencies:
+    lodash "^4.17.15"
+    reflect-metadata "0.1.12"
+    rxjs "^6.3.3"
+
 "@nuxtjs/opencollective@0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@nuxtjs/opencollective/-/opencollective-0.2.2.tgz#26a761ebf588cc92a422d7cee996a66bd6e2761e"
@@ -2878,6 +2887,11 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
+
+fp-ts@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.5.3.tgz#7f09cc7f3e09623c6ade303d98a2cccdb2cc861f"
+  integrity sha512-lQd+hahLd8cygNoXbEHDjH/cbF6XVWlEPb8h5GXXlozjCSDxWgclvkpOoTRfBA0P+r69l9VvW1nEsSGIJRQpWw==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -5593,6 +5607,11 @@ redis@2.8.0:
     redis-commands "^1.2.0"
     redis-parser "^2.6.0"
 
+reflect-metadata@0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.12.tgz#311bf0c6b63cd782f228a81abe146a2bfa9c56f2"
+  integrity sha512-n+IyV+nGz3+0q3/Yf1ra12KpCyi001bi4XFxSjbiWWjfqb52iTTtpGXmCCAOWWIAn9KEuFZKGqBERHmrtScZ3A==
+
 reflect-metadata@^0.1.13:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
@@ -5811,7 +5830,7 @@ run-parallel@^1.1.2:
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
   integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
 
-rxjs@^6.5.3:
+rxjs@^6.3.3, rxjs@^6.5.3:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.4.tgz#e0777fe0d184cec7872df147f303572d414e211c"
   integrity sha512-naMQXcgEo3csAEGvw/NydRA0fuS2nDZJiw1YUWFKU7aPPAPGZEsD4Iimit96qwCieH6y614MCLYwdkrWx7z/7Q==

@@ -45,7 +45,7 @@ rules:
   import/newline-after-import: error
   import/no-anonymous-default-export: error
   import/no-duplicates: error
-  import/no-namespace: error
+  # import/no-namespace: error
   import/order: error
   import/prefer-default-export: error
 

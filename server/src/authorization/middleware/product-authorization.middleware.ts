@@ -20,10 +20,8 @@ export default class ProductAuthorizationMiddleware
 	): Promise<void> {
 		const userRepository = getConnection().getCustomRepository(UserRepository);
 
-		const jwt = req.cookies.jwt;
-
 		try {
-			const jwtPayload = await this.jwtService.verifyAsync<JwtPayload>(jwt);
+			const jwtPayload = await this.jwtService.verifyAsync<JwtPayload>(req.cookies.jwt);
 			const user = await userRepository.findOne(jwtPayload.sub);
 			if (user === undefined) {
 				throw new UnauthorizedException("Unauthorized user");

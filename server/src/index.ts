@@ -18,13 +18,7 @@ async function bootstrap(): Promise<void> {
 		allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
 		credentials: true
 	});
-	app.use(cookieParser());
-	// app.use("/content/MYMACalculus/*", (req: Request, res: Response, next: Function) => {
-	// 	console.log("route");
-	// 	console.log(req.cookies);
-	// 	next();
-	// });
-	app.useGlobalPipes(
+	app.use(cookieParser()).useGlobalPipes(
 		new ValidationPipe({
 			transform: false,
 			whitelist: true,

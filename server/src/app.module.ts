@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import Joi from "@hapi/joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
+import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from "@nestjs/core";
 import { TerminusModule } from "@nestjs/terminus";
 import { ConfigModule } from "@nestjs/config";
 import { NestEmitterModule } from "nest-emitter";
@@ -29,6 +29,9 @@ import AuthorizationModule from "./authorization/authorization.module";
 import LoggerMiddleware from "./meta/middleware/logger.middleware";
 import EnvConfigService from "./server-config/env-config.service";
 import ServeStaticConfigService from "./server-config/serve-static-config.service";
+import MetaModule from "./meta/meta.module";
+import NotFoundExceptionFilter from "./meta/filters/not-found-exception.filter";
+import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.filter";
 
 @Module({
 	imports: [
@@ -84,12 +87,19 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 					.description(
 						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect"
 					),
-				MYMA_STATIC_SITE_PATH: Joi.string()
-					.default(path.join(__dirname, "..", "..", "client", "build", "public"))
-					.description("Where the static files to serve are"),
+				MYMA_STATIC_SITE_PATH: Joi.string().description("Where the static files to serve are"),
 				MYMA_PRODUCTS_PATH: Joi.string()
 					.required()
-					.description("Where the textbook bulid is at")
+					.description("Where the textbook bulid is at"),
+				MYMA_CONTENT_ROOT_ROUTE: Joi.string()
+					.default("/content")
+					.description("The root route where all static content exists"),
+				MYMA_NOT_FOUND_ROUTE: Joi.string()
+					.default("/not-found")
+					.description("The client route to display a not-found page"),
+				MYMA_UNAUTHORIZED_ROUTE: Joi.string()
+					.default("/")
+					.description("The client route to display an unauthorized page")
 			})
 		}),
 		CacheModule.register(),
@@ -119,14 +129,20 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ClassSerializerInterceptor
+		},
+		{
+			provide: APP_FILTER,
+			useClass: NotFoundExceptionFilter
+		},
+		{
+			provide: APP_FILTER,
+			useClass: UnauthorizedExceptionFilter
 		}
 	]
 })
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class ApplicationModule implements NestModule {
 	public constructor(private readonly envConfigService: EnvConfigService) {}
 
-	// eslint-disable-next-line class-methods-use-this
 	public configure(consumer: MiddlewareConsumer): void {
 		if (this.envConfigService.nodeEnv === "development") {
 			consumer.apply(LoggerMiddleware).forRoutes("*");

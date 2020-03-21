@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { Option, fromNullable } from "fp-ts/lib/Option";
 
 @Injectable()
 export default class EnvConfigService {
@@ -68,21 +69,27 @@ export default class EnvConfigService {
 		return String(this.configService.get("MYMA_PRODUCTS_PATH"));
 	}
 
-	public get diskThresholdPercentage(): number | undefined {
-		const percentage = this.configService.get("DISK_THRESHOLD_PERCENTAGE");
-
-		return percentage === undefined ? undefined : Number(percentage);
+	public get mymaContentRootRoute(): string {
+		return String(this.configService.get("MYMA_CONTENT_ROOT_ROUTE"));
 	}
 
-	public get memoryRssThreshold(): number | undefined {
-		const threshold = this.configService.get("MEMORY_RSS_THRESHOLD");
-
-		return threshold === undefined ? undefined : Number(threshold);
+	public get mymaNotFoundRoute(): Option<string> {
+		return fromNullable(this.configService.get<string | undefined>("MYMA_NOT_FOUND_ROUTE"));
 	}
 
-	public get memoryHeapThreshold(): number | undefined {
-		const threshold = this.configService.get("MEMORY_HEAP_THRESHOLD");
+	public get mymaUnauthorizedRoute(): Option<string> {
+		return fromNullable(this.configService.get<string | undefined>("MYMA_UNAUTHORIZED_ROUTE"));
+	}
 
-		return threshold === undefined ? undefined : Number(threshold);
+	public get diskThresholdPercentage(): Option<number> {
+		return fromNullable(this.configService.get<number | undefined>("DISK_THRESHOLD_PERCENTAGE"));
+	}
+
+	public get memoryRssThreshold(): Option<number> {
+		return fromNullable(this.configService.get<number | undefined>("MEMORY_RSS_THRESHOLD"));
+	}
+
+	public get memoryHeapThreshold(): Option<number> {
+		return fromNullable(this.configService.get<number | undefined>("MEMORY_HEAP_THRESHOLD"));
 	}
 }
