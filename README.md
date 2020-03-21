@@ -152,7 +152,7 @@ points to the build of the book on the host system. Refer the compose file
 for usage.
 
 ```sh
-docker-compose -f docker-compose.prod.yml -up -d mariadb myma-store
+docker-compose -f docker-compose.prod.yml -up -d mariadb store
 ```
 
 #### Docker Run

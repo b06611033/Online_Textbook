@@ -16,10 +16,10 @@ USER myma
 ARG environment
 WORKDIR /myma-store
 COPY --from=builder /usr/src/myma-store/coronavirus-client/build/ ./coronavirus-client/public
-COPY --from=builder /usr/src/myma-store/server/build ./server
+COPY --from=builder /usr/src/myma-store/server/build ./server/build
 COPY --from=builder /usr/src/myma-store/server/node_modules ./server/node_modules
 COPY --from=builder /usr/src/myma-store/server/${environment:-development}.env ./server
 WORKDIR /myma-store/server
 EXPOSE 8080
 ENV NODE_ENV=${environment:-development}
-CMD ["node", "./index.js"]
+CMD ["node", "./build/index.js"]
