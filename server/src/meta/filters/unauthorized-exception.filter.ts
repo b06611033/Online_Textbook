@@ -31,17 +31,14 @@ export default class UnauthorizedExceptionFilter implements ExceptionFilter {
 			isSome(unauthorizedRoute) &&
 			req.baseUrl.startsWith(this.envConfigService.mymaContentRootRoute)
 		) {
-			UnauthorizedExceptionFilter.logger.debug(
-				`${req.baseUrl} ${this.envConfigService.mymaContentRootRoute}`
-			);
 			res.redirect(unauthorizedRoute.value);
 		} else {
 			res
-				.send({
-					statusCode: exception.getStatus(),
+				.json({
+					statusCode: status,
 					message: exception.message
 				})
-				.status(exception.getStatus());
+				.status(status);
 		}
 	}
 }

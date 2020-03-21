@@ -23,11 +23,11 @@ export default class NotFoundExceptionFilter implements ExceptionFilter {
 			res.redirect(notFoundRoute.value);
 		} else {
 			res
-				.send({
-					statusCode: exception.getStatus(),
+				.json({
+					statusCode: status,
 					message: exception.message
 				})
-				.status(exception.getStatus());
+				.status(status);
 		}
 	}
 }
