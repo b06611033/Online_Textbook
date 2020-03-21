@@ -3,7 +3,6 @@ import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
-import { Request, Response } from "express";
 import ApplicationModule from "./app.module";
 import EnvConfigService from "./server-config/env-config.service";
 
@@ -38,7 +37,7 @@ async function bootstrap(): Promise<void> {
 	const metaDocument = SwaggerModule.createDocument(app, meta);
 	SwaggerModule.setup("api/docs", app, metaDocument);
 
-	await app.listen(8080);
+	await app.listen(envConfigService.mymaStoreServerPort);
 }
 
 bootstrap();

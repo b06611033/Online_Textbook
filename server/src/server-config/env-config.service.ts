@@ -45,6 +45,10 @@ export default class EnvConfigService {
 		return String(this.configService.get("MYMA_STORE_DOMAIN"));
 	}
 
+	public get mymaStoreServerPort(): number {
+		return Number(this.configService.get("MYMA_STORE_SERVER_PORT"));
+	}
+
 	public get googleOAuthClientId(): string {
 		return String(this.configService.get("GOOGLE_OAUTH_CLIENT_ID"));
 	}

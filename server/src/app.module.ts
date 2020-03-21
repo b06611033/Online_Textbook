@@ -85,6 +85,9 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 					.description(
 						"Domain of the website Needed in order to share user JWT for subscription validation and OAuth2 redirect"
 					),
+				MYMA_STORE_SERVER_PORT: Joi.number()
+					.default(8080)
+					.description("The port on which the run the Store from"),
 				MYMA_STATIC_SITE_PATH: Joi.string().description("Where the static files to serve are"),
 				MYMA_PRODUCTS_PATH: Joi.string()
 					.required()

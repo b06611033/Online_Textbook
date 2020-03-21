@@ -83,6 +83,7 @@ GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
 MYMA_STORE_DOMAIN=https://mymathapps.com
+MYMA_STORE_SERVER_PORT=8080
 ```
 
 #### Commands
@@ -137,6 +138,7 @@ GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
 MYMA_STORE_DOMAIN=https://mymathapps.com
+MYMA_STORE_SERVER_PORT=8080
 ```
 
 #### Command
@@ -184,6 +186,7 @@ GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
 MYMA_STORE_DOMAIN=https://mymathapps.com
+MYMA_STORE_SERVER_PORT=8080
 ```
 
 #### Commands
