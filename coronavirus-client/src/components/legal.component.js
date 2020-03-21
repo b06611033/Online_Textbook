@@ -4,12 +4,12 @@ export default class Legal extends Component {
 	render() {
 		return (
 			<div style={{ marginBottom: "50px" }} className="auth-inner-large">
-				<h2>Generic Privacy Policy template</h2>
+				<h2>Legal</h2>
 
-				<h4>Privacy Policy</h4>
+				<h4 id="privacy-policy">Privacy Policy</h4>
 
 				<div>
-					<small>Last updated: (add date)</small>
+					<small>Last updated: March 20<sup>th</sup> 2020 </small>
 				</div>
 				<hr />
 
@@ -101,7 +101,7 @@ export default class Legal extends Component {
 				<h5>Contact Us</h5>
 
 				<div>
-					<p>If you have any questions about this Privacy Policy, please contact us.</p>
+					<p>If you have any questions about this Privacy Policy, please contact <a href="mailto:yasskin@math.tamu.edu">yasskin@math.tamu.edu</a>.</p>
 				</div>
 			</div>
 		);

@@ -10,7 +10,8 @@ export default class Unauthorized extends Component {
 				<h1 style={{ textAlign: "center", textWeight: "bold" }}>Unauthorized</h1>
 				<hr />
 				<div style={{ textAlign: "center" }}>
-      You do not have access to view this page, make sure you are logged in or <a href="/sign-up">sign up</a> to view this page.
+					You do not have access to view this page, make sure you are <a href="/login">logged in</a>{" "}
+					or <a href="/sign-up">sign up</a> to view this page.
 				</div>
 			</div>
 		);
