@@ -50,11 +50,14 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 			{
 				rootPath: this.envConfigService.mymaProductsPath,
 				exclude: ["/api/*"],
-				serveRoot: this.envConfigService.mymaContentRootRoute
+				serveRoot: this.envConfigService.mymaContentRootRoute,
+				serveStaticOptions: {
+					fallthrough: false
+				}
 			},
 			{
 				rootPath: this.envConfigService.mymaStaticSitePath,
-				exclude: ["/api/*"]
+				exclude: ["/api/*", `${this.envConfigService.mymaContentRootRoute}/*`]
 			}
 		] as ServeStaticModuleOptions[];
 	}

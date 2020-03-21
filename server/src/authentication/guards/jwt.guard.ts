@@ -8,7 +8,6 @@ import AuthenticationProvider from "../authentication.provider";
 @Injectable()
 export default class JwtAuthenticationGuard extends AuthGuard(AuthenticationProvider.JWT) {
 	public async canActivate(ctx: ExecutionContext): Promise<boolean> {
-		console.log("canActivate");
 		const success = (await super.canActivate(ctx)) as boolean;
 		if (success) {
 			await this.logIn(ctx.switchToHttp().getRequest<IncomingMessage & Request>());
@@ -19,7 +18,6 @@ export default class JwtAuthenticationGuard extends AuthGuard(AuthenticationProv
 
 	// eslint-disable-next-line class-methods-use-this
 	public handleRequest<U extends User>(err: Error, user: U, info?: { message: string }): U {
-		console.log("handleRequest");
 		if (err !== undefined && err !== null) {
 			throw err;
 		}

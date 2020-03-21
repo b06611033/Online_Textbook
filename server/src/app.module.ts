@@ -1,4 +1,3 @@
-import path from "path";
 import {
 	Module,
 	CacheModule,
@@ -29,7 +28,6 @@ import AuthorizationModule from "./authorization/authorization.module";
 import LoggerMiddleware from "./meta/middleware/logger.middleware";
 import EnvConfigService from "./server-config/env-config.service";
 import ServeStaticConfigService from "./server-config/serve-static-config.service";
-import MetaModule from "./meta/meta.module";
 import NotFoundExceptionFilter from "./meta/filters/not-found-exception.filter";
 import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.filter";
 
