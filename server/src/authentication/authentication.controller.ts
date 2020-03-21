@@ -1,15 +1,5 @@
-import { IncomingMessage, ServerResponse } from "http";
-import {
-	Controller,
-	Logger,
-	UseGuards,
-	Get,
-	Req,
-	Res,
-	Post,
-	Query,
-	Redirect
-} from "@nestjs/common";
+import { IncomingMessage } from "http";
+import { Controller, Logger, UseGuards, Get, Req, Post, Query, Redirect } from "@nestjs/common";
 import { SetCookies } from "@nestjsplus/cookies";
 import { AuthGuard } from "@nestjs/passport";
 import {
@@ -23,7 +13,7 @@ import {
 	ApiNotFoundResponse,
 	ApiCreatedResponse
 } from "@nestjs/swagger";
-import { Response, Request } from "express";
+import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import User from "../user/user.entity";
 import EnvConfigService from "../server-config/env-config.service";
@@ -62,7 +52,7 @@ export default class AuthenticationController {
 				value: await this.authenticationService.createJwt(user),
 				options: {
 					sameSite: "strict",
-          httpOnly: true
+					httpOnly: true
 				}
 			}
 		];
@@ -87,7 +77,7 @@ export default class AuthenticationController {
 				value: await this.authenticationService.createJwt(user),
 				options: {
 					sameSite: "strict",
-          httpOnly: true
+					httpOnly: true
 				}
 			}
 		];
@@ -112,7 +102,7 @@ export default class AuthenticationController {
 				value: await this.authenticationService.createJwt(user),
 				options: {
 					sameSite: "strict",
-          httpOnly: true
+					httpOnly: true
 				}
 			}
 		];
@@ -138,7 +128,7 @@ export default class AuthenticationController {
 				value: await this.authenticationService.createJwt(user),
 				options: {
 					sameSite: "strict",
-          httpOnly: true
+					httpOnly: true
 				}
 			}
 		];

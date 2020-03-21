@@ -10,7 +10,6 @@ services:
     ports:
       - 3306:3306
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5
     container_name: myma-store-phpmyadmin
@@ -22,7 +21,6 @@ services:
       PMA_HOST: mariadb
     ports:
       - 3307:80
-
   store:
     container_name: store
     hostname: store
@@ -38,4 +36,4 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ${MYMA_PRODUCTS_HOST_PATH:-./products}:/myma-store/products:ro
+      - ${MYMA_PRODUCTS_HOST_PATH:-./products}:/myma-store/products:Z
