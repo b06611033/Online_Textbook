@@ -61,7 +61,8 @@ export default class AuthenticationController {
 				name: "jwt",
 				value: await this.authenticationService.createJwt(user),
 				options: {
-					sameSite: "strict"
+					sameSite: "strict",
+          httpOnly: true
 				}
 			}
 		];
@@ -85,7 +86,8 @@ export default class AuthenticationController {
 				name: "jwt",
 				value: await this.authenticationService.createJwt(user),
 				options: {
-					sameSite: "strict"
+					sameSite: "strict",
+          httpOnly: true
 				}
 			}
 		];
@@ -109,7 +111,8 @@ export default class AuthenticationController {
 				name: "jwt",
 				value: await this.authenticationService.createJwt(user),
 				options: {
-					sameSite: "strict"
+					sameSite: "strict",
+          httpOnly: true
 				}
 			}
 		];
@@ -134,7 +137,8 @@ export default class AuthenticationController {
 				name: "jwt",
 				value: await this.authenticationService.createJwt(user),
 				options: {
-					sameSite: "strict"
+					sameSite: "strict",
+          httpOnly: true
 				}
 			}
 		];

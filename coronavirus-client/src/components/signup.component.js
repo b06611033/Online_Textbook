@@ -151,9 +151,9 @@ export default class SignUp extends Component {
 								name="agreed-to-policy"
 							/>
 							<label className="custom-control-label" htmlFor="customCheck1">
-								I agree to the <a href="/legal">Terms of Service</a>,{" "}
-								<a href="/legal">Privacy Policy</a>,{" "}
-								<a href="/legal">Cookie Policy</a>.
+								I agree to the <a href="/legal#terms-of-service">Terms of Service</a>,{" "}
+								<a href="/legal#privacy-policy">Privacy Policy</a>,{" "}
+								<a href="/legal#cookies">Cookie Policy</a>.
 							</label>
 						</div>
 					</div>

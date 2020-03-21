@@ -107,20 +107,23 @@ export default class Login extends Component {
 						/>
 					</div>
 
-					<div className="form-group">
+      {/* <div className="form-group">
 						<div className="custom-control custom-checkbox">
 							<input type="checkbox" className="custom-control-input" id="customCheck1" />
 							<label className="custom-control-label" htmlFor="customCheck1">
 								Remember me
 							</label>
 						</div>
-					</div>
+					</div> */}
 
 					<button type="submit" className="btn btn-primary btn-block">
 						Submit
 					</button>
 					<p className="forgot-password text-right">
 						Forgot <a href="/forgot-password">password?</a>
+					</p>
+					<p className="forgot-password text-right">
+						Don't have an account? <a href="/sign-up">Sign up</a>
 					</p>
 				</form>
 			</div>

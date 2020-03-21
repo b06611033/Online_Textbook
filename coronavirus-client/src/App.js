@@ -53,7 +53,7 @@ function App() {
 
 				<div style={{ paddingTop: "100px", paddingBottom: "100px" }} className="auth-wrapper">
 					<Switch>
-						<Route exact path="/" component={Login} />
+						<Route exact path="/" component={SignUp} />
 						<Route path="/login" component={Login} />
 						<Route path="/sign-up" component={SignUp} />
 						<Route path="/forgot-password" component={ForgotPassword} />

@@ -1,12 +1,14 @@
 FROM node:12-alpine AS builder
-WORKDIR /usr/src
+WORKDIR /usr/src/myma-store
 COPY . .
+RUN ls /usr/src/myma-store/server/
 RUN cd coronavirus-client \
 	&& yarn \
 	&& yarn build \
 	&& cd ../server \
 	&& yarn \
 	&& yarn build
+
 
 FROM node:12-slim
 RUN groupadd -r myma && useradd --no-log-init -r -g myma myma
