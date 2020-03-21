@@ -42,7 +42,12 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 			useExisting: TypeOrmConfigService
 		}),
 		ConfigModule.forRoot({
-			envFilePath: `${process.env.NODE_ENV}.env`,
+			envFilePath: [
+				`${process.env.NODE_ENV}.env`,
+				`${process.env.NODE_ENV}.local.env`,
+				`.${process.env.NODE_ENV}.env`,
+				`.${process.env.NODE_ENV}.local.env`
+			],
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string()
 					.valid("development", "production", "testing")
