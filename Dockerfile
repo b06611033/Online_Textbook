@@ -1,4 +1,6 @@
 FROM node:12-alpine AS builder
+ARG server_domain
+ENV REACT_APP_SERVER_DOMAIN=${server_domain:-https://mymathapps.com}
 WORKDIR /usr/src/myma-store
 COPY . .
 RUN ls /usr/src/myma-store/server/
@@ -18,8 +20,7 @@ WORKDIR /myma-store
 COPY --from=builder /usr/src/myma-store/coronavirus-client/build/ ./coronavirus-client/public
 COPY --from=builder /usr/src/myma-store/server/build ./server/build
 COPY --from=builder /usr/src/myma-store/server/node_modules ./server/node_modules
-COPY --from=builder /usr/src/myma-store/server/${environment:-development}.env ./server
 WORKDIR /myma-store/server
 EXPOSE 8080
-ENV NODE_ENV=${environment:-development}
+ENV NODE_ENV=${environment:-production}
 CMD ["node", "./build/index.js"]

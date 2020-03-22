@@ -12,5 +12,5 @@
 **/.gitlab-ci.yml
 **/products
 **/jest.config.js
-**/mariadb.*.env
+**/*.env
 Dockerfile

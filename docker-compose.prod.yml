@@ -34,6 +34,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       args:
+        server_domain: ${REACT_APP_SERVER_DOMAIN:-"https://mymathapps.com"}
         environment: "production"
     ports:
       - 8080:8080

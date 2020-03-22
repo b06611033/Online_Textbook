@@ -36,6 +36,7 @@ services:
       context: ./
       dockerfile: Dockerfile
       args:
+        server_domain: ${REACT_APP_SERVER_DOMAIN:-"http://localhost:8080"}
         environment: "development"
     ports:
       - 8080:8080
