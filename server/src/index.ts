@@ -3,6 +3,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 import ApplicationModule from "./app.module";
 import EnvConfigService from "./server-config/env-config.service";
 
@@ -17,15 +18,18 @@ async function bootstrap(): Promise<void> {
 		allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
 		credentials: true
 	});
-	app.use(cookieParser()).useGlobalPipes(
-		new ValidationPipe({
-			transform: false,
-			whitelist: true,
-			forbidNonWhitelisted: true,
-			forbidUnknownValues: true,
-			disableErrorMessages: envConfigService.nodeEnv === "production"
-		})
-	);
+	app
+		.use(cookieParser())
+		.use(helmet())
+		.useGlobalPipes(
+			new ValidationPipe({
+				transform: false,
+				whitelist: true,
+				forbidNonWhitelisted: true,
+				forbidUnknownValues: true,
+				disableErrorMessages: envConfigService.nodeEnv === "production"
+			})
+		);
 
 	const meta = new DocumentBuilder()
 		.addBasicAuth()
