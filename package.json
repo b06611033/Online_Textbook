@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "helmet": "^3.21.3"
-  },
-  "devDependencies": {
-    "@types/helmet": "^0.0.45"
-  }
-}
