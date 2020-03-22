@@ -5,7 +5,7 @@ services:
     image: mariadb:10
     container_name: myma-store-mariadb
     hostname: mariadb
-    restart: "no"
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: yasskin
       MYSQL_DATABASE: MYMAStore
@@ -16,7 +16,7 @@ services:
     image: phpmyadmin/phpmyadmin:5
     container_name: myma-store-phpmyadmin
     hostname: phpmyadmin
-    restart: "no"
+    restart: always
     depends_on:
       - mariadb
     environment:
@@ -31,7 +31,7 @@ services:
       - mariadb
     depends_on:
       - mariadb
-    restart: "no"
+    restart: always
     build:
       context: ./
       dockerfile: Dockerfile
