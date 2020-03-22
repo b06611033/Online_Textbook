@@ -6,7 +6,9 @@ services:
     container_name: myma-store-mariadb
     hostname: mariadb
     restart: "no"
-    env_file: ${MARIADB_PROD_ENV:-mariadb.prod.env}
+    environment:
+      MYSQL_DATABASE: ${MYMA_STORE_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYMA_STORE_DATABASE_PASSWORD}
     ports:
       - 3306:3306
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci

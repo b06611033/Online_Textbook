@@ -111,13 +111,6 @@ specifics. PhpMyAdmin can be ignored if you so choose.
 
 ##### Environment Variables
 
-###### `mariadb.prod.env`
-
-```text
-MYSQL_ROOT_PASSWORD=password
-MYSQL_DATABASE=MYMAStore
-```
-
 ##### `client/.env`
 
 ```text
@@ -125,6 +118,9 @@ REACT_APP_SERVER_DOMAIN=https://mymathapps.com
 ```
 
 ###### `production.env`
+
+In a production environment, the env file is not read. The variables should
+exist in the environment however.
 
 ```text
 MYMA_STORE_DATABASE_HOST=mariadb
@@ -159,13 +155,6 @@ docker-compose -f docker-compose.prod.yml -up -d mariadb store
 
 ##### Environment Variables
 
-###### `mariadb.prod.env`
-
-```text
-MYSQL_ROOT_PASSWORD=password
-MYSQL_DATABASE=MYMAStore
-```
-
 ##### `client/.env`
 
 ```text
@@ -173,6 +162,9 @@ REACT_APP_SERVER_DOMAIN=https://mymathapps.com
 ```
 
 ###### `production.env`
+
+In a production environment, the env file is not read. The variables should
+exist in the environment however.
 
 ```text
 MYMA_STORE_DATABASE_HOST=mariadb

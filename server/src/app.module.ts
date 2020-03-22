@@ -48,6 +48,7 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 				`.${process.env.NODE_ENV}.env`,
 				`.${process.env.NODE_ENV}.local.env`
 			],
+			ignoreEnvFile: process.env.NODE_ENV === "production",
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string()
 					.valid("development", "production", "testing")
