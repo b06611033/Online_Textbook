@@ -22,8 +22,8 @@ export default class UserService {
 			this.userRepository.create({
 				name,
 				email,
-				hashedPassword,
-				roles: [(await this.roleRepository.getRoleCache()).USER!]
+				hashedPassword
+				// roles: [(await this.roleRepository.getRoleCache()).USER!]
 			})
 		);
 	}
