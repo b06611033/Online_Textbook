@@ -48,10 +48,7 @@ export default class User {
 	public temporaryPassword?: string;
 
 	@ApiResponseProperty({ type: [Role] })
-	@ManyToMany(
-		type => Role,
-		role => role.users
-	)
+	@ManyToMany((type) => Role, (role) => role.users)
 	@JoinTable({
 		name: "user_roles",
 		joinColumn: { name: "user_id" },
@@ -61,26 +58,17 @@ export default class User {
 	public roles: Role[];
 
 	@Exclude()
-	@OneToMany(
-		type => Transaction,
-		transaction => transaction.user
-	)
+	@OneToMany((type) => Transaction, (transaction) => transaction.user)
 	@Type(() => Transaction)
 	public readonly transactions: Transaction[];
 
 	@ApiResponseProperty({ type: [Company] })
-	@ManyToMany(
-		type => Company,
-		company => company.employees
-	)
+	@ManyToMany((type) => Company, (company) => company.employees)
 	@Type(() => Company)
 	public readonly companies: Company[];
 
 	@ApiResponseProperty({ type: [Product] })
-	@ManyToMany(
-		type => Product,
-		product => product.authors
-	)
+	@ManyToMany((type) => Product, (product) => product.authors)
 	@Type(() => Product)
 	@JoinTable({
 		name: "author",

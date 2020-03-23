@@ -15,7 +15,7 @@ export default class AuthenticationService {
 		return this.jwtService.signAsync({
 			name: user.email,
 			sub: user.id,
-			roles: user.roles.map(role => role.name)
+			roles: user.roles.map((role) => role.name)
 		} as JwtPayload);
 	}
 

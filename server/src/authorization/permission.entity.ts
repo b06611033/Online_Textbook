@@ -22,10 +22,7 @@ export default class Permission {
 	public readonly name: PermissionName;
 
 	@ApiResponseProperty({ type: [Role] })
-	@ManyToMany(
-		type => Role,
-		role => role.permissions
-	)
+	@ManyToMany((type) => Role, (role) => role.permissions)
 	@Type(() => Role)
 	public readonly roles: Role[];
 

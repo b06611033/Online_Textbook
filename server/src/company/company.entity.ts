@@ -24,18 +24,12 @@ export default class Company {
 	public readonly name: string;
 
 	@ApiResponseProperty({ type: Product })
-	@OneToMany(
-		type => Product,
-		product => product.company
-	)
+	@OneToMany((type) => Product, (product) => product.company)
 	@Type(() => Product)
 	public readonly products: Product[];
 
 	@ApiResponseProperty({ type: [User] })
-	@ManyToMany(
-		type => User,
-		user => user.companies
-	)
+	@ManyToMany((type) => User, (user) => user.companies)
 	@JoinTable({
 		name: "employee",
 		joinColumn: { name: "company_id" },

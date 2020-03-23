@@ -36,17 +36,11 @@ export default class Subscription {
 	public readonly downloadLimit?: number;
 
 	@Exclude()
-	@ManyToMany(
-		type => Transaction,
-		transaction => transaction.subscriptions
-	)
+	@ManyToMany((type) => Transaction, (transaction) => transaction.subscriptions)
 	public readonly transactions: Transaction[];
 
 	@Exclude()
-	@ManyToOne(
-		type => Product,
-		product => product.subscriptions
-	)
+	@ManyToOne((type) => Product, (product) => product.subscriptions)
 	@JoinColumn({ name: "product_id" })
 	public readonly product: Product;
 

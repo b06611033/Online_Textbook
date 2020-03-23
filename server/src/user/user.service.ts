@@ -30,10 +30,7 @@ export default class UserService {
 
 	public async forgotPassword(email: string): Promise<string> {
 		const user = await this.userRepository.findOneOrFail({ where: { email } });
-		const temporaryPassword = crypto
-			.randomBytes(8)
-			.toString("hex")
-			.substring(0, 8);
+		const temporaryPassword = crypto.randomBytes(8).toString("hex").substring(0, 8);
 		user.temporaryPassword = temporaryPassword;
 		await this.userRepository.save(user);
 

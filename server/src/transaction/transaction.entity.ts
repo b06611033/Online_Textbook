@@ -22,10 +22,7 @@ export default class Transaction {
 
 	@ApiResponseProperty({ type: Subscription })
 	@Type(() => Subscription)
-	@ManyToMany(
-		type => Subscription,
-		subscription => subscription.transactions
-	)
+	@ManyToMany((type) => Subscription, (subscription) => subscription.transactions)
 	@JoinTable({
 		name: "line_items",
 		joinColumn: { name: "transaction_id" },
@@ -44,10 +41,7 @@ export default class Transaction {
 
 	@Exclude()
 	@Type(() => User)
-	@ManyToOne(
-		type => User,
-		user => user.transactions
-	)
+	@ManyToOne((type) => User, (user) => user.transactions)
 	@JoinColumn({ name: "user_id" })
 	public readonly user: User;
 

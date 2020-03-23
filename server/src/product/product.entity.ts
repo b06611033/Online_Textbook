@@ -34,10 +34,7 @@ export default class Product {
 	public readonly startPage?: string;
 
 	@ApiResponseProperty({ type: Subscription })
-	@OneToMany(
-		type => Subscription,
-		subscription => subscription.product
-	)
+	@OneToMany((type) => Subscription, (subscription) => subscription.product)
 	@Type(() => Subscription)
 	public readonly subscriptions: Subscription[];
 
@@ -46,19 +43,13 @@ export default class Product {
 	public readonly codeName: string;
 
 	@ApiResponseProperty({ type: Company })
-	@ManyToOne(
-		type => Company,
-		company => company.products
-	)
+	@ManyToOne((type) => Company, (company) => company.products)
 	@JoinColumn({ name: "company_id" })
 	@Type(() => Company)
 	public readonly company: Company;
 
 	@ApiResponseProperty({ type: User })
-	@ManyToMany(
-		type => User,
-		user => user.products
-	)
+	@ManyToMany((type) => User, (user) => user.products)
 	@Type(() => User)
 	public readonly authors: User[];
 

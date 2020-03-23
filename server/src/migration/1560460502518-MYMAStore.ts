@@ -222,19 +222,19 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		const subscriptionRepository = queryRunner.manager.getRepository(Subscription);
 
 		const permissions = await Promise.all(
-			this.permissions.map(value => permissionRepository.save(permissionRepository.create(value)))
+			this.permissions.map((value) => permissionRepository.save(permissionRepository.create(value)))
 		);
 
 		const roles = await Promise.all(
-			this.roles.map(value => roleRepository.save(roleRepository.create(value)))
+			this.roles.map((value) => roleRepository.save(roleRepository.create(value)))
 		);
 
 		const users = await Promise.all(
-			this.users.map(value => userRepository.save(userRepository.create(value)))
+			this.users.map((value) => userRepository.save(userRepository.create(value)))
 		);
 
 		const subscriptions = await Promise.all(
-			this.subscriptions.map(value =>
+			this.subscriptions.map((value) =>
 				subscriptionRepository.save(subscriptionRepository.create(value))
 			)
 		);
@@ -269,7 +269,7 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		]);
 
 		const companies = await Promise.all(
-			this.companies.map(value => companyRespository.save(companyRespository.create(value)))
+			this.companies.map((value) => companyRespository.save(companyRespository.create(value)))
 		);
 
 		// Adding products and employees to companies

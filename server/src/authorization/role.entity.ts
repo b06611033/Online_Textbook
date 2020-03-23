@@ -23,17 +23,11 @@ export default class Role {
 	public readonly name: RoleName;
 
 	@Exclude()
-	@ManyToMany(
-		type => User,
-		user => user.roles
-	)
+	@ManyToMany((type) => User, (user) => user.roles)
 	public readonly users: User[];
 
 	@ApiResponseProperty({ type: [Permission] })
-	@ManyToMany(
-		type => Permission,
-		permission => permission.roles
-	)
+	@ManyToMany((type) => Permission, (permission) => permission.roles)
 	@JoinTable({
 		name: "role_permissions",
 		joinColumn: { name: "role_id" },
