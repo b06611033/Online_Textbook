@@ -2,7 +2,7 @@
 
 const path = require("path");
 
-const migrationDir = path.join("src", "migration");
+const migrationDir = path.join(__dirname, "src", "migration");
 
 module.exports = {
 	type: "mariadb",
