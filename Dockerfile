@@ -1,9 +1,8 @@
 FROM node:12-alpine AS builder
 ARG server_domain
-ENV REACT_APP_SERVER_DOMAIN=${server_domain:-https://mymathapps.com}
+ENV REACT_APP_SERVER_DOMAIN=${server_domain:-http://localhost:8080}
 WORKDIR /usr/src/myma-store
 COPY . .
-RUN ls /usr/src/myma-store/server/
 RUN cd coronavirus-client \
 	&& yarn \
 	&& yarn build \
@@ -11,16 +10,23 @@ RUN cd coronavirus-client \
 	&& yarn \
 	&& yarn build
 
-
-FROM node:12-slim
-RUN groupadd -r myma && useradd --no-log-init -r -g myma myma
-USER myma
+FROM node:12-alpine
 ARG environment
+ARG synchronize=false
 WORKDIR /myma-store
 COPY --from=builder /usr/src/myma-store/coronavirus-client/build/ ./coronavirus-client/public
-COPY --from=builder /usr/src/myma-store/server/build ./server/build
+COPY --from=builder /usr/src/myma-store/server/build ./server/src
 COPY --from=builder /usr/src/myma-store/server/node_modules ./server/node_modules
+COPY --from=builder /usr/src/myma-store/server/ormconfig.js ./server/ormconfig.js
 WORKDIR /myma-store/server
 EXPOSE 8080
 ENV NODE_ENV=${environment:-production}
-CMD ["node", "./build/index.js"]
+RUN addgroup --system myma \
+	&& adduser --system --no-create-home myma myma \
+	&& apk update \
+	&& apk add --no-cache netcat-openbsd
+USER myma
+ENV MYMA_STORE_DATABASE_SYNCHRONIZE=${synchronize}
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+CMD [ "node", "src/index.js" ]

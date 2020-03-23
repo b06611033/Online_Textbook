@@ -57,7 +57,7 @@ export default class TerminusConfigService implements TerminusOptionsFactory {
 		}
 
 		const healthEndpoint: TerminusEndpoint = {
-			url: "/admin/server/health",
+			url: "/api/admin/server/health",
 			healthIndicators
 		};
 

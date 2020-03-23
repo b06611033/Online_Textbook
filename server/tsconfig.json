@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2019",
     "incremental": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
+    "checkJs": false,
     "noEmitOnError": true,
     "alwaysStrict": true,
     "strict": true,

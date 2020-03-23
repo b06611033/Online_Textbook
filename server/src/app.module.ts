@@ -5,7 +5,8 @@ import {
 	ValidationPipe,
 	ClassSerializerInterceptor,
 	NestModule,
-	MiddlewareConsumer
+	MiddlewareConsumer,
+	OnModuleInit
 } from "@nestjs/common";
 import Joi from "@hapi/joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -15,8 +16,8 @@ import { ConfigModule } from "@nestjs/config";
 import { NestEmitterModule } from "nest-emitter";
 import { EventEmitter } from "typeorm/platform/PlatformTools";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { getConnection } from "typeorm";
 import TerminusConfigService from "./server-config/terminus-config.service";
-import TypeOrmConfigService from "./server-config/typeorm-config.service";
 import ProductModule from "./product/product.module";
 import TransactionModule from "./transaction/transaction.module";
 import SubscriptionModule from "./subscription/subscription.module";
@@ -31,6 +32,8 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 import NotFoundExceptionFilter from "./meta/filters/not-found-exception.filter";
 import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.filter";
 
+// eslint-disable-next-line import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+
 @Module({
 	imports: [
 		TerminusModule.forRootAsync({
@@ -38,8 +41,8 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 			useClass: TerminusConfigService
 		}),
 		TypeOrmModule.forRootAsync({
-			imports: [ServerConfigModule],
-			useExisting: TypeOrmConfigService
+			// eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+			useFactory: () => Promise.resolve(require("../ormconfig"))
 		}),
 		ConfigModule.forRoot({
 			envFilePath: [
@@ -106,7 +109,10 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 					.description("The client route to display a not-found page"),
 				MYMA_UNAUTHORIZED_ROUTE: Joi.string()
 					.default("/")
-					.description("The client route to display an unauthorized page")
+					.description("The client route to display an unauthorized page"),
+				MYMA_STORE_DATABASE_SYNCHRONIZE: Joi.boolean()
+					.default(false)
+					.description("Whether to sync the database")
 			})
 		}),
 		CacheModule.register(),

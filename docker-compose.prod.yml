@@ -7,11 +7,16 @@ services:
     hostname: mariadb
     restart: always
     environment:
-      MYSQL_DATABASE: ${MYMA_STORE_DATABASE}
+      MYSQL_DATABASE: ${MYMA_STORE_DATABASE:-MYMAStore}
       MYSQL_ROOT_PASSWORD: ${MYMA_STORE_DATABASE_PASSWORD}
     ports:
       - 3306:3306
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: /usr/bin/mysql --user=${MYMA_STORE_DATABASE_USERNAME} --password=${MYMA_STORE_DATABASE_PASSWORD} --execute "SHOW DATABASES;"
+      interval: 3s
+      timeout: 1s
+      retries: 5
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5
     container_name: myma-store-phpmyadmin
@@ -27,6 +32,8 @@ services:
     container_name: store
     hostname: store
     user: myma
+    links:
+      - mariadb
     depends_on:
       - mariadb
     restart: always
@@ -35,7 +42,25 @@ services:
       dockerfile: Dockerfile
       args:
         server_domain: ${REACT_APP_SERVER_DOMAIN:-"https://mymathapps.com"}
-        environment: "production"
+        environment: production
+        synchronize: ${MYMA_STORE_DATABASE_SYNCHRONIZE:-false}
+    environment:
+      MYMA_STORE_DATABASE_HOST: ${MYMA_STORE_DATABASE_HOST}
+      MYMA_STORE_DATABASE_PORT: ${MYMA_STORE_DATABASE_PORT}
+      MYMA_STORE_DATABASE: ${MYMA_STORE_DATABASE:-MYMAStore}
+      MYMA_STORE_DATABASE_USERNAME: ${MYMA_STORE_DATABASE_USERNAME}
+      MYMA_STORE_DATABASE_PASSWORD: ${MYMA_STORE_DATABASE_PASSWORD}
+      MYMA_JWT_SECRET: ${MYMA_JWT_SECRET}
+      MYMA_STATIC_SITE_PATH: ${MYMA_STATIC_SITE_PATH:-/myma-store/coronavirus-client/public}
+      MYMA_PRODUCTS_PATH: ${MYMA_PRODUCTS_PATH:-/myma-store/products}
+      MYMA_CONTENT_ROOT_ROUTE: ${MYMA_CONTENT_ROOT_ROUTE:-/content/MYMACalculus}
+      MYMA_NOT_FOUND_ROUTE: ${MYMA_NOT_FOUND_ROUTE:-/not-found}
+      MYMA_UNAUTHORIZED_ROUTE: ${MYMA_UNAUTHORIZED_ROUTE:-/unauthorized}
+      TYPEORM_HOST: ${MYMA_STORE_DATABASE_HOST:-mariadb}
+      TYPEORM_PORT: ${MYMA_STORE_DATABASE_PORT:-3306}
+      TYPEORM_DATABASE: ${MYMA_STORE_DATABASE:-MYMAStore}
+      TYPEORM_USERNAME: ${MYMA_STORE_DATABASE_USERNAME}
+      TYPEORM_PASSWORD: ${MYMA_STORE_DATABASE_PASSWORD}
     ports:
       - 8080:8080
     volumes:

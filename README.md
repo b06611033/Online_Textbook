@@ -25,6 +25,7 @@ The server mounts Swagger/OpenAPI documentation at `/api/docs`.
 
 ### Dependencies
 
+* `nodejs` > 12
 * `yarn`
 * Docker or another container technology like Podman
 

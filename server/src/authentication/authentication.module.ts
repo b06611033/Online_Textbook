@@ -22,7 +22,7 @@ import AuthenticationController from "./authentication.controller";
 		PassportModule.register({ session: false }),
 		JwtModule.registerAsync({
 			imports: [ServerConfigModule],
-			useClass: JwtConfigService
+			useExisting: JwtConfigService
 		}),
 		UserModule,
 		EmailModule
