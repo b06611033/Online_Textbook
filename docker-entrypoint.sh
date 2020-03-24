@@ -8,8 +8,4 @@ done
 
 echo "MariaDB launched"
 
-if [ $MYMA_STORE_DATABASE_SYNCHRONIZE = "true" ]; then
-	./node_modules/.bin/typeorm schema:sync
-fi
-
 exec "$@"
