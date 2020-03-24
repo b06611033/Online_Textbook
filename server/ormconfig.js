@@ -18,6 +18,6 @@ module.exports = {
 	migrationsTableName: "migration",
 	migrations: [path.join(migrationDir, "*{.ts, .js}")],
 	cli: {
-		migrationDir
+		migrationDir: path.join("src", "migration")
 	}
 };
