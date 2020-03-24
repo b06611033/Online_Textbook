@@ -32,8 +32,6 @@ import ServeStaticConfigService from "./server-config/serve-static-config.servic
 import NotFoundExceptionFilter from "./meta/filters/not-found-exception.filter";
 import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.filter";
 
-// eslint-disable-next-line import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-
 @Module({
 	imports: [
 		TerminusModule.forRootAsync({
@@ -53,9 +51,7 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 			],
 			ignoreEnvFile: process.env.NODE_ENV === "production",
 			validationSchema: Joi.object({
-				NODE_ENV: Joi.string()
-					.valid("development", "production", "testing")
-					.default("development"),
+				NODE_ENV: Joi.string().valid("development", "production", "testing").default("development"),
 				MYMA_STORE_DATABASE_HOST: Joi.string()
 					.hostname()
 					.default("localhost")
@@ -72,9 +68,7 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 				MYMA_STORE_DATABASE: Joi.string()
 					.default("MYMAStore")
 					.description("Name of the database to use"),
-				GOOGLE_OAUTH_CLIENT_ID: Joi.string()
-					.required()
-					.description("Google OAuth Client ID"),
+				GOOGLE_OAUTH_CLIENT_ID: Joi.string().required().description("Google OAuth Client ID"),
 				GOOGLE_OAUTH_CLIENT_SECRET: Joi.string()
 					.required()
 					.description("Google OAuth Client Secret"),
@@ -98,9 +92,7 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 					.default(8080)
 					.description("The port on which the run the Store from"),
 				MYMA_STATIC_SITE_PATH: Joi.string().description("Where the static files to serve are"),
-				MYMA_PRODUCTS_PATH: Joi.string()
-					.required()
-					.description("Where the textbook bulid is at"),
+				MYMA_PRODUCTS_PATH: Joi.string().required().description("Where the textbook bulid is at"),
 				MYMA_CONTENT_ROOT_ROUTE: Joi.string()
 					.default("/content")
 					.description("The root route where all static content exists"),
