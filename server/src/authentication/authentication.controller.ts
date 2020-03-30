@@ -15,7 +15,7 @@ import {
 } from "@nestjs/swagger";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
-import User from "../user/user.entity";
+import { User } from "../user/user.entity";
 import EnvConfigService from "../server-config/env-config.service";
 import EmailService from "../email/email.service";
 import AuthenticationProvider from "./authentication.provider";

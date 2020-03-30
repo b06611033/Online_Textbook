@@ -1,7 +1,7 @@
 import { AuthGuard } from "@nestjs/passport";
 import { Injectable, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import AuthenticationProvider from "../authentication.provider";
-import User from "../../user/user.entity";
+import { User } from "../../user/user.entity";
 
 @Injectable()
 export default class GoogleAuthenticationGuard extends AuthGuard(AuthenticationProvider.GOOGLE) {

@@ -39,7 +39,7 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 			useClass: TerminusConfigService
 		}),
 		TypeOrmModule.forRootAsync({
-			// eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+			//eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 			useFactory: () => Promise.resolve(require("../ormconfig"))
 		}),
 		ConfigModule.forRoot({

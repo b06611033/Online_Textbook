@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { Logger, OnModuleInit } from "@nestjs/common";
-import Permission from "./permission.entity";
+import { Permission } from "./permission.entity";
 import PermissionName from "./permission-name";
 
 type PermissionCache = {

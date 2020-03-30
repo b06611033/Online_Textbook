@@ -7,15 +7,17 @@ import {
 	ManyToMany,
 	JoinTable,
 	ManyToOne,
-	JoinColumn
+	JoinColumn,
+	Table
 } from "typeorm";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
-import Subscription from "../subscription/subscription.entity";
-import User from "../user/user.entity";
+import { Subscription } from "../subscription/subscription.entity";
+import { User } from "../user/user.entity";
 
 @Entity()
-export default class Transaction {
+// eslint-disable-next-line import/exports-last
+export class Transaction {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "transaction_id" })
 	public readonly id: number;
@@ -54,3 +56,58 @@ export default class Transaction {
 	@UpdateDateColumn({ name: "updated_at" })
 	public readonly updatedAt: Date;
 }
+
+const transactionTableDefinition = new Table({
+	name: "transaction",
+	columns: [
+		{
+			name: "transaction_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true
+		},
+		{
+			name: "fulfilled",
+			type: "boolean",
+			default: false
+		},
+		{
+			name: "total",
+			type: "int"
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	]
+});
+
+const lineItemsTableDefinition = new Table({
+	name: "line_items",
+	columns: [
+		{
+			name: "transaction_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "subscription_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "quantity",
+			type: "int",
+			default: 1
+		}
+	]
+});
+
+export { transactionTableDefinition, lineItemsTableDefinition };

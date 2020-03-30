@@ -5,16 +5,17 @@ import {
 	ManyToMany,
 	JoinTable,
 	CreateDateColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+	Table
 } from "typeorm";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import { Type, Exclude } from "class-transformer";
-import User from "../user/user.entity";
+import { User } from "../user/user.entity";
 import RoleName from "./role-name";
-import Permission from "./permission.entity";
+import { Permission } from "./permission.entity";
 
 @Entity()
-export default class Role {
+class Role {
 	@PrimaryGeneratedColumn({ name: "role_id" })
 	public readonly id: number;
 
@@ -44,3 +45,64 @@ export default class Role {
 	@UpdateDateColumn({ name: "updated_at" })
 	public readonly updatedAt: Date;
 }
+
+const roleTableDefinition = new Table({
+	name: "role",
+	columns: [
+		{
+			name: "role_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true
+		},
+		{
+			name: "name",
+			type: "enum",
+			enum: [RoleName.ADMIN, RoleName.USER],
+			isUnique: true
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	]
+});
+
+const rolePermissionsTableDefinition = new Table({
+	name: "role_permissions",
+	columns: [
+		{
+			name: "role_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "permission_id",
+			type: "int",
+			isPrimary: true
+		}
+	],
+	foreignKeys: [
+		{
+			columnNames: ["role_id"],
+			referencedTableName: "role",
+			referencedColumnNames: ["role_id"],
+			onDelete: "CASCADE"
+		},
+		{
+			columnNames: ["permission_id"],
+			referencedTableName: "permission",
+			referencedColumnNames: ["permission_id"],
+			onDelete: "CASCADE"
+		}
+	]
+});
+
+export { Role, roleTableDefinition, rolePermissionsTableDefinition };

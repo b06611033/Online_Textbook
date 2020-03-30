@@ -2,7 +2,13 @@
 
 const path = require("path");
 
-const migrationDir = path.join(__dirname, "src", "migration");
+const migrationDir = path.join(
+	__dirname,
+	process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
+		? "src"
+		: "build",
+	"migration"
+);
 
 module.exports = {
 	type: "mariadb",
@@ -12,12 +18,35 @@ module.exports = {
 	username: process.env.MYMA_STORE_DATABASE_USERNAME || process.env.TYPEORM_USERNAME,
 	password: process.env.MYMA_STORE_DATABASE_PASSWORD || process.env.TYPEORM_PASSWORD,
 	synchronize: process.env.NODE_ENV !== "production",
-	entities: [path.join(__dirname, "src", "**", "*.entity{.ts,.js}")],
-	subscribers: [path.join(__dirname, "src", "**", "*.subscriber{.ts,.js}")],
+	entities: [
+		path.join(
+			__dirname,
+			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
+				? "src"
+				: "build",
+			"**",
+			"*.entity{.ts,.js}"
+		)
+	],
+	subscribers: [
+		path.join(
+			__dirname,
+			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
+				? "src"
+				: "build",
+			"**",
+			"*.subscriber{.ts,.js}"
+		)
+	],
 	migrationsRun: true,
 	migrationsTableName: "migration",
 	migrations: [path.join(migrationDir, "*{.ts, .js}")],
 	cli: {
-		migrationDir: path.join("src", "migration")
+		migrationDir: path.join(
+			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
+				? "src"
+				: "build",
+			"migration"
+		)
 	}
 };

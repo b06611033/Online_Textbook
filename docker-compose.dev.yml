@@ -28,25 +28,25 @@ services:
       PMA_HOST: mariadb
     ports:
       - 3307:80
-  # store:
-  #   container_name: store
-  #   hostname: store
-  #   user: myma
-  #   links:
-  #     - mariadb
-  #   depends_on:
-  #     - mariadb
-  #   restart: always
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile
-  #     args:
-  #       server_domain: ${REACT_APP_SERVER_DOMAIN:-"http://localhost:8080"}
-  #       environment: development
-  #       synchronize: ${MYMA_STORE_DATABASE_SYNCHRONIZE:-prod}
-  #   env_file:
-  #     - ./server/development.env
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ${MYMA_PRODUCTS_HOST_PATH:-./products}:/myma-store/products:Z
+  store:
+    container_name: store
+    hostname: store
+    user: myma
+    links:
+      - mariadb
+    depends_on:
+      - mariadb
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        server_domain: ${REACT_APP_SERVER_DOMAIN:-"http://localhost:8080"}
+        environment: development
+        synchronize: ${MYMA_STORE_DATABASE_SYNCHRONIZE:-prod}
+    env_file:
+      - ./server/development.env
+    ports:
+      - 8080:8080
+    volumes:
+      - ${MYMA_PRODUCTS_HOST_PATH:-./products}:/myma-store/products:Z

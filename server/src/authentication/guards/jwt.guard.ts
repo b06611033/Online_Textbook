@@ -2,7 +2,7 @@ import { IncomingMessage } from "http";
 import { Injectable, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
-import User from "../../user/user.entity";
+import { User } from "../../user/user.entity";
 import AuthenticationProvider from "../authentication.provider";
 
 @Injectable()

@@ -28,7 +28,7 @@ import TransactionsDto from "../transaction/dto/responses/transactions.dto";
 import Roles from "../authorization/decorators/role.decorator";
 import RoleName from "../authorization/role-name";
 import RoleGuard from "../authorization/guards/role.guard";
-import User from "./user.entity";
+import { User } from "./user.entity";
 import UserService from "./user.service";
 import UpdateUserDto from "./dto/requests/update-user.dto";
 import UserRepository from "./user.repository";

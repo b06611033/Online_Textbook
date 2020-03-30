@@ -1,5 +1,5 @@
 import { EntitySubscriberInterface, EventSubscriber, UpdateEvent } from "typeorm";
-import Role from "./role.entity";
+import { Role } from "./role.entity";
 import RoleRepository from "./role.repository";
 
 @EventSubscriber()

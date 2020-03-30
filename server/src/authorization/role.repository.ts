@@ -1,6 +1,6 @@
 import { EntityRepository, Repository, EntityManager, EntityMetadata } from "typeorm";
 import { Logger, OnModuleInit, Injectable } from "@nestjs/common";
-import Role from "./role.entity";
+import { Role } from "./role.entity";
 import RoleName from "./role-name";
 
 type RoleCache = {

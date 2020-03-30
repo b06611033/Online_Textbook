@@ -13,8 +13,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import AuthenticationProvider from "../authentication/authentication.provider";
-import User from "../user/user.entity";
-import Transaction from "./transaction.entity";
+import { User } from "../user/user.entity";
+import { Transaction } from "./transaction.entity";
 import TransactionService from "./transaction.service";
 import CreatePayPalTransactionDto from "./dto/requests/create-paypal-transaction.dto";
 

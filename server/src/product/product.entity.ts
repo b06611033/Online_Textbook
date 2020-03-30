@@ -7,16 +7,18 @@ import {
 	OneToMany,
 	ManyToMany,
 	ManyToOne,
-	JoinColumn
+	JoinColumn,
+	Table
 } from "typeorm";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import Subscription from "../subscription/subscription.entity";
-import Company from "../company/company.entity";
-import User from "../user/user.entity";
+import { Subscription } from "../subscription/subscription.entity";
+import { Company } from "../company/company.entity";
+import { User } from "../user/user.entity";
 
 @Entity()
-export default class Product {
+// eslint-disable-next-line import/exports-last
+export class Product {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "product_id" })
 	public readonly id: number;
@@ -39,7 +41,7 @@ export default class Product {
 	public readonly subscriptions: Subscription[];
 
 	@ApiResponseProperty({ example: "MYMACalc1" })
-	@Column({ type: "varchar", length: 128, unique: true, name: "code_name" })
+	@Column({ type: "varchar", length: 127, unique: true, name: "code_name" })
 	public readonly codeName: string;
 
 	@ApiResponseProperty({ type: Company })
@@ -61,3 +63,65 @@ export default class Product {
 	@UpdateDateColumn({ name: "updated_at" })
 	public readonly updatedAt: Date;
 }
+
+const productTableDefinition = new Table({
+	name: "product",
+	columns: [
+		{
+			name: "product_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true,
+			isNullable: false
+		},
+		{
+			name: "title",
+			type: "varchar",
+			length: "127",
+			isNullable: false
+		},
+		{
+			name: "tag_line",
+			type: "varchar",
+			length: "127"
+		},
+		{
+			name: "start_page",
+			type: "varchar",
+			length: "127",
+			isNullable: true
+		},
+		{
+			name: "code_name",
+			type: "varchar",
+			length: "127",
+			isUnique: true,
+			isNullable: false
+		},
+		{
+			name: "company_id",
+			type: "int"
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	],
+	foreignKeys: [
+		{
+			columnNames: ["company_id"],
+			referencedTableName: "company",
+			referencedColumnNames: ["company_id"],
+			onDelete: "CASCADE"
+		}
+	]
+});
+
+export { productTableDefinition };

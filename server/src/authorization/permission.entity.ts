@@ -4,15 +4,16 @@ import {
 	Column,
 	ManyToMany,
 	CreateDateColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+	Table
 } from "typeorm";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import PermissionName from "./permission-name";
-import Role from "./role.entity";
+import { Role } from "./role.entity";
 
 @Entity()
-export default class Permission {
+class Permission {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "permission_id" })
 	public readonly id: number;
@@ -34,3 +35,41 @@ export default class Permission {
 	@UpdateDateColumn({ name: "updated_at" })
 	public readonly updatedAt: Date;
 }
+
+const permissionTableDefinition = new Table({
+	name: "permission",
+	columns: [
+		{
+			name: "permission_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true
+		},
+		{
+			name: "name",
+			type: "enum",
+			enum: [
+				PermissionName.READ_SELF,
+				PermissionName.READ_OTHERS,
+				PermissionName.UPDATE_SELF,
+				PermissionName.UPDATE_OTHERS,
+				PermissionName.DELETE_SELF,
+				PermissionName.DELETE_OTHERS
+			],
+			isUnique: true
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	]
+});
+
+export { Permission, permissionTableDefinition };

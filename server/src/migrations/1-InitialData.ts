@@ -1,18 +1,21 @@
 /* eslint-disable class-methods-use-this */
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import Product from "../product/product.entity";
-import Subscription from "../subscription/subscription.entity";
-import Company from "../company/company.entity";
-import User from "../user/user.entity";
-import Role from "../authorization/role.entity";
+import { Logger } from "@nestjs/common";
+import { Product } from "../product/product.entity";
+import { Subscription } from "../subscription/subscription.entity";
+import { Company } from "../company/company.entity";
+import { User } from "../user/user.entity";
+import { Role } from "../authorization/role.entity";
 import RoleName from "../authorization/role-name";
-import Permission from "../authorization/permission.entity";
+import { Permission } from "../authorization/permission.entity";
 import PermissionName from "../authorization/permission-name";
 
 type SubscriptionOmitProps = "createdAt" | "updatedAt" | "id" | "product" | "transactions";
 
-export default class MYMAStore1560460502518 implements MigrationInterface {
+export default class InitialData1585353005379 implements MigrationInterface {
+	private static readonly logger = new Logger(InitialData1585353005379.name);
+
 	private readonly permissions: Array<
 		Omit<Permission, "id" | "roles" | "createdAt" | "updatedAt">
 	> = [
@@ -63,10 +66,6 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		{
 			name: "Phillip Yasskin",
 			email: "yasskin@tamu.edu"
-		},
-		{
-			name: "Eli Prisman",
-			email: "prisman@gmail.com"
 		}
 	];
 
@@ -75,9 +74,6 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 	> = [
 		{
 			name: "MYMathApps"
-		},
-		{
-			name: "Prisman Math"
 		}
 	];
 
@@ -106,22 +102,10 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 			title: "Maplets for Calculus",
 			codeName: "M4C",
 			tagLine: "Tutoring without the tutor"
-		},
-		{
-			title: "Introduction to Derivative Securities",
-			codeName: "IntroductionToDerivativeSecurities"
-		},
-		{
-			title: "Fixed Income Fundamentals",
-			codeName: "FixedIncomeFundamentals"
-		},
-		{
-			title: "Essays in Portfolio Management",
-			codeName: "EssaysInPortfolioManagement"
 		}
 	];
 
-	private readonly subscriptions: Array<
+	private readonly subscriptionsByProduct: Array<
 		Array<
 			| Omit<Subscription, SubscriptionOmitProps>
 			| Omit<Subscription, SubscriptionOmitProps | "downloadLimit">
@@ -174,46 +158,12 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 				cost: 50,
 				downloadable: true
 			}
-		],
-		[
-			{
-				downloadLimit: 1,
-				cost: 9000,
-				downloadable: true
-			},
-			{
-				downloadLimit: 5,
-				cost: 9000,
-				downloadable: true
-			}
-		],
-		[
-			{
-				downloadLimit: 1,
-				cost: 9000,
-				downloadable: true
-			},
-			{
-				downloadLimit: 5,
-				cost: 9000,
-				downloadable: true
-			}
-		],
-		[
-			{
-				downloadLimit: 1,
-				cost: 9000,
-				downloadable: true
-			},
-			{
-				downloadLimit: 5,
-				cost: 9000,
-				downloadable: true
-			}
 		]
 	];
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
+		InitialData1585353005379.logger.log("Up");
+
 		const permissionRepository = queryRunner.manager.getRepository(Permission);
 		const roleRepository = queryRunner.manager.getRepository(Role);
 		const userRepository = queryRunner.manager.getRepository(User);
@@ -233,18 +183,28 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 			this.users.map((value) => userRepository.save(userRepository.create(value)))
 		);
 
-		const subscriptions = await Promise.all(
-			this.subscriptions.map((value) =>
-				subscriptionRepository.save(subscriptionRepository.create(value))
+		const companies = await Promise.all(
+			this.companies.map((value) =>
+				companyRespository.save(companyRespository.create({ ...value, employees: [users[0]] }))
 			)
 		);
 
 		const products = await Promise.all(
-			this.products.map((product, index) =>
-				productRepository.save(
-					productRepository.create({ ...product, subscriptions: subscriptions[index] })
-				)
+			this.products.map((value) =>
+				productRepository.save(productRepository.create({ ...value, company: companies[0] }))
 			)
+		);
+
+		const subscriptions = await Promise.all(
+			this.subscriptionsByProduct
+				.map((subs, index) =>
+					subs.map((value) =>
+						subscriptionRepository.save(
+							subscriptionRepository.create({ ...value, product: products[index] })
+						)
+					)
+				)
+				.reduce((prev, curr) => [...prev, ...curr], [])
 		);
 
 		// Adding permissions to roles
@@ -257,36 +217,28 @@ export default class MYMAStore1560460502518 implements MigrationInterface {
 		]);
 
 		// Adding roles to users
-		await Promise.all([
-			userRepository.save({ ...users[0], roles }),
-			userRepository.save({ ...users[1], roles })
-		]);
+		await Promise.all([userRepository.save({ ...users[0], roles })]);
 
 		// Adding authors to products
-		await Promise.all([
-			userRepository.save({ ...users[0], products: products.slice(0, 3) }),
-			userRepository.save({ ...users[1], products: products.slice(3) })
-		]);
-
-		const companies = await Promise.all(
-			this.companies.map((value) => companyRespository.save(companyRespository.create(value)))
-		);
-
-		// Adding products and employees to companies
-		await Promise.all([
-			companyRespository.save({
-				...companies[0],
-				products: products.slice(0, 3),
-				employees: [users[0]]
-			}),
-			companyRespository.save({
-				...companies[1],
-				products: products.slice(3),
-				employees: [users[1]]
-			})
-		]);
+		await Promise.all([userRepository.save({ ...users[0], products: products.slice(0, 3) })]);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	public async down(queryRunner: QueryRunner): Promise<void> {}
+	public async down(queryRunner: QueryRunner): Promise<void> {
+		InitialData1585353005379.logger.log("Down");
+
+		const tableNames = [
+			"user",
+			"role",
+			"permission",
+			"user_roles",
+			"company",
+			"employee",
+			"product",
+			"subscription",
+			"line_item",
+			"transaction"
+		];
+		tableNames.forEach((tableName) => queryRunner.clearTable(tableName));
+	}
 }

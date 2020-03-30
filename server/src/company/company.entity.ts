@@ -6,15 +6,17 @@ import {
 	ManyToMany,
 	CreateDateColumn,
 	UpdateDateColumn,
-	JoinTable
+	JoinTable,
+	Table
 } from "typeorm";
 import { ApiResponseProperty } from "@nestjs/swagger";
 import { Type, Exclude } from "class-transformer";
-import Product from "../product/product.entity";
-import User from "../user/user.entity";
+import { Product } from "../product/product.entity";
+import { User } from "../user/user.entity";
 
 @Entity()
-export default class Company {
+// eslint-disable-next-line import/exports-last
+export class Company {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "company_id" })
 	public readonly id: number;
@@ -46,3 +48,65 @@ export default class Company {
 	@Exclude()
 	public readonly updatedAt: Date;
 }
+
+const companyTableDefinition = new Table({
+	name: "company",
+	columns: [
+		{
+			name: "company_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true
+		},
+		{
+			name: "name",
+			type: "varchar",
+			length: "127",
+			isUnique: true,
+			isNullable: false
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	]
+});
+
+const employeeTableDefinition = new Table({
+	name: "employee",
+	columns: [
+		{
+			name: "company_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "user_id",
+			type: "int",
+			isPrimary: true
+		}
+	],
+	foreignKeys: [
+		{
+			columnNames: ["company_id"],
+			referencedTableName: "company",
+			referencedColumnNames: ["company_id"],
+			onDelete: "CASCADE"
+		},
+		{
+			columnNames: ["user_id"],
+			referencedTableName: "user",
+			referencedColumnNames: ["user_id"],
+			onDelete: "CASCADE"
+		}
+	]
+});
+
+export { companyTableDefinition, employeeTableDefinition };

@@ -4,7 +4,7 @@ import { Strategy, ExtractJwt, StrategyOptions, VerifiedCallback } from "passpor
 import JwtPayload from "../jwt-payload";
 import AuthenticationProvider from "../authentication.provider";
 import EnvConfigService from "../../server-config/env-config.service";
-import User from "../../user/user.entity";
+import { User } from "../../user/user.entity";
 import UserRepository from "../../user/user.repository";
 
 @Injectable()

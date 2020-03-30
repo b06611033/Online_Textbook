@@ -1,5 +1,5 @@
 import { EntitySubscriberInterface, EventSubscriber, UpdateEvent } from "typeorm";
-import Permission from "./permission.entity";
+import { Permission } from "./permission.entity";
 import PermissionRepository from "./permission.repository";
 
 @EventSubscriber()

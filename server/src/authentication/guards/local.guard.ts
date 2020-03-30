@@ -1,7 +1,7 @@
 import { AuthGuard } from "@nestjs/passport";
 import { Injectable, ExecutionContext, UnauthorizedException, Logger } from "@nestjs/common";
 import AuthenticationProvider from "../authentication.provider";
-import User from "../../user/user.entity";
+import { User } from "../../user/user.entity";
 
 @Injectable()
 export default class LocalAuthenticationGuard extends AuthGuard(AuthenticationProvider.LOCAL) {

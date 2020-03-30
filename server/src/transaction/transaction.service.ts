@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import SubscriptionRepository from "../subscription/subscription.repository";
-import User from "../user/user.entity";
+import { User } from "../user/user.entity";
 import TransactionRepository from "./transaction.repository";
-import Transaction from "./transaction.entity";
+import { Transaction } from "./transaction.entity";
 import CreateTransactionDto from "./dto/requests/create-paypal-transaction.dto";
 
 @Injectable()

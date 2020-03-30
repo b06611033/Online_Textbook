@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { Injectable, Logger } from "@nestjs/common";
 import RoleRepository from "../authorization/role.repository";
 import UserRepository from "./user.repository";
-import User from "./user.entity";
+import { User } from "./user.entity";
 
 @Injectable()
 export default class UserService {
@@ -22,8 +22,8 @@ export default class UserService {
 			this.userRepository.create({
 				name,
 				email,
-				hashedPassword
-				// roles: [(await this.roleRepository.getRoleCache()).USER!]
+				hashedPassword,
+				roles: [(await this.roleRepository.getRoleCache()).USER!]
 			})
 		);
 	}

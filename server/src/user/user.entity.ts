@@ -6,18 +6,20 @@ import {
 	CreateDateColumn,
 	OneToMany,
 	ManyToMany,
-	JoinTable
+	JoinTable,
+	Table
 } from "typeorm";
-import { IsEmail, IsUUID } from "class-validator";
+import { IsEmail } from "class-validator";
 import { Exclude, Type } from "class-transformer";
 import { ApiResponseProperty } from "@nestjs/swagger";
-import Transaction from "../transaction/transaction.entity";
-import Company from "../company/company.entity";
-import Product from "../product/product.entity";
-import Role from "../authorization/role.entity";
+import { Transaction } from "../transaction/transaction.entity";
+import { Company } from "../company/company.entity";
+import { Product } from "../product/product.entity";
+import { Role } from "../authorization/role.entity";
 
 @Entity()
-export default class User {
+// eslint-disable-next-line import/exports-last
+export class User {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "user_id" })
 	public readonly id: number;
@@ -36,15 +38,15 @@ export default class User {
 	public googleAccessToken?: string;
 
 	@Exclude()
-	@Column({ nullable: true })
+	@Column({ nullable: true, name: "hashed_password" })
 	public readonly hashedPassword?: string;
 
 	@Exclude()
-	@Column({ default: false })
+	@Column({ default: false, name: "requested_temporary_password" })
 	public requestedTemporaryPassword?: boolean;
 
 	@Exclude()
-	@Column({ nullable: true })
+	@Column({ nullable: true, name: "temporary_password" })
 	public temporaryPassword?: string;
 
 	@ApiResponseProperty({ type: [Role] })
@@ -85,3 +87,133 @@ export default class User {
 	@UpdateDateColumn({ name: "updated_at" })
 	public readonly updatedAt: Date;
 }
+
+const userTableDefinition = new Table({
+	name: "user",
+	columns: [
+		{
+			name: "user_id",
+			type: "int",
+			isGenerated: true,
+			generationStrategy: "increment",
+			isPrimary: true
+		},
+		{
+			name: "name",
+			type: "varchar",
+			length: "127"
+		},
+		{
+			name: "email",
+			type: "varchar",
+			length: "127",
+			isUnique: true
+		},
+		{
+			name: "google_access_token",
+			type: "varchar",
+			length: "127",
+			isNullable: true,
+			isUnique: true
+		},
+		{
+			name: "hashed_password",
+			type: "varchar",
+			length: "127",
+			isNullable: true
+		},
+		{
+			name: "requested_temporary_password",
+			type: "boolean",
+			default: false
+		},
+		{
+			name: "temporary_password",
+			type: "varchar",
+			length: "127",
+			isNullable: true
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	]
+});
+
+const userRolesTableDefinition = new Table({
+	name: "user_roles",
+	columns: [
+		{
+			name: "user_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "role_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "created_at",
+			type: "datetime",
+			default: "current_timestamp"
+		},
+		{
+			name: "updated_at",
+			type: "datetime",
+			default: "current_timestamp"
+		}
+	],
+	foreignKeys: [
+		{
+			columnNames: ["user_id"],
+			referencedTableName: "user",
+			referencedColumnNames: ["user_id"],
+			onDelete: "CASCADE"
+		},
+		{
+			columnNames: ["role_id"],
+			referencedTableName: "role",
+			referencedColumnNames: ["role_id"],
+			onDelete: "CASCADE"
+		}
+	]
+});
+
+const authorTableDefinition = new Table({
+	name: "author",
+	columns: [
+		{
+			name: "user_id",
+			type: "int",
+			isPrimary: true
+		},
+		{
+			name: "product_id",
+			type: "int",
+			isPrimary: true
+		}
+	],
+	foreignKeys: [
+		{
+			columnNames: ["user_id"],
+			referencedTableName: "user",
+			referencedColumnNames: ["user_id"],
+			onDelete: "CASCADE"
+		},
+		{
+			columnNames: ["product_id"],
+			referencedTableName: "product",
+			referencedColumnNames: ["product_id"],
+			onDelete: "CASCADE"
+		}
+	]
+});
+
+export { userTableDefinition, userRolesTableDefinition, authorTableDefinition };
