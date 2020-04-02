@@ -2,14 +2,6 @@
 
 const path = require("path");
 
-const migrationDir = path.join(
-	__dirname,
-	process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
-		? "src"
-		: "build",
-	"migration"
-);
-
 module.exports = {
 	type: "mariadb",
 	host: process.env.MYMA_STORE_DATABASE_HOST || process.env.TYPEORM_HOST,
@@ -40,7 +32,16 @@ module.exports = {
 	],
 	migrationsRun: true,
 	migrationsTableName: "migration",
-	migrations: [path.join(migrationDir, "*{.ts, .js}")],
+	migrations: [
+		path.join(
+			__dirname,
+			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
+				? "src"
+				: "build",
+			"migration",
+			"*{.ts,.js}"
+		)
+	],
 	cli: {
 		migrationDir: path.join(
 			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined

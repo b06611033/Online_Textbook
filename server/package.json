@@ -24,7 +24,7 @@
 		"@nestjs/swagger": "^4.5.1",
 		"@nestjs/terminus": "^6.5.6",
 		"@nestjs/typeorm": "^7.0.0",
-		"@nestjsplus/cookies": "1.0.4",
+		"@nestjsplus/cookies": "1.1.0",
 		"@paypal/checkout-server-sdk": "^1.0.2",
 		"cache-manager": "^3.2.1",
 		"class-transformer": "^0.2.3",
