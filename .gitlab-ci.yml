@@ -8,11 +8,11 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - server/node_modules/
-    - coronavirus-client/node_modules/
+    # - coronavirus-client/node_modules/
 
 before_script:
   - yarn --cwd ./server/
-  - yarn --cwd ./coronavirus-client/
+  # - yarn --cwd ./coronavirus-client/
 
 setup_server:
   stage: setup
