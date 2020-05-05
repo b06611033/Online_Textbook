@@ -1,6 +1,7 @@
 *.log
 *.env
 build
+dist
 docker
 node_modules
 products
