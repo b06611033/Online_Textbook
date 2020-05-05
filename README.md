@@ -130,11 +130,14 @@ MYMA_STORE_DATABASE_USERNAME=root
 MYMA_STORE_DATABASE_PASSWORD=password
 MYMA_STORE_DATABASE=MYMAStore
 MYMA_JWT_SECRET=secret
-MYMA_STATIC_SITE_PATH=/myma-store/coronavirus-client/public
+MYMA_STATIC_SITE_PATH=/myma-store/client/public
 MYMA_PRODUCTS_PATH=/myma-store/products
 MYMA_CONTENT_ROOT_ROUTE=/content/MYMACalculus
-MYMA_NOT_FOUND_ROUTE=/not-found
-MYMA_UNAUTHORIZED_ROUTE=/unauthorized
+MYMA_EMAIL_ENABLED=true
+MAILGUN_SERVER=smtp.mailgun.org
+MAILGUN_PORT=465
+MAILGUN_USERNAME=noreply@mymathapps.com
+MAILGUN_PASSWORD=password
 GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
@@ -174,11 +177,14 @@ MYMA_STORE_DATABASE_USERNAME=root
 MYMA_STORE_DATABASE_PASSWORD=password
 MYMA_STORE_DATABASE=MYMAStore
 MYMA_JWT_SECRET=secret
-MYMA_STATIC_SITE_PATH=/myma-store/coronavirus-client/public
+MYMA_STATIC_SITE_PATH=/myma-store/client/public
 MYMA_PRODUCTS_PATH=/myma-store/products
 MYMA_CONTENT_ROOT_ROUTE=/content/MYMACalculus
-MYMA_NOT_FOUND_ROUTE=/not-found
-MYMA_UNAUTHORIZED_ROUTE=/unauthorized
+MYMA_EMAIL_ENABLED=true
+MAILGUN_SERVER=smtp.mailgun.org
+MAILGUN_PORT=465
+MAILGUN_USERNAME=noreply@mymathapps.com
+MAILGUN_PASSWORD=password
 GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
@@ -189,7 +195,7 @@ MYMA_STORE_SERVER_PORT=8080
 #### Commands
 
 There is an optional enironment variable call `MYMA_PRODUCTS_HOST_PATH` that
-points to the build of the book on the host system. Refer the compose file
+points to the build of the book on the host system. Refer to the compose file
 for usage.
 
 ```sh

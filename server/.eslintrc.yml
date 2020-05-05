@@ -20,7 +20,7 @@ rules:
   import/no-absolute-path: error
   import/no-self-import: error
   # Causing CI failures for handlebars...
-  # import/no-unresolved: error
+  import/no-unresolved: off
 
   ## Helpful Warnings
   import/no-deprecated: error
