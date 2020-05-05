@@ -13,6 +13,17 @@ export default class UserService {
 		private readonly roleRepository: RoleRepository
 	) {}
 
+	public async activateAccount(activationCode: string): Promise<User | undefined> {
+		const user = await this.userRepository.findOne({ where: { activationCode } });
+		if (user === undefined) {
+			return undefined;
+		}
+
+		user.activatedAccount = true;
+
+		return this.userRepository.save(user);
+	}
+
 	public async createUserFromLocalStrategy(
 		name: string,
 		email: string,
@@ -23,17 +34,19 @@ export default class UserService {
 				name,
 				email,
 				hashedPassword,
+				activationCode: crypto.randomBytes(16).toString("hex"),
 				roles: [(await this.roleRepository.getRoleCache()).USER!]
 			})
 		);
 	}
 
-	public async forgotPassword(email: string): Promise<string> {
+	public async createTemporaryPasswordForUser(email: string): Promise<User> {
 		const user = await this.userRepository.findOneOrFail({ where: { email } });
-		const temporaryPassword = crypto.randomBytes(8).toString("hex").substring(0, 8);
-		user.temporaryPassword = temporaryPassword;
-		await this.userRepository.save(user);
 
-		return temporaryPassword;
+		const temporaryPassword = crypto.randomBytes(8).toString("hex");
+		user.temporaryPassword = temporaryPassword;
+		user.temporaryPasswordRequestedAt = new Date();
+
+		return this.userRepository.save(user);
 	}
 }

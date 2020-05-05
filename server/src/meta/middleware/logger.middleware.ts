@@ -9,7 +9,7 @@ export default class LoggerMiddleware
 
 	// eslint-disable-next-line class-methods-use-this
 	public use(req: IncomingMessage & Request, res: ServerResponse & Response, next: Function): void {
-		Logger.debug(`Incoming request: ${req.baseUrl}`);
+		LoggerMiddleware.logger.debug(`Incoming request: ${req.baseUrl}`);
 		next();
 	}
 }

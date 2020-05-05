@@ -1,6 +1,16 @@
 import { IncomingMessage } from "http";
-import { Controller, Logger, UseGuards, Get, Req, Post, Query, Redirect } from "@nestjs/common";
-import { SetCookies } from "@nestjsplus/cookies";
+import {
+	Controller,
+	Logger,
+	UseGuards,
+	Get,
+	Req,
+	Post,
+	Query,
+	Redirect,
+	NotFoundException
+} from "@nestjs/common";
+import { SetCookies, CookieOptions, CookieSettings } from "@nestjsplus/cookies";
 import { AuthGuard } from "@nestjs/passport";
 import {
 	ApiBearerAuth,
@@ -16,8 +26,9 @@ import {
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { User } from "../user/user.entity";
-import EnvConfigService from "../server-config/env-config.service";
+import MYMAConfigService from "../server-config/myma-config.service";
 import EmailService from "../email/email.service";
+import UserService from "../user/user.service";
 import AuthenticationProvider from "./authentication.provider";
 import AuthenticationService from "./authentication.service";
 
@@ -28,8 +39,9 @@ export default class AuthenticationController {
 
 	public constructor(
 		private readonly authenticationService: AuthenticationService,
-		private readonly envConfigService: EnvConfigService,
-		private readonly emailService: EmailService
+		private readonly mymaConfigService: MYMAConfigService,
+		private readonly emailService: EmailService,
+		private readonly userService: UserService
 	) {}
 
 	@Get("google/login")
@@ -55,9 +67,10 @@ export default class AuthenticationController {
 					httpOnly: true
 				}
 			}
-		];
+		] as CookieSettings[];
 		/* eslint-enable */
-		return { url: this.envConfigService.mymaContentRootRoute };
+
+		return { url: this.mymaConfigService.mymaContentRootRoute };
 	}
 
 	@Get("jwt/login")
@@ -80,8 +93,9 @@ export default class AuthenticationController {
 					httpOnly: true
 				}
 			}
-		];
+		] as CookieSettings[];
 		/* eslint-enable */
+
 		return plainToClass(User, user);
 	}
 
@@ -90,24 +104,13 @@ export default class AuthenticationController {
 	@ApiBadRequestResponse({ description: "Request did not satisfy necessary parameters" })
 	@Post("local/sign-up")
 	@UseGuards(AuthGuard(AuthenticationProvider.LOCAL))
-	@Redirect("", 301)
 	@SetCookies()
-	public async localSignUp(@Req() req: IncomingMessage & Request): Promise<{ url: string }> {
+	public async localSignUp(@Req() req: IncomingMessage & Request): Promise<void> {
 		const user = req.user as User;
-		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
-		// @ts-ignore 2551
-		req._cookies = [
-			{
-				name: "jwt",
-				value: await this.authenticationService.createJwt(user),
-				options: {
-					sameSite: "strict",
-					httpOnly: true
-				}
-			}
-		];
-		/* eslint-enable */
-		return { url: this.envConfigService.mymaContentRootRoute };
+		// This shouldn't be necessary but why not check for it anyway
+		if (!user.activatedAccount) {
+			return this.emailService.activateAccount(user);
+		}
 	}
 
 	@ApiBasicAuth()
@@ -131,9 +134,9 @@ export default class AuthenticationController {
 					httpOnly: true
 				}
 			}
-		];
+		] as CookieSettings[];
 		/* eslint-enable */
-		return { url: this.envConfigService.mymaContentRootRoute };
+		return { url: this.mymaConfigService.mymaContentRootRoute };
 	}
 
 	@ApiOkResponse({
@@ -144,6 +147,18 @@ export default class AuthenticationController {
 	@ApiInternalServerErrorResponse({ description: "Unable to send email to the specifed address" })
 	@Get("forgotPassword")
 	public async forgotPassword(@Query("email") email: string): Promise<void> {
-		this.emailService.forgotPassword(email);
+		this.emailService.temporaryPassword(email);
+	}
+
+	@ApiOkResponse({ description: "The user's account has been activated" })
+	@ApiNotFoundResponse({ description: "The activation code does not exist" })
+	@Get("activate")
+	public async activate(@Query("activationCode") activationCode: string): Promise<User> {
+		const user = await this.userService.activateAccount(activationCode);
+		if (user === undefined) {
+			throw new NotFoundException("The provided activation code is not correct");
+		}
+
+		return user;
 	}
 }

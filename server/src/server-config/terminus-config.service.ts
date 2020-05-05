@@ -8,7 +8,7 @@ import {
 } from "@nestjs/terminus";
 import { Injectable, Logger } from "@nestjs/common";
 import { isSome } from "fp-ts/lib/Option";
-import EnvConfigService from "./env-config.service";
+import MYMAConfigService from "./myma-config.service";
 
 @Injectable()
 export default class TerminusConfigService implements TerminusOptionsFactory {
@@ -18,15 +18,15 @@ export default class TerminusConfigService implements TerminusOptionsFactory {
 		private readonly typeOrm: TypeOrmHealthIndicator,
 		private readonly memory: MemoryHealthIndicator,
 		private readonly disk: DiskHealthIndicator,
-		private readonly envConfigService: EnvConfigService
+		private readonly mymaConfigService: MYMAConfigService
 	) {}
 
 	public createTerminusOptions(): TerminusModuleOptions {
 		TerminusConfigService.logger.log("Creating Terminus options");
 
-		const diskThresholdPercentage = this.envConfigService.diskThresholdPercentage;
-		const memoryHeapThreshold = this.envConfigService.memoryHeapThreshold;
-		const memoryRssThreshold = this.envConfigService.memoryRssThreshold;
+		const diskThresholdPercentage = this.mymaConfigService.diskThresholdPercentage;
+		const memoryHeapThreshold = this.mymaConfigService.memoryHeapThreshold;
+		const memoryRssThreshold = this.mymaConfigService.memoryRssThreshold;
 
 		const healthIndicators = [async () => this.typeOrm.pingCheck("database")];
 

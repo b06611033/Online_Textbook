@@ -3,7 +3,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, ExtractJwt, StrategyOptions, VerifiedCallback } from "passport-jwt";
 import JwtPayload from "../jwt-payload";
 import AuthenticationProvider from "../authentication.provider";
-import EnvConfigService from "../../server-config/env-config.service";
+import MYMAConfigService from "../../server-config/myma-config.service";
 import { User } from "../../user/user.entity";
 import UserRepository from "../../user/user.repository";
 
@@ -11,11 +11,11 @@ import UserRepository from "../../user/user.repository";
 export default class JwtStrategy extends PassportStrategy(Strategy, AuthenticationProvider.JWT) {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		envConfigService: EnvConfigService
+		mymaConfigService: MYMAConfigService
 	) {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: envConfigService.mymaJwtSecret
+			secretOrKey: mymaConfigService.mymaJwtSecret
 		} as StrategyOptions);
 	}
 

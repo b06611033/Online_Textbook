@@ -57,6 +57,7 @@ export default class InitialData1585353005379 implements MigrationInterface {
 			| "createdAt"
 			| "updatedAt"
 			| "googleAccessToken"
+			| "activatedAccount"
 			| "transactions"
 			| "companies"
 			| "products"

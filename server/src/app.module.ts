@@ -5,8 +5,7 @@ import {
 	ValidationPipe,
 	ClassSerializerInterceptor,
 	NestModule,
-	MiddlewareConsumer,
-	OnModuleInit
+	MiddlewareConsumer
 } from "@nestjs/common";
 import Joi from "@hapi/joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -16,7 +15,6 @@ import { ConfigModule } from "@nestjs/config";
 import { NestEmitterModule } from "nest-emitter";
 import { EventEmitter } from "typeorm/platform/PlatformTools";
 import { ServeStaticModule } from "@nestjs/serve-static";
-import { getConnection } from "typeorm";
 import TerminusConfigService from "./server-config/terminus-config.service";
 import ProductModule from "./product/product.module";
 import TransactionModule from "./transaction/transaction.module";
@@ -27,10 +25,9 @@ import ServerConfigModule from "./server-config/server-config.module";
 import AuthenticationModule from "./authentication/authentication.module";
 import AuthorizationModule from "./authorization/authorization.module";
 import LoggerMiddleware from "./meta/middleware/logger.middleware";
-import EnvConfigService from "./server-config/env-config.service";
+import MYMAConfigService from "./server-config/myma-config.service";
 import ServeStaticConfigService from "./server-config/serve-static-config.service";
-import NotFoundExceptionFilter from "./meta/filters/not-found-exception.filter";
-import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.filter";
+import AllExceptionFilter from "./meta/filters/all-exception.filter";
 
 @Module({
 	imports: [
@@ -96,15 +93,11 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 				MYMA_CONTENT_ROOT_ROUTE: Joi.string()
 					.default("/content")
 					.description("The root route where all static content exists"),
-				MYMA_NOT_FOUND_ROUTE: Joi.string()
-					.default("/not-found")
-					.description("The client route to display a not-found page"),
-				MYMA_UNAUTHORIZED_ROUTE: Joi.string()
-					.default("/")
-					.description("The client route to display an unauthorized page"),
-				MYMA_STORE_DATABASE_SYNCHRONIZE: Joi.boolean()
-					.default(false)
-					.description("Whether to sync the database")
+				MYMA_EMAIL_ENABLED: Joi.boolean().default(false).description("Whether to send emails"),
+				MAILGUN_SERVER: Joi.string().description("The mailgun smtp server"),
+				MAILGUN_PORT: Joi.number().description("The mailgun smtp port"),
+				MAILGUN_USERNAME: Joi.string().description("The mailgun account username"),
+				MAILGUN_PASSWORD: Joi.string().description("The mailgun account password")
 			})
 		}),
 		CacheModule.register(),
@@ -137,19 +130,15 @@ import UnauthorizedExceptionFilter from "./meta/filters/unauthorized-exception.f
 		},
 		{
 			provide: APP_FILTER,
-			useClass: NotFoundExceptionFilter
-		},
-		{
-			provide: APP_FILTER,
-			useClass: UnauthorizedExceptionFilter
+			useClass: AllExceptionFilter
 		}
 	]
 })
 export default class ApplicationModule implements NestModule {
-	public constructor(private readonly envConfigService: EnvConfigService) {}
+	public constructor(private readonly mymaConfigService: MYMAConfigService) {}
 
 	public configure(consumer: MiddlewareConsumer): void {
-		if (this.envConfigService.nodeEnv === "development") {
+		if (this.mymaConfigService.nodeEnv === "development") {
 			consumer.apply(LoggerMiddleware).forRoutes("*");
 		}
 	}

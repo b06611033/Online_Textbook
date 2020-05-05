@@ -46,8 +46,20 @@ export class User {
 	public requestedTemporaryPassword?: boolean;
 
 	@Exclude()
-	@Column({ nullable: true, name: "temporary_password" })
+	@Column({ nullable: true, name: "temporary_password", length: 16 })
 	public temporaryPassword?: string;
+
+	@Exclude()
+	@Column({ nullable: true, name: "temporary_password_requested_at" })
+	public temporaryPasswordRequestedAt?: Date;
+
+	@Exclude()
+	@Column({ default: false, name: "activated_account" })
+	public activatedAccount: boolean;
+
+	@Exclude()
+	@Column({ nullable: true, name: "activation_code", length: 32 })
+	public activationCode?: string;
 
 	@ApiResponseProperty({ type: [Role] })
 	@ManyToMany((type) => Role, (role) => role.users)
@@ -130,7 +142,23 @@ const userTableDefinition = new Table({
 		{
 			name: "temporary_password",
 			type: "varchar",
-			length: "127",
+			length: "16",
+			isNullable: true
+		},
+		{
+			name: "temporary_password_requested_at",
+			type: "datetime",
+			isNullable: true
+		},
+		{
+			name: "activated_account",
+			type: "boolean",
+			default: false
+		},
+		{
+			name: "activation_code",
+			type: "varchar",
+			length: "32",
 			isNullable: true
 		},
 		{

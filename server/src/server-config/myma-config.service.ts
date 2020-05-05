@@ -1,9 +1,11 @@
+/* eslint-disable class-methods-use-this */
+
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Option, fromNullable } from "fp-ts/lib/Option";
 
 @Injectable()
-export default class EnvConfigService {
+export default class MYMAConfigService {
 	public constructor(private configService: ConfigService) {}
 
 	public get nodeEnv(): "development" | "production" | "testing" {
@@ -26,7 +28,7 @@ export default class EnvConfigService {
 	}
 
 	public get mymaStoreDatabasePort(): number {
-		return Number(this.configService.get("MYMA_STORE_DATABASE_PORT"));
+		return this.configService.get<number | undefined>("MYMA_STORE_DATABASE_PORT") ?? 3306;
 	}
 
 	public get mymaStoreDatabaseUsername(): string {
@@ -46,7 +48,7 @@ export default class EnvConfigService {
 	}
 
 	public get mymaStoreServerPort(): number {
-		return Number(this.configService.get("MYMA_STORE_SERVER_PORT") ?? 8080);
+		return this.configService.get<number | undefined>("MYMA_STORE_SERVER_PORT") ?? 8080;
 	}
 
 	public get googleOAuthClientId(): string {
@@ -65,6 +67,26 @@ export default class EnvConfigService {
 		return String(this.configService.get("MYMA_JWT_SECRET"));
 	}
 
+	public get mailgunServer(): Option<string> {
+		return fromNullable(String(this.configService.get("MAILGUN_SERVER")));
+	}
+
+	public get mailgunPort(): Option<number> {
+		return fromNullable(Number(this.configService.get("MAILGUN_PORT")));
+	}
+
+	public get mailgunUsername(): Option<string> {
+		return fromNullable(String(this.configService.get("MAILGUN_USERNAME")));
+	}
+
+	public get mailgunPassword(): Option<string> {
+		return fromNullable(String(this.configService.get("MAILGUN_PASSWORD")));
+	}
+
+	public get mymaEmailEnabled(): boolean {
+		return this.configService.get<boolean | undefined>("MYMA_EMAIL_ENABLED") ?? false;
+	}
+
 	public get mymaStaticSitePath(): string {
 		return String(this.configService.get("MYMA_STATIC_SITE_PATH"));
 	}
@@ -74,15 +96,19 @@ export default class EnvConfigService {
 	}
 
 	public get mymaContentRootRoute(): string {
-		return String(this.configService.get("MYMA_CONTENT_ROOT_ROUTE"));
+		return this.configService.get<string | undefined>("MYMA_CONTENT_ROOT_ROUTE") ?? "/content";
 	}
 
-	public get mymaNotFoundRoute(): Option<string> {
-		return fromNullable(this.configService.get<string | undefined>("MYMA_NOT_FOUND_ROUTE"));
+	public get mymaForgotPasswordRoute(): string {
+		return "/account/forgot-password";
 	}
 
-	public get mymaUnauthorizedRoute(): Option<string> {
-		return fromNullable(this.configService.get<string | undefined>("MYMA_UNAUTHORIZED_ROUTE"));
+	public get mymaActivateAccountRoute(): string {
+		return "/account/activate";
+	}
+
+	public get contactRoute(): string {
+		return "/contact";
 	}
 
 	public get diskThresholdPercentage(): Option<number> {

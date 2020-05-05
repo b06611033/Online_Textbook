@@ -9,7 +9,7 @@ import {
 	StrategyOptionsWithRequest
 } from "passport-google-oauth20";
 import AuthenticationProvider from "../authentication.provider";
-import EnvConfigService from "../../server-config/env-config.service";
+import MYMAConfigService from "../../server-config/myma-config.service";
 import UserRepository from "../../user/user.repository";
 import RoleRepository from "../../authorization/role.repository";
 import RoleName from "../../authorization/role-name";
@@ -24,12 +24,12 @@ export default class GoogleStrategy extends PassportStrategy(
 	public constructor(
 		private readonly userRepository: UserRepository,
 		private readonly roleRepository: RoleRepository,
-		envConfigService: EnvConfigService
+		mymaConfigService: MYMAConfigService
 	) {
 		super({
-			clientID: envConfigService.googleOAuthClientId,
-			clientSecret: envConfigService.googleOAuthClientSecret,
-			callbackURL: `${envConfigService.googleOAuthCallback}/api/v1/authentication/google/callback`,
+			clientID: mymaConfigService.googleOAuthClientId,
+			clientSecret: mymaConfigService.googleOAuthClientSecret,
+			callbackURL: `${mymaConfigService.googleOAuthCallback}/api/v1/authentication/google/callback`,
 			passReqToCallback: true,
 			scope: ["profile", "email"]
 		} as StrategyOptionsWithRequest);

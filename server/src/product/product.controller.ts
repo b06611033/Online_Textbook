@@ -22,7 +22,7 @@ import Roles from "../authorization/decorators/role.decorator";
 import RoleName from "../authorization/role-name";
 import AuthenticationProvider from "../authentication/authentication.provider";
 import RoleGuard from "../authorization/guards/role.guard";
-import EnvConfigService from "../server-config/env-config.service";
+import MYMAConfigService from "../server-config/myma-config.service";
 import { Product } from "./product.entity";
 import CreateProductDto from "./dto/requests/create-product.dto";
 import ProductsDto from "./dto/responses/products.dto";
@@ -33,7 +33,7 @@ import ProductRepository from "./product.repository";
 export default class ProductController {
 	public constructor(
 		private readonly productRepository: ProductRepository,
-		private readonly envConfigService: EnvConfigService
+		private readonly mymaConfigService: MYMAConfigService
 	) {}
 
 	@Post()

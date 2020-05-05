@@ -15,7 +15,7 @@ ARG environment
 ARG synchronize=false
 WORKDIR /myma-store
 COPY --from=builder /usr/src/myma-store/coronavirus-client/build/ ./coronavirus-client/public
-COPY --from=builder /usr/src/myma-store/server/build ./server/build
+COPY --from=builder /usr/src/myma-store/server/dist ./server/dist
 COPY --from=builder /usr/src/myma-store/server/node_modules ./server/node_modules
 COPY --from=builder /usr/src/myma-store/server/ormconfig.js ./server/ormconfig.js
 WORKDIR /myma-store/server
@@ -30,4 +30,4 @@ ENV MYMA_STORE_DATABASE_SYNCHRONIZE=${synchronize}
 ENV MYMA_IN_CONTAINER=true
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
-CMD [ "node", "build/index.js" ]
+CMD [ "node", "dist/index.js" ]

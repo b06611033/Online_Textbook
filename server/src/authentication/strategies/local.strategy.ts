@@ -21,7 +21,7 @@ export default class LocalStrategy extends PassportStrategy(
 		super({
 			usernameField: "email",
 			passwordField: "hashedPassword",
-			session: true,
+			session: false,
 			passReqToCallback: true
 		} as IStrategyOptionsWithRequest);
 	}
@@ -45,6 +45,7 @@ export default class LocalStrategy extends PassportStrategy(
 					await this.userService.createUserFromLocalStrategy(name!, email, hashedPassword)
 				);
 			} catch (e) {
+				LocalStrategy.logger.error(e);
 				done(new BadRequestException("A user with that email address already exists"), undefined);
 			}
 		}

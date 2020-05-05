@@ -4,18 +4,16 @@ const path = require("path");
 
 module.exports = {
 	type: "mariadb",
-	host: process.env.MYMA_STORE_DATABASE_HOST || process.env.TYPEORM_HOST,
-	port: process.env.MYMA_STORE_DATABASE_PORT || process.env.TYPEORM_PORT,
-	database: process.env.MYMA_STORE_DATABASE || process.env.TYPEORM_DATABASE,
-	username: process.env.MYMA_STORE_DATABASE_USERNAME || process.env.TYPEORM_USERNAME,
-	password: process.env.MYMA_STORE_DATABASE_PASSWORD || process.env.TYPEORM_PASSWORD,
+	host: process.env.MYMA_STORE_DATABASE_HOST,
+	port: process.env.MYMA_STORE_DATABASE_PORT,
+	database: process.env.MYMA_STORE_DATABASE,
+	username: process.env.MYMA_STORE_DATABASE_USERNAME,
+	password: process.env.MYMA_STORE_DATABASE_PASSWORD,
 	synchronize: process.env.NODE_ENV !== "production",
 	entities: [
 		path.join(
 			__dirname,
-			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
-				? "src"
-				: "build",
+			process.env.NODE_ENV !== "production" ? "src" : "dist",
 			"**",
 			"*.entity{.ts,.js}"
 		)
@@ -23,9 +21,7 @@ module.exports = {
 	subscribers: [
 		path.join(
 			__dirname,
-			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
-				? "src"
-				: "build",
+			process.env.NODE_ENV !== "production" ? "src" : "dist",
 			"**",
 			"*.subscriber{.ts,.js}"
 		)
@@ -35,19 +31,12 @@ module.exports = {
 	migrations: [
 		path.join(
 			__dirname,
-			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
-				? "src"
-				: "build",
+			process.env.NODE_ENV !== "production" ? "src" : "dist",
 			"migration",
 			"*{.ts,.js}"
 		)
 	],
 	cli: {
-		migrationDir: path.join(
-			process.env.NODE_ENV !== "production" && process.env.MYMA_IN_CONTAINER !== undefined
-				? "src"
-				: "build",
-			"migration"
-		)
+		migrationDir: path.join(process.env.NODE_ENV !== "production" ? "src" : "dist", "migration")
 	}
 };

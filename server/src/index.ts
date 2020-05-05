@@ -5,12 +5,12 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import ApplicationModule from "./app.module";
-import EnvConfigService from "./server-config/env-config.service";
+import MYMAConfigService from "./server-config/myma-config.service";
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create<NestExpressApplication>(ApplicationModule);
 
-	const envConfigService = app.get(EnvConfigService);
+	const mymaConfigService = app.get(MYMAConfigService);
 
 	app.enableCors({
 		origin: ["https://mymathapps.com", "https://dev.mymathapps.com"],
@@ -27,7 +27,7 @@ async function bootstrap(): Promise<void> {
 				whitelist: true,
 				forbidNonWhitelisted: true,
 				forbidUnknownValues: true,
-				disableErrorMessages: envConfigService.nodeEnv === "production"
+				disableErrorMessages: mymaConfigService.nodeEnv === "production"
 			})
 		);
 
@@ -41,7 +41,7 @@ async function bootstrap(): Promise<void> {
 	const metaDocument = SwaggerModule.createDocument(app, meta);
 	SwaggerModule.setup("api/docs", app, metaDocument);
 
-	await app.listen(envConfigService.mymaStoreServerPort);
+	await app.listen(mymaConfigService.mymaStoreServerPort);
 }
 
 bootstrap();
