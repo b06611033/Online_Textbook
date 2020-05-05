@@ -46,10 +46,14 @@ export default class EmailService implements OnModuleDestroy {
 	) {
 		if (this.mymaConfigService.mymaEmailEnabled) {
 			this.activateAccountTemplateDelegate = Handlebars.compile(
-				fs.readFileSync(path.join(__dirname, "templates", "activate-account.txt")).toString()
+				fs
+					.readFileSync(path.join(__dirname, "templates", "activate-account.template.txt"))
+					.toString()
 			);
 			this.temporaryPasswordTemplateDelegate = Handlebars.compile(
-				fs.readFileSync(path.join(__dirname, "templates", "temporary-password.txt")).toString()
+				fs
+					.readFileSync(path.join(__dirname, "templates", "temporary-password.template.txt"))
+					.toString()
 			);
 
 			const port = toUndefined(this.mymaConfigService.mailgunPort)!;
@@ -67,13 +71,11 @@ export default class EmailService implements OnModuleDestroy {
 				}
 			});
 
-			this.transporter
-				.verify()
-				.then(() => EmailService.logger.log("Mailgun transport verified"))
-				.catch((e: Error) => {
-					EmailService.logger.error(e.message);
-					process.exit(1);
-				});
+			if (!this.healthy()) {
+				process.exit(1);
+			} else {
+				EmailService.logger.log("Email transport verified");
+			}
 		}
 	}
 
@@ -133,5 +135,15 @@ export default class EmailService implements OnModuleDestroy {
 			})
 			.then(() => EmailService.logger.debug(`Sent temporary password email to ${user.email}`))
 			.catch((e: Error) => EmailService.logger.error(e.message));
+	}
+
+	public async healthy(): Promise<boolean> {
+		try {
+			return await this.transporter.verify();
+		} catch (_e) {
+			const e = _e as Error;
+			EmailService.logger.error(e.message);
+			return false;
+		}
 	}
 }

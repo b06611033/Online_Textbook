@@ -10,12 +10,10 @@ import {
 import Joi from "@hapi/joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from "@nestjs/core";
-import { TerminusModule } from "@nestjs/terminus";
 import { ConfigModule } from "@nestjs/config";
 import { NestEmitterModule } from "nest-emitter";
 import { EventEmitter } from "typeorm/platform/PlatformTools";
 import { ServeStaticModule } from "@nestjs/serve-static";
-import TerminusConfigService from "./server-config/terminus-config.service";
 import ProductModule from "./product/product.module";
 import TransactionModule from "./transaction/transaction.module";
 import SubscriptionModule from "./subscription/subscription.module";
@@ -28,13 +26,10 @@ import LoggerMiddleware from "./meta/middleware/logger.middleware";
 import MYMAConfigService from "./server-config/myma-config.service";
 import ServeStaticConfigService from "./server-config/serve-static-config.service";
 import AllExceptionFilter from "./meta/filters/all-exception.filter";
+import HealthModule from "./health/health.module";
 
 @Module({
 	imports: [
-		TerminusModule.forRootAsync({
-			imports: [ServerConfigModule],
-			useExisting: TerminusConfigService
-		}),
 		TypeOrmModule.forRootAsync({
 			//eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 			useFactory: () => require("../ormconfig")
@@ -107,6 +102,7 @@ import AllExceptionFilter from "./meta/filters/all-exception.filter";
 			useClass: ServeStaticConfigService
 		}),
 		ServerConfigModule,
+		HealthModule,
 		AuthenticationModule,
 		AuthorizationModule,
 		ProductModule,
