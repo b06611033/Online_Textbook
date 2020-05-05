@@ -23,8 +23,7 @@ build_server:
   stage: build
   script:
     - yarn --cwd ./server/ build
-
-build_client:
-  stage: build
-  script:
-    - yarn --cwd ./coronavirus-client/ build
+# build_client:
+#   stage: build
+#   script:
+#     - yarn --cwd ./coronavirus-client/ build
