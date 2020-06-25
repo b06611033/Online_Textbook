@@ -7,23 +7,31 @@ stages:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - server/node_modules/
-    # - coronavirus-client/node_modules/
+    - ./server/node_modules/
+    - ./client/node_modules/
 
 before_script:
   - yarn --cwd ./server/
-  # - yarn --cwd ./coronavirus-client/
+  - yarn --cwd ./client/
 
 setup_server:
   stage: setup
   script:
+    - yarn
     - yarn --cwd ./server/ lint
 
 build_server:
   stage: build
   script:
+    - yarn
     - yarn --cwd ./server/ build
-# build_client:
-#   stage: build
-#   script:
-#     - yarn --cwd ./coronavirus-client/ build
+
+setup_client:
+  stage: setup
+  script:
+    - yarn --cwd ./client/ lint
+
+build_client:
+  stage: build
+  script:
+    - yarn --cwd ./client/ build
