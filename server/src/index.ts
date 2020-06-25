@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import csurf from "csurf";
 import ApplicationModule from "./app.module";
 import MYMAConfigService from "./server-config/myma-config.service";
 
@@ -21,6 +22,14 @@ async function bootstrap(): Promise<void> {
 	app
 		.use(cookieParser())
 		.use(helmet())
+		.use(
+			csurf({
+				cookie: {
+					sameSite: "strict",
+					httpOnly: true
+				}
+			})
+		)
 		.useGlobalPipes(
 			new ValidationPipe({
 				transform: false,
