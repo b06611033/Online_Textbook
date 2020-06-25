@@ -24,7 +24,7 @@ build_server:
   stage: build
   script:
     - yarn
-    - yarn --cwd ./server/ build
+    - SKIP_PREFLIGHT_CHECK=true yarn --cwd ./server/ build
 
 setup_client:
   stage: setup
