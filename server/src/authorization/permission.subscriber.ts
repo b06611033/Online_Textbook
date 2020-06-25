@@ -5,8 +5,8 @@ import PermissionRepository from "./permission.repository";
 @EventSubscriber()
 export default class PermissionSubscriber implements EntitySubscriberInterface<Permission> {
 	// eslint-disable-next-line class-methods-use-this
-	public listenTo(): Function {
-		return Permission;
+	public listenTo(): string {
+		return Permission.name;
 	}
 
 	// eslint-disable-next-line class-methods-use-this

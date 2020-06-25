@@ -3,7 +3,6 @@ import path from "path";
 import { Injectable, Logger, OnModuleDestroy } from "@nestjs/common";
 import { createTransport } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import { toUndefined } from "fp-ts/lib/Option";
 import Handlebars from "handlebars";
 import MYMAConfigService from "../server-config/myma-config.service";
 import UserService from "../user/user.service";
@@ -56,18 +55,18 @@ export default class EmailService implements OnModuleDestroy {
 					.toString()
 			);
 
-			const port = toUndefined(this.mymaConfigService.mailgunPort)!;
-			const mailgunUsername = toUndefined(this.mymaConfigService.mailgunUsername);
+			const port = this.mymaConfigService.mailgunPort;
+			const mailgunUsername = this.mymaConfigService.mailgunUsername;
 			this.from = `"MYMathApps <${mailgunUsername}>`;
 			this.transporter = createTransport({
-				host: toUndefined(this.mymaConfigService.mailgunServer)!,
+				host: this.mymaConfigService.mailgunServer,
 				port: port,
 				// 465 is the secure port for SMTP although research says it is deprecated.
 				// Confirm with Mailgun.
 				secure: port === 465 || port === 587,
 				auth: {
 					user: mailgunUsername!,
-					pass: toUndefined(this.mymaConfigService.mailgunPassword)!
+					pass: this.mymaConfigService.mailgunPassword
 				}
 			});
 

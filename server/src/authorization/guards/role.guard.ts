@@ -1,5 +1,5 @@
 import { IncomingMessage } from "http";
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import { JwtService } from "@nestjs/jwt";
@@ -22,7 +22,7 @@ export default class RoleGuard implements CanActivate {
 			return false;
 		}
 
-		const sharedRoles = roleNames.filter(roleName => jwt.roles.includes(roleName));
+		const sharedRoles = roleNames.filter((roleName) => jwt.roles.includes(roleName));
 
 		return sharedRoles.length > 0;
 	}

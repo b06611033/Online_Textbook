@@ -4,6 +4,7 @@ env:
   node: true
 plugins:
   - "@typescript-eslint"
+  - prettier
   - import
 extends:
   - ../.eslintrc.yml
@@ -56,18 +57,10 @@ rules:
     - error
     - default: array-simple
       readonly: array-simple
-  "@typescript-eslint/ban-ts-ignore": error
-  "@typescript-eslint/camelcase":
-    - error
-    - properties: always
-  "@typescript-eslint/class-name-casing": error
   "@typescript-eslint/explicit-function-return-type":
     - error
     - allowExpressions: true
   "@typescript-eslint/explicit-member-accessibility": error
-  "@typescript-eslint/interface-name-prefix":
-    - error
-    - never
   "@typescript-eslint/member-ordering":
     - error
     - default:

@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { Injectable, NestMiddleware, Logger } from "@nestjs/common";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 @Injectable()
 export default class LoggerMiddleware
@@ -8,7 +8,11 @@ export default class LoggerMiddleware
 	private static readonly logger = new Logger(LoggerMiddleware.name);
 
 	// eslint-disable-next-line class-methods-use-this
-	public use(req: IncomingMessage & Request, res: ServerResponse & Response, next: Function): void {
+	public use(
+		req: IncomingMessage & Request,
+		res: ServerResponse & Response,
+		next: NextFunction
+	): void {
 		LoggerMiddleware.logger.debug(`Incoming request: ${req.baseUrl}`);
 		next();
 	}

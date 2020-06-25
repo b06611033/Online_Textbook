@@ -18,19 +18,7 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 			`Mounting client at ${this.mymaConfigService.mymaStaticSitePath}`
 		);
 
-		if (!fs.existsSync(this.mymaConfigService.mymaStaticSitePath)) {
-			if (this.mymaConfigService.nodeEnv === "production") {
-				ServeStaticConfigService.logger.error(
-					`${this.mymaConfigService.mymaStaticSitePath} does not exist`
-				);
-
-				process.exit(1);
-			} else {
-				ServeStaticConfigService.logger.warn(
-					`${this.mymaConfigService.mymaStaticSitePath} does not exist`
-				);
-			}
-		}
+		const options: ServeStaticModuleOptions[] = [];
 
 		if (!fs.existsSync(this.mymaConfigService.mymaProductsPath)) {
 			if (this.mymaConfigService.nodeEnv === "production") {
@@ -44,21 +32,35 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 					`${this.mymaConfigService.mymaProductsPath} does not exist`
 				);
 			}
-		}
 
-		return [
-			{
+			options.push({
 				rootPath: this.mymaConfigService.mymaProductsPath,
 				exclude: ["/api/*"],
-				serveRoot: this.mymaConfigService.mymaContentRootRoute,
-				serveStaticOptions: {
-					fallthrough: false
+				serveRoot: this.mymaConfigService.mymaContentRootRoute
+			});
+		}
+
+		if (this.mymaConfigService.mymaStaticSitePath) {
+			if (!fs.existsSync(this.mymaConfigService.mymaStaticSitePath)) {
+				if (this.mymaConfigService.nodeEnv === "production") {
+					ServeStaticConfigService.logger.error(
+						`${this.mymaConfigService.mymaStaticSitePath} does not exist`
+					);
+
+					process.exit(1);
+				} else {
+					ServeStaticConfigService.logger.warn(
+						`${this.mymaConfigService.mymaStaticSitePath} does not exist`
+					);
 				}
-			},
-			{
+			}
+
+			options.push({
 				rootPath: this.mymaConfigService.mymaStaticSitePath,
 				exclude: ["/api/*", `${this.mymaConfigService.mymaContentRootRoute}/*`]
-			}
-		] as ServeStaticModuleOptions[];
+			});
+		}
+
+		return options;
 	}
 }

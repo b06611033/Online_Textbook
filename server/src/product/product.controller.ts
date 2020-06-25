@@ -55,9 +55,9 @@ export default class ProductController {
 	}
 
 	@Get(":codeName")
-	@ApiOkResponse({ type: ProductsDto, description: "Successfully retrieved" })
+	@ApiOkResponse({ type: Product, description: "Successfully retrieved" })
 	@ApiNotFoundResponse({ description: "No product with that code name exists" })
-	public async getProduct(@Param("codeName") codeName: string): Promise<ProductsDto> {
+	public async getProduct(@Param("codeName") codeName: string): Promise<Product> {
 		const product = await this.productRepository.findOne(
 			{ codeName },
 			{ relations: ["subscriptions", "company"] }
@@ -67,7 +67,7 @@ export default class ProductController {
 			throw new NotFoundException();
 		}
 
-		return plainToClass(ProductsDto, { products: [product] } as ProductsDto);
+		return plainToClass(Product, product);
 	}
 
 	@Delete(":id")

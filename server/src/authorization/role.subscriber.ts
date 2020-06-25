@@ -5,8 +5,8 @@ import RoleRepository from "./role.repository";
 @EventSubscriber()
 export default class RoleSubscriber implements EntitySubscriberInterface<Role> {
 	// eslint-disable-next-line class-methods-use-this
-	public listenTo(): Function {
-		return Role;
+	public listenTo(): string {
+		return Role.name;
 	}
 
 	// eslint-disable-next-line class-methods-use-this

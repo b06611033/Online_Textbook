@@ -56,7 +56,7 @@ export default class AuthenticationController {
 		@Req() req: IncomingMessage & Request
 	): Promise<{ url: string }> {
 		const user = req.user as User;
-		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		/* eslint-disable @typescript-eslint/ban-ts-comment, require-atomic-updates */
 		// @ts-ignore 2551
 		req._cookies = [
 			{
@@ -82,7 +82,7 @@ export default class AuthenticationController {
 	@SetCookies()
 	public async jwtLogin(@Req() req: IncomingMessage & Request): Promise<User> {
 		const user = req.user as User;
-		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		/* eslint-disable  @typescript-eslint/ban-ts-comment,require-atomic-updates */
 		// @ts-ignore 2551
 		req._cookies = [
 			{
@@ -123,7 +123,7 @@ export default class AuthenticationController {
 	@SetCookies()
 	public async localLogin(@Req() req: IncomingMessage & Request): Promise<{ url: string }> {
 		const user = req.user as User;
-		/* eslint-disable @typescript-eslint/ban-ts-ignore, require-atomic-updates */
+		/* eslint-disable  @typescript-eslint/ban-ts-comment,require-atomic-updates */
 		// @ts-ignore 2551
 		req._cookies = [
 			{

@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { Injectable, NestMiddleware, Logger, UnauthorizedException } from "@nestjs/common";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { JwtService } from "@nestjs/jwt";
 import { getConnection } from "typeorm";
 import UserRepository from "../../user/user.repository";
@@ -16,7 +16,7 @@ export default class ProductAuthorizationMiddleware
 	public async use(
 		req: IncomingMessage & Request,
 		res: ServerResponse & Response,
-		next: Function
+		next: NextFunction
 	): Promise<void> {
 		const userRepository = getConnection().getCustomRepository(UserRepository);
 

@@ -2,7 +2,6 @@
 
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { Option, fromNullable } from "fp-ts/lib/Option";
 
 @Injectable()
 export default class MYMAConfigService {
@@ -67,28 +66,28 @@ export default class MYMAConfigService {
 		return String(this.configService.get("MYMA_JWT_SECRET"));
 	}
 
-	public get mailgunServer(): Option<string> {
-		return fromNullable(String(this.configService.get("MAILGUN_SERVER")));
+	public get mailgunServer(): string | undefined {
+		return this.configService.get("MAILGUN_SERVER");
 	}
 
-	public get mailgunPort(): Option<number> {
-		return fromNullable(Number(this.configService.get("MAILGUN_PORT")));
+	public get mailgunPort(): number | undefined {
+		return this.configService.get("MAILGUN_PORT");
 	}
 
-	public get mailgunUsername(): Option<string> {
-		return fromNullable(String(this.configService.get("MAILGUN_USERNAME")));
+	public get mailgunUsername(): string | undefined {
+		return this.configService.get("MAILGUN_USERNAME");
 	}
 
-	public get mailgunPassword(): Option<string> {
-		return fromNullable(String(this.configService.get("MAILGUN_PASSWORD")));
+	public get mailgunPassword(): string | undefined {
+		return this.configService.get("MAILGUN_PASSWORD");
 	}
 
 	public get mymaEmailEnabled(): boolean {
-		return this.configService.get<boolean | undefined>("MYMA_EMAIL_ENABLED") ?? false;
+		return this.configService.get("MYMA_EMAIL_ENABLED") ?? false;
 	}
 
-	public get mymaStaticSitePath(): string {
-		return String(this.configService.get("MYMA_STATIC_SITE_PATH"));
+	public get mymaStaticSitePath(): string | undefined {
+		return this.configService.get("MYMA_STATIC_SITE_PATH");
 	}
 
 	public get mymaProductsPath(): string {
@@ -96,7 +95,7 @@ export default class MYMAConfigService {
 	}
 
 	public get mymaContentRootRoute(): string {
-		return this.configService.get<string | undefined>("MYMA_CONTENT_ROOT_ROUTE") ?? "/content";
+		return this.configService.get("MYMA_CONTENT_ROOT_ROUTE") ?? "/content";
 	}
 
 	public get mymaForgotPasswordRoute(): string {
@@ -111,15 +110,15 @@ export default class MYMAConfigService {
 		return "/contact";
 	}
 
-	public get diskThresholdPercentage(): Option<number> {
-		return fromNullable(this.configService.get<number | undefined>("DISK_THRESHOLD_PERCENTAGE"));
+	public get diskThresholdPercentage(): number | undefined {
+		return this.configService.get("DISK_THRESHOLD_PERCENTAGE");
 	}
 
-	public get memoryRssThreshold(): Option<number> {
-		return fromNullable(this.configService.get<number | undefined>("MEMORY_RSS_THRESHOLD"));
+	public get memoryRssThreshold(): number | undefined {
+		return this.configService.get("MEMORY_RSS_THRESHOLD");
 	}
 
-	public get memoryHeapThreshold(): Option<number> {
-		return fromNullable(this.configService.get<number | undefined>("MEMORY_HEAP_THRESHOLD"));
+	public get memoryHeapThreshold(): number | undefined {
+		return this.configService.get("MEMORY_HEAP_THRESHOLD");
 	}
 }

@@ -6,3 +6,4 @@ docker
 node_modules
 products
 .DS_Store
+.vscode

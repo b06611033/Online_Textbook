@@ -8,7 +8,6 @@ import {
 	HealthIndicatorFunction,
 	HealthCheckResult
 } from "@nestjs/terminus";
-import { isSome, Option, some, none } from "fp-ts/lib/Option";
 import MYMAConfigService from "../server-config/myma-config.service";
 import EmailService from "../email/email.service";
 
@@ -38,47 +37,43 @@ export default class HealthService {
 		});
 	}
 
-	private diskCheck(): Option<Promise<HealthIndicatorResult>> {
+	private diskCheck(): Promise<HealthIndicatorResult> | undefined {
 		const diskThresholdPercentage = this.mymaConfigService.diskThresholdPercentage;
 
-		if (isSome(diskThresholdPercentage)) {
-			HealthService.logger.log(
-				`Configured disk threshold percentage: ${diskThresholdPercentage.value}`
-			);
+		if (diskThresholdPercentage) {
+			HealthService.logger.log(`Configured disk threshold percentage: ${diskThresholdPercentage}`);
 
-			return some(
-				this.disk.checkStorage("diskStorage", {
-					thresholdPercent: diskThresholdPercentage.value,
-					path: "/"
-				})
-			);
+			return this.disk.checkStorage("diskStorage", {
+				thresholdPercent: diskThresholdPercentage,
+				path: "/"
+			});
 		}
 
-		return none;
+		return undefined;
 	}
 
-	private memoryHeapCheck(): Option<Promise<HealthIndicatorResult>> {
+	private memoryHeapCheck(): Promise<HealthIndicatorResult> | undefined {
 		const memoryHeapThreshold = this.mymaConfigService.memoryHeapThreshold;
 
-		if (isSome(memoryHeapThreshold)) {
-			HealthService.logger.log(`Configured memory heap threshold: ${memoryHeapThreshold.value}`);
+		if (memoryHeapThreshold) {
+			HealthService.logger.log(`Configured memory heap threshold: ${memoryHeapThreshold}`);
 
-			return some(this.memory.checkHeap("memoryHeap", memoryHeapThreshold.value));
+			return this.memory.checkHeap("memoryHeap", memoryHeapThreshold);
 		}
 
-		return none;
+		return undefined;
 	}
 
-	private memoryRssCheck(): Option<Promise<HealthIndicatorResult>> {
+	private memoryRssCheck(): Promise<HealthIndicatorResult> | undefined {
 		const memoryRssThreshold = this.mymaConfigService.memoryRssThreshold;
 
-		if (isSome(memoryRssThreshold)) {
-			HealthService.logger.log(`Configured memory RSS threshold: ${memoryRssThreshold.value}`);
+		if (memoryRssThreshold) {
+			HealthService.logger.log(`Configured memory RSS threshold: ${memoryRssThreshold}`);
 
-			return some(this.memory.checkRSS("memoryRss", memoryRssThreshold.value));
+			return this.memory.checkRSS("memoryRss", memoryRssThreshold);
 		}
 
-		return none;
+		return undefined;
 	}
 
 	public healthy(): Promise<HealthCheckResult> {
@@ -90,16 +85,16 @@ export default class HealthService {
 			const memoryHeapCheck = this.memoryHeapCheck();
 			const memoryRssCheck = this.memoryRssCheck();
 
-			if (isSome(diskCheck)) {
-				HealthService.healthChecks.push(() => diskCheck.value);
+			if (diskCheck) {
+				HealthService.healthChecks.push(() => diskCheck);
 			}
 
-			if (isSome(memoryHeapCheck)) {
-				HealthService.healthChecks.push(() => memoryHeapCheck.value);
+			if (memoryHeapCheck) {
+				HealthService.healthChecks.push(() => memoryHeapCheck);
 			}
 
-			if (isSome(memoryRssCheck)) {
-				HealthService.healthChecks.push(() => memoryRssCheck.value);
+			if (memoryRssCheck) {
+				HealthService.healthChecks.push(() => memoryRssCheck);
 			}
 		}
 
