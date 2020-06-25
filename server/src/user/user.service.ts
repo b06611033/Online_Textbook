@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { Injectable, Logger } from "@nestjs/common";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import RoleRepository from "../authorization/role.repository";
 import UserRepository from "./user.repository";
 import { User } from "./user.entity";
@@ -48,5 +49,23 @@ export default class UserService {
 		user.temporaryPasswordRequestedAt = new Date();
 
 		return this.userRepository.save(user);
+	}
+
+	/**
+	 * Users have 24 hours to activate their accounts. In this case that they
+	 * did not activate in time, their account would be deleted, and they would
+	 * be expected to recreate their account.
+	 */
+	@Cron(CronExpression.EVERY_HOUR)
+	public async cullUnactivatedAccounts(): Promise<void> {
+		UserService.logger.log("Culling unactivated accounts");
+		this.userRepository
+			.createQueryBuilder("user")
+			.delete()
+			.where("!user.activated_account")
+			.andWhere("TIMESTAMPDIFF(SECOND, CURRENT_TIMESTAMP(), user.created_at) >= 86400")
+			.execute()
+			.then((res) => UserService.logger.log("Finished culling unactivated accounts"))
+			.catch((err) => UserService.logger.error("Failed to cull unaactivated accounts"));
 	}
 }
