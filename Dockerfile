@@ -14,7 +14,7 @@ FROM node:12-alpine
 ARG environment
 ARG synchronize=false
 WORKDIR /myma-store
-COPY --from=builder /usr/src/myma-store/coronavirus-client/build/ ./coronavirus-client/public
+COPY --from=builder /usr/src/myma-store/client/build/ ./client/public
 COPY --from=builder /usr/src/myma-store/server/dist ./server/dist
 COPY --from=builder /usr/src/myma-store/server/node_modules ./server/node_modules
 COPY --from=builder /usr/src/myma-store/server/ormconfig.js ./server/ormconfig.js
