@@ -22,14 +22,14 @@ async function bootstrap(): Promise<void> {
 	app
 		.use(cookieParser())
 		.use(helmet())
-		.use(
-			csurf({
-				cookie: {
-					sameSite: "strict",
-					httpOnly: true
-				}
-			})
-		)
+		// .use(
+		// 	csurf({
+		// 		cookie: {
+		// 			sameSite: "strict",
+		// 			httpOnly: true
+		// 		}
+		// 	})
+		// )
 		.useGlobalPipes(
 			new ValidationPipe({
 				transform: false,

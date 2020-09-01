@@ -1,19 +1,18 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { Menu, Button } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 
-type LoginSignUpModalProps = {
-	onClick(a: "login" | "sign-up"): void;
-};
+const LoginSignUp: React.FC = (props): JSX.Element => {
+	const history = useHistory();
 
-const LoginSignUp: React.FC<LoginSignUpModalProps> = (props): JSX.Element => {
 	return (
-		<Menu.Item position="right">
+		<Menu.Item>
 			<Button.Group>
-				<Button onClick={(event, data) => props.onClick("sign-up")} primary>
+				<Button onClick={(event, data) => history.push("/sign-up")} primary>
 					Sign Up
 				</Button>
 				<Button.Or />
-				<Button onClick={(event, data) => props.onClick("login")}>Login</Button>
+				<Button onClick={(event, data) => history.push("/login")}>Login</Button>
 			</Button.Group>
 		</Menu.Item>
 	);

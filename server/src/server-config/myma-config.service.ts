@@ -94,20 +94,24 @@ export default class MYMAConfigService {
 		return String(this.configService.get("MYMA_PRODUCTS_PATH"));
 	}
 
+	public get mymaRootRoute(): string {
+		return this.configService.get("MYMA_ROOT_ROUTE") ?? "/";
+	}
+
 	public get mymaContentRootRoute(): string {
 		return this.configService.get("MYMA_CONTENT_ROOT_ROUTE") ?? "/content";
 	}
 
-	public get mymaForgotPasswordRoute(): string {
-		return "/account/forgot-password";
-	}
-
 	public get mymaActivateAccountRoute(): string {
-		return "/account/activate";
+		return this.configService.get("MYMA_ACTIVATE_ACCOUNT_ROUTE") ?? "/activate";
 	}
 
-	public get contactRoute(): string {
-		return "/contact";
+	public get mymaResetPasswordRoute(): string {
+		return this.configService.get("MYMA_RESET_PASSWORD_ROUTE") ?? "/reset-password";
+	}
+
+	public get mymaContactRoute(): string {
+		return this.configService.get("MYMA_CONTACT_ROUTE") ?? "/contact";
 	}
 
 	public get diskThresholdPercentage(): number | undefined {

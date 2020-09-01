@@ -14,7 +14,11 @@ export default class JwtConfigService implements JwtOptionsFactory {
 		return {
 			secret: this.mymaConfigService.mymaJwtSecret,
 			signOptions: {
-				audience: ["https://mymathapps.com"]
+				audience: [
+					this.mymaConfigService.nodeEnv === "production"
+						? "https://mymathapps.com"
+						: "https://dev.mymathapps.com"
+				]
 			}
 		};
 	}

@@ -5,6 +5,7 @@ import { User } from "./user.entity";
 @EntityRepository(User)
 export default class UserRepository extends Repository<User> {
 	private static readonly logger = new Logger(UserRepository.name);
+	// TODO: fking kill me user.admin
 	private static readonly HAS_VALID_SUDBSCRIPTION_FOR_PRODUCT_QUERY = `
 		SELECT user.admin, COUNT(1) as count FROM user
 		LEFT JOIN transaction ON transaction.user_id = user.user_id
@@ -18,13 +19,6 @@ export default class UserRepository extends Repository<User> {
 				OR user.admin IS TRUE
 			)
 	`;
-
-	public async findOneByGoogleAccessToken(token: string): Promise<User | undefined> {
-		return this.createQueryBuilder("user")
-			.select(["user.id"])
-			.where("user.google_access_token = :token", { token })
-			.getOne();
-	}
 
 	public async validUserSubscriptionForProduct(
 		userId: number,

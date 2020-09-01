@@ -4,7 +4,6 @@ import { Strategy, ExtractJwt, StrategyOptions, VerifiedCallback } from "passpor
 import JwtPayload from "../jwt-payload";
 import AuthenticationProvider from "../authentication.provider";
 import MYMAConfigService from "../../server-config/myma-config.service";
-import { User } from "../../user/user.entity";
 import UserRepository from "../../user/user.repository";
 
 @Injectable()
@@ -19,12 +18,12 @@ export default class JwtStrategy extends PassportStrategy(Strategy, Authenticati
 		} as StrategyOptions);
 	}
 
-	public async validate(payload: JwtPayload, done: VerifiedCallback): Promise<User> {
+	public async validate(payload: JwtPayload, done: VerifiedCallback): Promise<void> {
 		const user = await this.userRepository.findOne(payload.sub);
 		if (user === undefined) {
-			throw new UnauthorizedException();
+			done(new UnauthorizedException());
 		}
 
-		return user;
+		done(null, user);
 	}
 }

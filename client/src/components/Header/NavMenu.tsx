@@ -5,22 +5,9 @@ import { ApplicationContext } from "../../context";
 import Cart from "./Cart";
 import Profile from "./Profile";
 import LoginSignUp from "./LoginSignUp";
-import LoginSignUpModal from "./LoginSignUpModal";
 
 const NavMenu: React.FC = (): JSX.Element => {
 	const ctx = useContext(ApplicationContext);
-	const [open, setOpen] = useState<boolean>(false);
-	const [action, setAction] = useState<"login" | "sign-up">("login");
-
-	const onClick = useCallback(
-		(a: "login" | "sign-up"): void => {
-			setOpen(true);
-			setAction(a);
-		},
-		[setOpen, setAction]
-	);
-
-	const onClose = useCallback(() => setOpen(false), [setOpen]);
 
 	return (
 		<div>
@@ -64,10 +51,9 @@ const NavMenu: React.FC = (): JSX.Element => {
 				</Menu.Item>
 				<Menu.Item fitted position="right">
 					<Cart />
-					{ctx.user ? <Profile /> : <LoginSignUp onClick={onClick} />}
+					{ctx.user ? <Profile /> : <LoginSignUp />}
 				</Menu.Item>
 			</Menu>
-			<LoginSignUpModal action={action} onClose={onClose} open={open} />
 		</div>
 	);
 };

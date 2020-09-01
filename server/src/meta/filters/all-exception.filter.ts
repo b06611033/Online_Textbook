@@ -29,6 +29,8 @@ export default class AllExceptionFilter implements ExceptionFilter {
 				.json({ statusCode: HttpStatus.NOT_FOUND, message: `Resource not found: ${request.path}` });
 		}
 
-		response.json({ statusCode: exception.getStatus(), message: exception.message });
+		response
+			.json({ statusCode: exception.getStatus(), message: exception.message })
+			.status(exception.getStatus());
 	}
 }

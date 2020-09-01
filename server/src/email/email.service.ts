@@ -22,7 +22,7 @@ type ForgotPasswordParams = {
 	email: string;
 	temporaryPassword: string;
 	storeDomain: string;
-	forgotPasswordRoute: string;
+	resetPasswordRoute: string;
 	contactRoute: string;
 };
 
@@ -57,7 +57,8 @@ export default class EmailService implements OnModuleDestroy {
 
 			const port = this.mymaConfigService.mailgunPort;
 			const mailgunUsername = this.mymaConfigService.mailgunUsername;
-			this.from = `"MYMathApps <${mailgunUsername}>`;
+			console.log(mailgunUsername);
+			this.from = `MYMathApps <${mailgunUsername}>`;
 			this.transporter = createTransport({
 				host: this.mymaConfigService.mailgunServer,
 				port: port,
@@ -104,7 +105,7 @@ export default class EmailService implements OnModuleDestroy {
 					storeDomain: this.mymaConfigService.mymaStoreDomain,
 					activateAccountRoute: this.mymaConfigService.mymaActivateAccountRoute,
 					activationCode: user.activationCode!,
-					contactRoute: this.mymaConfigService.contactRoute
+					contactRoute: this.mymaConfigService.mymaContactRoute
 				})
 			})
 			.then(() => EmailService.logger.debug(`Sent activate account email to ${user.email}`))
@@ -128,8 +129,8 @@ export default class EmailService implements OnModuleDestroy {
 					email: user.email,
 					temporaryPassword: user.temporaryPassword!,
 					storeDomain: this.mymaConfigService.mymaStoreDomain,
-					forgotPasswordRoute: this.mymaConfigService.mymaForgotPasswordRoute,
-					contactRoute: this.mymaConfigService.contactRoute
+					resetPasswordRoute: this.mymaConfigService.mymaResetPasswordRoute,
+					contactRoute: this.mymaConfigService.mymaContactRoute
 				})
 			})
 			.then(() => EmailService.logger.debug(`Sent temporary password email to ${user.email}`))

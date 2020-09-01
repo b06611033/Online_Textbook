@@ -10,7 +10,7 @@ const Profile: React.FC = (): JSX.Element => {
 	const history = useHistory();
 
 	return (
-		<Dropdown as={Menu.Item} item position="right" text={ctx.user!.name}>
+		<Dropdown as={Menu.Item} item text={ctx.user!.name}>
 			<Dropdown.Menu>
 				<Dropdown.Item
 					onClick={(event, data) => {

@@ -21,6 +21,7 @@ export default class ProductAuthorizationMiddleware
 		const userRepository = getConnection().getCustomRepository(UserRepository);
 
 		try {
+			// TODO: Need to actually authenticate properly
 			const jwtPayload = await this.jwtService.verifyAsync<JwtPayload>(req.cookies.jwt);
 			const user = await userRepository.findOne(jwtPayload.sub);
 			if (user === undefined) {

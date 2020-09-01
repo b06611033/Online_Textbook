@@ -11,16 +11,13 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 
 	public createLoggerOptions(): ServeStaticModuleOptions[] {
 		ServeStaticConfigService.logger.log("Creating ServeStatic options");
-		ServeStaticConfigService.logger.log(
-			`Mounting store content at ${this.mymaConfigService.mymaContentRootRoute}`
-		);
-		ServeStaticConfigService.logger.log(
-			`Mounting client at ${this.mymaConfigService.mymaStaticSitePath}`
-		);
 
 		const options: ServeStaticModuleOptions[] = [];
 
 		if (!fs.existsSync(this.mymaConfigService.mymaProductsPath)) {
+			ServeStaticConfigService.logger.log(
+				`Mounting store content at ${this.mymaConfigService.mymaContentRootRoute}`
+			);
 			if (this.mymaConfigService.nodeEnv === "production") {
 				ServeStaticConfigService.logger.error(
 					`${this.mymaConfigService.mymaProductsPath} does not exist`
@@ -41,6 +38,9 @@ export default class ServeStaticConfigService implements ServeStaticModuleOption
 		}
 
 		if (this.mymaConfigService.mymaStaticSitePath) {
+			ServeStaticConfigService.logger.log(
+				`Mounting client at ${this.mymaConfigService.mymaStaticSitePath}`
+			);
 			if (!fs.existsSync(this.mymaConfigService.mymaStaticSitePath)) {
 				if (this.mymaConfigService.nodeEnv === "production") {
 					ServeStaticConfigService.logger.error(

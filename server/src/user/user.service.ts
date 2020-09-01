@@ -2,8 +2,11 @@ import crypto from "crypto";
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import RoleRepository from "../authorization/role.repository";
+import EntryNotFoundError from "../meta/errors/entry-not-found.error";
 import UserRepository from "./user.repository";
 import { User } from "./user.entity";
+import TemporaryPasswordNotRequestedError from "./errors/temporary-password-not-requested.error";
+import StaleTemporaryPasswordError from "./errors/stale-temporary-password.error";
 
 @Injectable()
 export default class UserService {
@@ -47,8 +50,42 @@ export default class UserService {
 		const temporaryPassword = crypto.randomBytes(8).toString("hex");
 		user.temporaryPassword = temporaryPassword;
 		user.temporaryPasswordRequestedAt = new Date();
+		user.requestedTemporaryPassword = true;
 
 		return this.userRepository.save(user);
+	}
+
+	public async resetPassword(
+		email: string,
+		temporaryPassword: string,
+		hashedPassword: string
+	): Promise<void> {
+		const user = await this.userRepository.findOne({ email, temporaryPassword });
+		if (user === undefined) {
+			UserService.logger.debug("No user found");
+			throw new EntryNotFoundError();
+		}
+
+		if (!user.requestedTemporaryPassword) {
+			UserService.logger.debug("User has not requested a temporary password");
+			throw new TemporaryPasswordNotRequestedError();
+		}
+
+		// 86400000 is the amount of milliseconds in a day.
+		if (
+			user.temporaryPasswordRequestedAt !== undefined &&
+			Math.abs(Date.now() - user.temporaryPasswordRequestedAt.valueOf()) > 86400000
+		) {
+			UserService.logger.debug("User's temporary password is over a day old");
+			throw new StaleTemporaryPasswordError();
+		}
+
+		user.hashedPassword = hashedPassword;
+		user.temporaryPassword = undefined;
+		user.temporaryPasswordRequestedAt = undefined;
+		user.requestedTemporaryPassword = false;
+
+		await this.userRepository.save(user);
 	}
 
 	/**

@@ -39,7 +39,7 @@ export class User {
 
 	@Exclude()
 	@Column({ nullable: true, name: "hashed_password" })
-	public readonly hashedPassword?: string;
+	public hashedPassword?: string;
 
 	@Exclude()
 	@Column({ default: false, name: "requested_temporary_password" })

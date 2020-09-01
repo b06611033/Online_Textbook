@@ -123,11 +123,11 @@ import HealthModule from "./health/health.module";
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ClassSerializerInterceptor
-		},
-		{
-			provide: APP_FILTER,
-			useClass: AllExceptionFilter
 		}
+		// {
+		// 	provide: APP_FILTER,
+		// 	useClass: AllExceptionFilter
+		// }
 	]
 })
 export default class ApplicationModule implements NestModule {

@@ -1,4 +1,5 @@
 import { IncomingMessage } from "http";
+import crypto from "crypto";
 import { Injectable, Logger, InternalServerErrorException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
@@ -12,7 +13,6 @@ import AuthenticationProvider from "../authentication.provider";
 import MYMAConfigService from "../../server-config/myma-config.service";
 import UserRepository from "../../user/user.repository";
 import RoleRepository from "../../authorization/role.repository";
-import RoleName from "../../authorization/role-name";
 
 @Injectable()
 export default class GoogleStrategy extends PassportStrategy(
@@ -29,7 +29,7 @@ export default class GoogleStrategy extends PassportStrategy(
 		super({
 			clientID: mymaConfigService.googleOAuthClientId,
 			clientSecret: mymaConfigService.googleOAuthClientSecret,
-			callbackURL: `${mymaConfigService.googleOAuthCallback}/api/v1/authentication/google/callback`,
+			callbackURL: `${mymaConfigService.googleOAuthCallback}/api/authentication/google/callback`,
 			passReqToCallback: true,
 			scope: ["profile", "email"]
 		} as StrategyOptionsWithRequest);
@@ -43,16 +43,16 @@ export default class GoogleStrategy extends PassportStrategy(
 		done: VerifyCallback
 	): Promise<void> {
 		const user =
-			(await this.userRepository
-				.createQueryBuilder("user")
-				.select(["user.id", "user.admin"])
-				.where("user.email = :email", { email: profile!.emails![0].value })
-				.getOne()) ??
+			(await this.userRepository.findOne(
+				{ email: profile.emails![0].value },
+				{ relations: ["roles"] }
+			)) ??
 			(await this.userRepository.save(
 				this.userRepository.create({
 					name: profile.displayName,
 					email: profile.emails![0].value,
 					googleAccessToken: accessToken,
+					activationCode: crypto.randomBytes(16).toString("hex"),
 					roles: [(await this.roleRepository.getRoleCache()).USER!]
 				})
 			));
