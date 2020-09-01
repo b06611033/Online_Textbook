@@ -3,7 +3,7 @@ ARG server_domain
 ENV REACT_APP_SERVER_DOMAIN=${server_domain:-http://localhost:8080}
 WORKDIR /usr/src/myma-store
 COPY . .
-RUN cd coronavirus-client \
+RUN cd client \
 	&& yarn \
 	&& yarn build \
 	&& cd ../server \
