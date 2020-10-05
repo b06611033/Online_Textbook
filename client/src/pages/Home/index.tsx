@@ -56,7 +56,10 @@ const Slideshow: React.FC<SlideshowProps> = (props): JSX.Element => {
 		<Swiper
 			updateOnWindowResize={true}
 			loop={true}
-			autoplay={true}
+			autoplay={{
+        delay: 3000,
+        disableOnInteraction: false
+			}}
 			style={{
 				backgroundColor: "white",
 				width: "290px",
