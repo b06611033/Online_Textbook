@@ -26,6 +26,7 @@
   "dependencies": {
     "crypto-js": "^4.0.0",
     "libphonenumber-js": "^1.7.53",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
@@ -33,6 +34,7 @@
     "react-scripts": "3.4.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
+    "swiper": "^6.3.2",
     "swr": "^0.2.3",
     "typescript": "^3.9.5",
     "uuid": "^8.2.0"
