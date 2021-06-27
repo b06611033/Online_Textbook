@@ -85,51 +85,51 @@ const Logo: React.FC = (): JSX.Element => {
 };
 
 const Home: React.FC = (): JSX.Element => {
-	let calc1Files: string[] = ["TanCotAnim.gif", "ex_cone.gif", "EgDotWorkWagon.gif", "areafndef.gif", 
-		"fishtank0_animate.gif", "LRS_animate.gif", "betw1rect_animate.gif", "ftcareapf3.gif", 
-		"LinApprox1.gif", "def_lim_both.gif", "x_RR_Cars.gif", "MRS_animate.gif", "def_lim_left.gif", 
-		"x_RR_ladder.gif", "PfTriIneq4.gif", "def_lim_right.gif", "yint1rect_animate.gif", "RRS_animate.gif", 
+	let calc1Files: string[] = ["TanCotAnim.gif", "ex_cone.gif", "EgDotWorkWagon.gif", "areafndef.gif",
+		"fishtank0_animate.gif", "LRS_animate.gif", "betw1rect_animate.gif", "ftcareapf3.gif",
+		"LinApprox1.gif", "def_lim_both.gif", "x_RR_Cars.gif", "MRS_animate.gif", "def_lim_left.gif",
+		"x_RR_ladder.gif", "PfTriIneq4.gif", "def_lim_right.gif", "yint1rect_animate.gif", "RRS_animate.gif",
 		"def_tan_slope.gif", "SinCosAnim.gif", "ex_AreaIVP_sinx.gif"];
-	
-	let calc2Files: string[] = ["rect2yanimate.gif", "LRS_animate.gif", "rect3xanimate.gif", 
-		"MRS_animate.gif", "rect4xanimate.gif", "RRS_animate.gif", "rect4yanimate.gif", 
-		"area1xanimate.gif", "slopesolcrvs.gif", "area1yanimate.gif", "valentine.gif", 
-		"area2xanimate.gif", "xcirc_eqtrisec_animate.gif", "area2yanimate.gif", 
-		"xcirc_sqsec_animate.gif", "areafndef.gif", "xcircle_cylin_misc_animate.gif", 
-		"betw1rect_animate.gif", "xcircle_cylin_misc_solid_animate.gif", "cardioid_anim_ex.gif", 
-		"xcos_disks_animate.gif", "circ_eqtrisec_animate.gif", "xcos_disks_solid_animate.gif", 
-		"ex_AreaIVP_sinx.gif", "xexpo_cylin_misc_solid_animate.gif", "fishtank0_animate.gif", 
-		"xparab_cylin2_solid_animate.gif", "ftcareapf3.gif", "xparab_cylin3_solid_animate.gif", 
-		"limacon_anim.gif", "xparab_cylin4b_animate.gif", "parabxanimate.gif", 
-		"xparab_cylin4c_solid_animate.gif", "pcrvarc-animate.gif", 
-		"xparab_cylin_misc_2_solid_animate.gif", "r=cos2theta_anim.gif", 
-		"xparab_cylin_misc_solid_animate.gif", "r=cos3theta_anim.gif", 
-		"xparab_disk_misc_solid_animate.gif", "r=cos4theta_anim.gif", 
-		"xparab_horz_disc_solid_animate.gif", "r=cos5theta_anim.gif", 
-		"xparab_horz_washer_solid_animate.gif", "r=theta-all_anim.gif", "yint1rect_animate.gif", 
+
+	let calc2Files: string[] = ["rect2yanimate.gif", "LRS_animate.gif", "rect3xanimate.gif",
+		"MRS_animate.gif", "rect4xanimate.gif", "RRS_animate.gif", "rect4yanimate.gif",
+		"area1xanimate.gif", "slopesolcrvs.gif", "area1yanimate.gif", "valentine.gif",
+		"area2xanimate.gif", "xcirc_eqtrisec_animate.gif", "area2yanimate.gif",
+		"xcirc_sqsec_animate.gif", "areafndef.gif", "xcircle_cylin_misc_animate.gif",
+		"betw1rect_animate.gif", "xcircle_cylin_misc_solid_animate.gif", "cardioid_anim_ex.gif",
+		"xcos_disks_animate.gif", "circ_eqtrisec_animate.gif", "xcos_disks_solid_animate.gif",
+		"ex_AreaIVP_sinx.gif", "xexpo_cylin_misc_solid_animate.gif", "fishtank0_animate.gif",
+		"xparab_cylin2_solid_animate.gif", "ftcareapf3.gif", "xparab_cylin3_solid_animate.gif",
+		"limacon_anim.gif", "xparab_cylin4b_animate.gif", "parabxanimate.gif",
+		"xparab_cylin4c_solid_animate.gif", "pcrvarc-animate.gif",
+		"xparab_cylin_misc_2_solid_animate.gif", "r=cos2theta_anim.gif",
+		"xparab_cylin_misc_solid_animate.gif", "r=cos3theta_anim.gif",
+		"xparab_disk_misc_solid_animate.gif", "r=cos4theta_anim.gif",
+		"xparab_horz_disc_solid_animate.gif", "r=cos5theta_anim.gif",
+		"xparab_horz_washer_solid_animate.gif", "r=theta-all_anim.gif", "yint1rect_animate.gif",
 		"rect2xanimate.gif"];
 
-	let calc3Files: string[] = ["2DReimannAnimation.gif", "eg_multi_plane_cone.gif", 
-		"DefCrossGeomDir.gif", "ellipex.gif", "DerivAlongCrv.gif", "ex_cone.gif", 
-		"EgDotWorkWagon.gif", "parabeg.gif", "GradProof12.gif", "quadcubextrace.gif", 
-		"GradProof2D3c.gif", "quadcubeytrace.gif", "HelixOsculatingCircle.gif", 
-		"sincosTaylor.gif", "LinApprox2.gif", "xDotWorkVertTrack.gif", "PfTriIneq4.gif", 
-		"x_3dParabe.gif", "StokesMovie1-hole.gif", "x_box_div.gif", 
-		"def_cylcoordgrid_anim.gif", "x_box_uneven.gif", "def_lim_2D.gif", "x_fence.gif", 
+	let calc3Files: string[] = ["2DReimannAnimation.gif", "eg_multi_plane_cone.gif",
+		"DefCrossGeomDir.gif", "ellipex.gif", "DerivAlongCrv.gif", "ex_cone.gif",
+		"EgDotWorkWagon.gif", "parabeg.gif", "GradProof12.gif", "quadcubextrace.gif",
+		"GradProof2D3c.gif", "quadcubeytrace.gif", "HelixOsculatingCircle.gif",
+		"sincosTaylor.gif", "LinApprox2.gif", "xDotWorkVertTrack.gif", "PfTriIneq4.gif",
+		"x_3dParabe.gif", "StokesMovie1-hole.gif", "x_box_div.gif",
+		"def_cylcoordgrid_anim.gif", "x_box_uneven.gif", "def_lim_2D.gif", "x_fence.gif",
 		"def_sphcoordgrid_anim.gif"];
 
-	let mapletsFiles: string[] = ["AbsValLinEq.png", "ODEDirField.png", 
-		"ApproxIntLeftError.png", "ODEMixing.png", "Basic14Polar.png", "ParFracFindCoeff.png", 
-		"CMBar.png", "ParFracGenDecomp.png", "Centroid2D.png", "ParamTanLine.png", 
-		"DerivInvFn.png", "RRLadder.png", "EpsilonDelta.png", "RelatedRates.png", 
-		"FactorQuad.png", "Sec2TanGraphicNumeric.png", "GeometricSeries.png", 
-		"ShapeQuadCoeff.png", "Graph_df.png", "Shift.png", "ImplicitDifferentiation.png",	
-		"SinCosProps.png", "ImproperInt.png", "SurfAreaOfRev.png", "IntBySub.png", 
-		"TeleSeries.png", "LHospital.png", "TrigFnCircDef.png", "LinearApprox.png", 
-		"TrigSub.png", "MMAreaBox.png", "VertAsymptFind.png", "MMCrossRiver.png", 
-		"VolBySlicing.png", "MMFencedArea.png", "VolOfRev.png", "MMRectinEll.png", 
-		"WorkGravity.png", "MMTinCan.png", "WorkOnCurve.png", "MaclSerInteg.png", 
-		"WorkPumping.png", "MaclSerLimits.png", "WorkRope.png", "MaxMinQuad.png", 
+	let mapletsFiles: string[] = ["AbsValLinEq.png", "ODEDirField.png",
+		"ApproxIntLeftError.png", "ODEMixing.png", "Basic14Polar.png", "ParFracFindCoeff.png",
+		"CMBar.png", "ParFracGenDecomp.png", "Centroid2D.png", "ParamTanLine.png",
+		"DerivInvFn.png", "RRLadder.png", "EpsilonDelta.png", "RelatedRates.png",
+		"FactorQuad.png", "Sec2TanGraphicNumeric.png", "GeometricSeries.png",
+		"ShapeQuadCoeff.png", "Graph_df.png", "Shift.png", "ImplicitDifferentiation.png",
+		"SinCosProps.png", "ImproperInt.png", "SurfAreaOfRev.png", "IntBySub.png",
+		"TeleSeries.png", "LHospital.png", "TrigFnCircDef.png", "LinearApprox.png",
+		"TrigSub.png", "MMAreaBox.png", "VertAsymptFind.png", "MMCrossRiver.png",
+		"VolBySlicing.png", "MMFencedArea.png", "VolOfRev.png", "MMRectinEll.png",
+		"WorkGravity.png", "MMTinCan.png", "WorkOnCurve.png", "MaclSerInteg.png",
+		"WorkPumping.png", "MaclSerLimits.png", "WorkRope.png", "MaxMinQuad.png",
 		"WorkSpring.png", "ODE1stLinear.png"];
 
 	let calc1Imgs: string[] = [];
@@ -169,8 +169,9 @@ const Home: React.FC = (): JSX.Element => {
 							</Grid.Column>
 							<Grid.Column className="ten wide">
 								<p style={{ fontSize: "1.5em" }}>
-									We provide instructional and supplemental learning materials for various math concepts
-									created by distinguished faculty from universities around the United States.
+									We provide instructional and supplemental learning materials
+									for various math topics	created by distinguished faculty
+									from universities around the United States.
 								</p>
 							</Grid.Column>
 						</Grid.Row>
@@ -192,22 +193,38 @@ const Home: React.FC = (): JSX.Element => {
 							</Grid.Column>
 							<Grid.Column className="eleven wide">
 								<p style={{ fontSize: "2em" }}>
-									MYMACalc 1
-								</p>	
+									MYMathApps Calculus 1
+								</p>
 								<p style={{ fontSize: "1.2em" }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus vehicula elit, a hendrerit nibh. Vivamus vel ligula tempor risus tincidunt rhoncus vel non enim. Etiam fermentum tellus vitae velit elementum, ac viverra massa iaculis. Donec sed placerat leo. Suspendisse ac molestie nunc, id rutrum ex. Sed convallis congue nulla, vitae sollicitudin metus molestie id. Cras justo metus, condimentum a nunc vitae, sagittis tincidunt leo. Curabitur sed magna ut enim auctor dignissim.
+								  MYMACalc 1 is a complete course on Differential Calculus,
+									plus a review of Precalculus and a start on Integral Calculus.
+									The course
+									is highly interactive and visual. Essentially all exercises
+									have answers and full solutions and some for hints, checks
+									and remarks. Each of these is hidden until the student
+									clicks a button. There are lots of graphics including 2D and
+									3D plots, both static and animated, and some are interactive
+									based on student input.
 									<br />
 									<a>Learn more</a>
 								</p>
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row columns={2} style={{height: "320px"}}>
-							<Grid.Column className="eleven wide" style={{textAlign: "right"}}>
+							<Grid.Column className="eleven wide">
 								<p style={{ fontSize: "2em" }}>
-									MYMACalc 2
-								</p>	
+									MYMathApps Calculus 2
+								</p>
 								<p style={{ fontSize: "1.2em" }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus vehicula elit, a hendrerit nibh. Vivamus vel ligula tempor risus tincidunt rhoncus vel non enim. Etiam fermentum tellus vitae velit elementum, ac viverra massa iaculis. Donec sed placerat leo. Suspendisse ac molestie nunc, id rutrum ex. Sed convallis congue nulla, vitae sollicitudin metus molestie id. Cras justo metus, condimentum a nunc vitae, sagittis tincidunt leo. Curabitur sed magna ut enim auctor dignissim.
+								  MYMACalc 2 is a complete course on Integral Calculus and
+									Sequences and Series, plus an introduction to Differential
+									Equations. The course
+									is highly interactive and visual. Essentially all exercises
+									have answers and full solutions and some for hints, checks
+									and remarks. Each of these is hidden until the student
+									clicks a button. There are lots of graphics including 2D and
+									3D plots, both static and animated, and some are interactive
+									based on student input.
 									<br />
 									<a>Learn more</a>
 								</p>
@@ -230,22 +247,34 @@ const Home: React.FC = (): JSX.Element => {
 							</Grid.Column>
 							<Grid.Column className="eleven wide">
 								<p style={{ fontSize: "2em" }}>
-									MYMACalc 3
-								</p>	
+									MYMathApps Calculus 3
+								</p>
 								<p style={{ fontSize: "1.2em" }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus vehicula elit, a hendrerit nibh. Vivamus vel ligula tempor risus tincidunt rhoncus vel non enim. Etiam fermentum tellus vitae velit elementum, ac viverra massa iaculis. Donec sed placerat leo. Suspendisse ac molestie nunc, id rutrum ex. Sed convallis congue nulla, vitae sollicitudin metus molestie id. Cras justo metus, condimentum a nunc vitae, sagittis tincidunt leo. Curabitur sed magna ut enim auctor dignissim.
+								  MYMACalc 3 is a complete course on Multivariable Calculus
+									including Green's, Stokes' and Gauss' Theorems. The course
+									is highly interactive and visual. Essentially all exercises
+									have answers and full solutions and some for hints, checks
+									and remarks. Each of these is hidden until the student
+									clicks a button. There are lots of graphics including 2D and
+									3D plots, both static and animated, and some are interactive
+									based on student input.
 									<br />
 									<a>Learn more</a>
 								</p>
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Row columns={2} style={{height: "320px"}}>
-							<Grid.Column className="eleven wide" style={{textAlign: "right"}}>
+							<Grid.Column className="eleven wide">
 								<p style={{ fontSize: "2em" }}>
 									Maplets for Calculus
-								</p>	
+								</p>
 								<p style={{ fontSize: "1.2em" }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam finibus vehicula elit, a hendrerit nibh. Vivamus vel ligula tempor risus tincidunt rhoncus vel non enim. Etiam fermentum tellus vitae velit elementum, ac viverra massa iaculis. Donec sed placerat leo. Suspendisse ac molestie nunc, id rutrum ex. Sed convallis congue nulla, vitae sollicitudin metus molestie id. Cras justo metus, condimentum a nunc vitae, sagittis tincidunt leo. Curabitur sed magna ut enim auctor dignissim.
+								  M4C is a collection Maple-based applets which help students
+									learn all three semesters of calculus. They present students
+									with questions and guide them through the solution process.
+									They only work on computers on which the Maple computer
+									algebra system is installed. They are included with all of
+									MYMathApps Calculus texts but are also available separately.
 									<br />
 									<a>Learn more</a>
 								</p>
