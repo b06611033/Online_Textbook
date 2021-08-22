@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import SwiperCore, { Autoplay } from 'swiper';
 import { maxHeaderSize } from "http";
+import { Link } from "react-router-dom";
 
 SwiperCore.use([Autoplay]);
 
@@ -206,7 +207,8 @@ const Home: React.FC = (): JSX.Element => {
 									3D plots, both static and animated, and some are interactive
 									based on student input.
 									<br />
-									<a>Learn more</a>
+                                                                        <Link to="/pages/MYMACalc1">More Information</Link>
+
 								</p>
 							</Grid.Column>
 						</Grid.Row>
@@ -226,7 +228,7 @@ const Home: React.FC = (): JSX.Element => {
 									3D plots, both static and animated, and some are interactive
 									based on student input.
 									<br />
-									<a>Learn more</a>
+                                                                        <Link to="/pages/MYMACalc2">More Information</Link>
 								</p>
 							</Grid.Column>
 							<Grid.Column className="five wide">
@@ -259,7 +261,7 @@ const Home: React.FC = (): JSX.Element => {
 									3D plots, both static and animated, and some are interactive
 									based on student input.
 									<br />
-									<a>Learn more</a>
+                                                                        <Link to="/pages/MYMACalc3">More Information</Link>
 								</p>
 							</Grid.Column>
 						</Grid.Row>
@@ -276,7 +278,7 @@ const Home: React.FC = (): JSX.Element => {
 									algebra system is installed. They are included with all of
 									MYMathApps Calculus texts but are also available separately.
 									<br />
-									<a>Learn more</a>
+                                                                        <Link to="/pages/m4c">More Information</Link>
 								</p>
 							</Grid.Column>
 							<Grid.Column className="five wide">
