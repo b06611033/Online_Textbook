@@ -14,7 +14,7 @@ type TextbookProps = {
 
 const Textbook: React.FC<TextbookProps> = (props): JSX.Element => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const { data, error } = useSWR<Product, Error>(`/api/products/${props.codeName}`, (url) =>
+	const { data } = useSWR<Product, Error>(`/api/products/${props.codeName}`, (url) =>
 		fetch(url, { method: "GET" }).then((res) => res.json())
 	);
 

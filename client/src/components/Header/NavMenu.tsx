@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { ApplicationContext } from "../../context";

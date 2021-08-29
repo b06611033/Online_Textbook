@@ -7,7 +7,7 @@ import ProductCard from "./ProductCard";
 
 const Products: React.FC = (): JSX.Element => {
 	const ctx = useContext(ApplicationContext);
-	const { data, error } = useSWR<ProductsResponse>("/api/products", (url) =>
+	const { data } = useSWR<ProductsResponse>("/api/products", (url) =>
 		fetch(url, { method: "GET", headers: { Accept: "application/json" } }).then((res) => res.json())
 	);
 

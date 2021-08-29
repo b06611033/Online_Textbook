@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { ApplicationContext } from "../../context";
 
 const Profile: React.FC = (): JSX.Element => {
+	// eslint-disable-next-line
 	const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
 	const ctx = useContext(ApplicationContext);
 	const history = useHistory();

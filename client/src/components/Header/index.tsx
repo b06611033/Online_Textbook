@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../logo.svg";
 import NavMenu from "./NavMenu";
 
 const Header: React.FC = () => {
