@@ -42,6 +42,8 @@ push_image:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
+    - node:10
+    - mariadb:10
   variables:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   script:
