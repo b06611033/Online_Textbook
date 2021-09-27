@@ -38,6 +38,20 @@ cd ../server
 yarn
 ```
 
+### Sucessful Commits
+
+Each time you make a commit gitlab will run a set of commands (see
+`.gitlab-ci.yml`) that will check to see if the changes you've made follow
+proper formatting standards and practices used in typescript.  `eslint` checks
+to make sure you use proper practices example alphabetically ordered imports,
+avoided unused variables etc.  `prettier` checks to see if you've properly
+formatted your files - indentation, long lines etc.  Once you've made a commit,
+say on branch `feature-xyz` and pushed to gitlab, you should head over to
+(https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz)[https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz]
+and check if your changes pass the formatting and best practices tests. A green
+arrow will appear next to your commit if it does (note that it might take a few
+minutes for the checks to take place).
+
 ### Environment Variables
 
 #### Server

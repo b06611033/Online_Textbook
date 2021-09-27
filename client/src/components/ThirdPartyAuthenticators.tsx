@@ -1,14 +1,11 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
-import { useHistory } from "react-router-dom";
 
 type ThirdPartyAuthenticatorsProps = {
 	action: "login" | "sign-up";
 };
 
 const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (props): JSX.Element => {
-	const history = useHistory();
-
 	return (
 		<Button
 			color="red"

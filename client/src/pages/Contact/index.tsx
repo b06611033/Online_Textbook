@@ -11,7 +11,9 @@ const ContactPage: React.FC = (props): JSX.Element => {
 	const [phone, setPhone] = useState<string>("");
 	const [phoneError, setPhoneError] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>(ctx.user?.email ?? "");
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [subject, setSubject] = useState<string>("");
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [message, setMessage] = useState<string>("");
 
 	const userName = ctx.user?.name;

@@ -1,8 +1,9 @@
-image: node:10
+image: node:14-alpine
 
 stages:
   - setup
   - build
+  - release
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -35,3 +36,20 @@ build_client:
   stage: build
   script:
     - yarn --cwd ./client/ build
+
+push_image:
+  stage: release
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+    - node:14-alpine
+    - mariadb:10
+  variables:
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+    - deploy

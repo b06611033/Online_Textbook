@@ -22,6 +22,7 @@ import RequestPasswordReset from "./pages/RequestPasswordReset";
 import ResetPassword from "./pages/ResetPassword";
 
 const App: React.FC = (): JSX.Element => {
+	// eslint-disable-next-line
 	const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
 	const [user, setUser] = useState<User | undefined>();
 	const [cart, setCart] = useState<Subscription[]>([]);
