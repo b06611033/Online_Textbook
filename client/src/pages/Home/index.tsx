@@ -401,12 +401,12 @@ const Home: React.FC = (): JSX.Element => {
 						</Grid.Row>
 					</Grid>
 
-                                        <Divider/>
+					<Divider />
 					<p style={{ margin: "0px", fontSize: "2.5em" }}>Downloadable Content</p>
-                                        <Divider/>
-					<p style={{ margin: "0px",fontSize: "2.0em" }}>Finance with Maple</p>
-					<p style={{ margin: "0px",fontSize: "1em" }}>by Eli Prisman</p>
-                                        <br/>
+					<Divider />
+					<p style={{ margin: "0px", fontSize: "2.0em" }}>Finance with Maple</p>
+					<p style={{ margin: "0px", fontSize: "1em" }}>by Eli Prisman</p>
+					<br />
 
 					<Grid>
 						<Grid.Row columns={3}>
@@ -436,7 +436,7 @@ const Home: React.FC = (): JSX.Element => {
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>
-                                        <Divider/>
+					<Divider />
 				</Container>
 				<Container
 					fluid
