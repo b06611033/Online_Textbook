@@ -26,11 +26,13 @@ build_server:
 setup_client:
   stage: setup
   script:
+    - yarn --cwd ./server
     - yarn --cwd ./client/ lint
 
 build_client:
   stage: build
   script:
+    - yarn --cwd ./server
     - yarn --cwd ./client/ build
 
 push_image:
