@@ -11,20 +11,16 @@ cache:
     - ./server/node_modules/
     - ./client/node_modules/
 
-before_script:
-  - yarn --cwd ./server/
-  - yarn --cwd ./client/
-
 setup_server:
   stage: setup
   script:
-    - yarn
+    - yarn --cwd ./server
     - yarn --cwd ./server/ lint
 
 build_server:
   stage: build
   script:
-    - yarn
+    - yarn --cwd ./server
     - SKIP_PREFLIGHT_CHECK=true yarn --cwd ./server/ build
 
 setup_client:
