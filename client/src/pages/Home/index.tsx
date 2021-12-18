@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Image, Header, Grid, Card } from "semantic-ui-react";
+import { Container, Image, Header, Grid, Card, Divider } from "semantic-ui-react";
 import "../../App.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";
@@ -401,7 +401,12 @@ const Home: React.FC = (): JSX.Element => {
 						</Grid.Row>
 					</Grid>
 
-					<p style={{ marginTop: 40, fontSize: "2.5em" }}>Downloadable Textbooks</p>
+					<Divider />
+					<p style={{ margin: "0px", fontSize: "2.5em" }}>Downloadable Content</p>
+					<Divider />
+					<p style={{ margin: "0px", fontSize: "2.0em" }}>Finance with Maple</p>
+					<p style={{ margin: "0px", fontSize: "1em" }}>by Eli Prisman</p>
+					<br />
 
 					<Grid>
 						<Grid.Row columns={3}>
@@ -431,6 +436,7 @@ const Home: React.FC = (): JSX.Element => {
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>
+					<Divider />
 				</Container>
 				<Container
 					fluid
