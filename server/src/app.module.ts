@@ -7,7 +7,7 @@ import {
 	NestModule,
 	MiddlewareConsumer
 } from "@nestjs/common";
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from "@nestjs/core";
 import { ConfigModule } from "@nestjs/config";
