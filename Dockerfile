@@ -1,16 +1,17 @@
-FROM node:12-alpine AS builder
+FROM node:lts-alpine AS builder
 ARG server_domain
 ENV REACT_APP_SERVER_DOMAIN=${server_domain:-http://localhost:8080}
 WORKDIR /usr/src/myma-store
 COPY . .
-RUN cd client \
-	&& yarn \
-	&& yarn build \
+RUN apk add git \
+  && cd client \
+	&& npm install \
+	&& npm run build \
 	&& cd ../server \
-	&& yarn \
-	&& yarn build
+	&& npm install \
+	&& npm run build
 
-FROM node:12-alpine
+FROM node:lts-alpine
 ARG environment
 ARG synchronize=false
 WORKDIR /myma-store
