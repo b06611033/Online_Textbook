@@ -18,7 +18,6 @@ import { Product } from "../product/product.entity";
 import { Role } from "../authorization/role.entity";
 
 @Entity()
-// eslint-disable-next-line import/exports-last
 export class User {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "user_id" })

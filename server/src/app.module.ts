@@ -31,7 +31,7 @@ import HealthModule from "./health/health.module";
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
-			//eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+			//eslint-disable-next-line global-require, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 			useFactory: () => require("../ormconfig")
 		}),
 		ConfigModule.forRoot({

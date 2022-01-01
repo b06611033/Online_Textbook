@@ -15,7 +15,6 @@ import { Product } from "../product/product.entity";
 import { User } from "../user/user.entity";
 
 @Entity()
-// eslint-disable-next-line import/exports-last
 export class Company {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "company_id" })
