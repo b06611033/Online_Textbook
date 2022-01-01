@@ -15,7 +15,6 @@ import { Product } from "../product/product.entity";
 import { Transaction } from "../transaction/transaction.entity";
 
 @Entity()
-// eslint-disable-next-line import/exports-last
 export class Subscription {
 	@ApiResponseProperty({ example: 1 })
 	@PrimaryGeneratedColumn({ name: "subscription_id" })

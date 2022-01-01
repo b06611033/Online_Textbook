@@ -31,12 +31,8 @@ export default class EmailService implements OnModuleDestroy {
 	private static readonly logger = new Logger(EmailService.name);
 
 	private readonly transporter: Mail;
-	private readonly activateAccountTemplateDelegate: HandlebarsTemplateDelegate<
-		ActivateAccountParams
-	>;
-	private readonly temporaryPasswordTemplateDelegate: HandlebarsTemplateDelegate<
-		ForgotPasswordParams
-	>;
+	private readonly activateAccountTemplateDelegate: HandlebarsTemplateDelegate<ActivateAccountParams>;
+	private readonly temporaryPasswordTemplateDelegate: HandlebarsTemplateDelegate<ForgotPasswordParams>;
 	private readonly from?: string;
 
 	public constructor(

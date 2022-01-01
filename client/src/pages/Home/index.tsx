@@ -10,7 +10,7 @@ import ictcm from "../../resources/images/ictcm.png";
 import logo from "../../resources/images/logo.png";
 import finance from "../../resources/images/Finance/FinanceLogo.png";
 
-import "swiper/swiper.scss";
+import "swiper/scss";
 
 SwiperCore.use([Autoplay]);
 

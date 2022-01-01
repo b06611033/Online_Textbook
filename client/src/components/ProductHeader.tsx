@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-// I hate you eslint
-// eslint-disable-next-line import/named
 import { Container, Header, Button, Dropdown, DropdownItemProps, Image } from "semantic-ui-react";
 import { ApplicationContext } from "../context";
 import { Product } from "../entities";

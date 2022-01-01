@@ -7,7 +7,7 @@ import {
 	NestModule,
 	MiddlewareConsumer
 } from "@nestjs/common";
-import Joi from "@hapi/joi";
+import Joi from "joi";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from "@nestjs/core";
 import { ConfigModule } from "@nestjs/config";
@@ -31,7 +31,7 @@ import HealthModule from "./health/health.module";
 @Module({
 	imports: [
 		TypeOrmModule.forRootAsync({
-			//eslint-disable-next-line global-require, import/no-commonjs, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+			//eslint-disable-next-line global-require, @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 			useFactory: () => require("../ormconfig")
 		}),
 		ConfigModule.forRoot({

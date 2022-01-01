@@ -1,4 +1,4 @@
-image: node:14-alpine
+image: node:lts-alpine
 
 stages:
   - setup
@@ -14,33 +14,33 @@ cache:
 setup_server:
   stage: setup
   script:
-    - yarn --cwd ./server
-    - yarn --cwd ./server/ lint
+    - npm --prefix ./server install
+    - npm --prefix ./server run lint
 
 build_server:
   stage: build
   script:
-    - yarn --cwd ./server
-    - SKIP_PREFLIGHT_CHECK=true yarn --cwd ./server/ build
+    - npm --prefix ./server install
+    - SKIP_PREFLIGHT_CHECK=true npm --prefix ./server run build
 
 setup_client:
   stage: setup
   script:
-    - yarn --cwd ./server
-    - yarn --cwd ./client/ lint
+    - npm --prefix ./client install
+    - npm --prefix ./client run lint
 
 build_client:
   stage: build
   script:
-    - yarn --cwd ./server
-    - yarn --cwd ./client/ build
+    - npm --prefix ./client install
+    - npm --prefix ./client run build
 
 push_image:
   stage: release
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
-    - node:14-alpine
+    - node:lts-alpine
     - mariadb:10
   variables:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest

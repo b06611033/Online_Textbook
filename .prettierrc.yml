@@ -4,5 +4,5 @@ semi: true
 singleQuote: false
 jsxSingleQuote: false
 bracketSpacing: true
-jsxBracketSameLine: false
+bracketSameLine: false
 trailingComma: none
