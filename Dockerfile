@@ -1,6 +1,7 @@
 FROM node:lts-alpine AS builder
 ARG server_domain
 ENV REACT_APP_SERVER_DOMAIN=${server_domain:-http://localhost:8080}
+ENV DISABLE_ESLINT_PLUGIN=true
 WORKDIR /usr/src/myma-store
 COPY . .
 RUN apk add git \
