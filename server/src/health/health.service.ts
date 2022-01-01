@@ -29,10 +29,10 @@ export default class HealthService {
 		return this.typeOrm.pingCheck("db");
 	}
 
-	private emailServiceCheck(): Promise<HealthIndicatorResult> {
-		return Promise.resolve<HealthIndicatorResult>({
+	private async emailServiceCheck(): Promise<HealthIndicatorResult> {
+		return ({
 			emailService: {
-				status: this.emailService.healthy() ? "up" : "down"
+				status: await this.emailService.healthy() ? "up" : "down"
 			}
 		});
 	}
