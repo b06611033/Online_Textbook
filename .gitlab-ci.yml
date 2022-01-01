@@ -1,4 +1,4 @@
-image: node:14-alpine
+image: node:16-alpine
 
 stages:
   - setup
@@ -40,7 +40,7 @@ push_image:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
-    - node:14-alpine
+    - node:16-alpine
     - mariadb:10
   variables:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
