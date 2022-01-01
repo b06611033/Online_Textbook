@@ -30,11 +30,11 @@ export default class HealthService {
 	}
 
 	private async emailServiceCheck(): Promise<HealthIndicatorResult> {
-		return ({
+		return {
 			emailService: {
-				status: await this.emailService.healthy() ? "up" : "down"
+				status: (await this.emailService.healthy()) ? "up" : "down"
 			}
-		});
+		};
 	}
 
 	private diskCheck(): Promise<HealthIndicatorResult> | undefined {
