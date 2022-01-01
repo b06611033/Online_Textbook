@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useReducer, Reducer } from "react";
-// eslint-disable-next-line import/named
 import { Form, FormProps, Button, Message, Loader } from "semantic-ui-react";
 import CryptoJS from "crypto-js";
 
@@ -87,7 +86,7 @@ const LocalSignUpForm: React.FC = (props): JSX.Element => {
 								type: "REQUEST_ERROR",
 								payload:
 									"Unable to create your account. Please try again. In the case that you continue to be unable to create an account, please contact us using the tab at the top of the page."
-						  })
+						})
 				)
 				.catch((err) =>
 					formStateDispatch({

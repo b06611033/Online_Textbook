@@ -1,5 +1,4 @@
 import React, { useCallback, useReducer, Reducer, useState } from "react";
-// eslint-disable-next-line import/named
 import { Form, FormProps, Button, Message } from "semantic-ui-react";
 import { useLocation } from "react-router-dom";
 import CryptoJS from "crypto-js";

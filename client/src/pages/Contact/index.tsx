@@ -1,6 +1,5 @@
 import React, { useContext, useState, useCallback } from "react";
 import { Header, Divider, Form } from "semantic-ui-react";
-// eslint-disable-next-line import/no-namespace
 import * as libphonenumber from "libphonenumber-js";
 import { ApplicationContext } from "../../context";
 import Page from "../../components/Page";
