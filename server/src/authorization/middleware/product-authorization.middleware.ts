@@ -8,7 +8,8 @@ import JwtPayload from "../../authentication/jwt-payload";
 
 @Injectable()
 export default class ProductAuthorizationMiddleware
-	implements NestMiddleware<IncomingMessage & Request, ServerResponse & Response> {
+	implements NestMiddleware<IncomingMessage & Request, ServerResponse & Response>
+{
 	private static readonly logger = new Logger(ProductAuthorizationMiddleware.name);
 
 	public constructor(private readonly jwtService: JwtService) {}

@@ -4,7 +4,8 @@ import { Request, Response, NextFunction } from "express";
 
 @Injectable()
 export default class LoggerMiddleware
-	implements NestMiddleware<IncomingMessage & Request, ServerResponse & Response> {
+	implements NestMiddleware<IncomingMessage & Request, ServerResponse & Response>
+{
 	private static readonly logger = new Logger(LoggerMiddleware.name);
 
 	// eslint-disable-next-line class-methods-use-this
