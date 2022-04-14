@@ -217,3 +217,25 @@ docker run mariadb:10 -v ./docker/mariadb:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=
 docker build . -t myma-store:latest --build-arg evironment=production
 docker run myma-store:latest -v /path/to/book:/myma-store/products
 ```
+## Deploying to <https://dev.mymathapps.com>
+
+When the code on the `master` branch is stable and ready to be deployed to <https://dev.mymathapps.com>, the site can be deployed by pushing the `deploy` branch to the server where the site is hosted.
+
+1.  Ensure that you have the `deploy` remote set up (only needs to be done once)
+
+    ```sh
+    git remote add deploy myma-gitlab@mymathapps.com:repo
+    ```
+
+2.  Merge the changes to be released into the `deploy` branch
+
+    ```sh
+    git checkout deploy
+    git merge master
+    ```
+
+3.  Push the `deploy` branch to the `deploy` remote
+
+    ```sh
+    git push deploy deploy
+    ```
