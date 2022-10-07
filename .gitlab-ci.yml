@@ -1,0 +1,53 @@
+image: node:lts-alpine
+
+stages:
+  - setup
+  - build
+  - release
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - ./server/node_modules/
+    - ./client/node_modules/
+
+setup_server:
+  stage: setup
+  script:
+    - npm --prefix ./server install
+    - npm --prefix ./server run lint
+
+build_server:
+  stage: build
+  script:
+    - npm --prefix ./server install
+    - SKIP_PREFLIGHT_CHECK=true npm --prefix ./server run build
+
+setup_client:
+  stage: setup
+  script:
+    - npm --prefix ./client install
+    - npm --prefix ./client run lint
+
+build_client:
+  stage: build
+  script:
+    - npm --prefix ./client install
+    - npm --prefix ./client run build
+
+push_image:
+  stage: release
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+    - node:lts-alpine
+    - mariadb:10
+  variables:
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+    - deploy
