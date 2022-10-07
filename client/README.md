@@ -19,7 +19,8 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn cucumber-test`
 
-Launch Cucumber BDD test
+Launch Cucumber BDD test. <br />
+Only available on Safari web browser.
 
 ### `yarn build`
 
