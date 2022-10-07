@@ -19,8 +19,14 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn cucumber-test`
 
-Launch Cucumber BDD test. <br />
-Only available on Safari web browser.
+Launch Cucumber BDD test. Only available on Safari, with Safari WebDriver enabled. <br />
+To enable Safari WebDriver, follow below instructions: <br />
+**High Sierra and later:** <br />
+Run `safaridriver --enable` once. (If you’re upgrading from a previous macOS release, you may need to use sudo.)<br />
+**Sierra and earlier:**<br />
+If you haven’t already done so, make the Develop menu available. Choose Safari > Preferences, and on the Advanced tab, select “Show Develop menu in menu bar.” For details, see Safari Help.
+Choose Develop > Allow Remote Automation.<br />
+Authorize safaridriver to launch the XPC service that hosts the local web server. To permit this, manually run /usr/bin/safaridriver once and follow the authentication prompt.
 
 ### `yarn build`
 

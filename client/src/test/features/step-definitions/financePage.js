@@ -5,6 +5,7 @@ const webdriver = require("selenium-webdriver");
 var { setDefaultTimeout } = require("@cucumber/cucumber");
 
 setDefaultTimeout(60 * 1000);
+const verifyText = "finance textbook";
 
 let driver;
 Before(function () {
@@ -16,7 +17,7 @@ After(function () {
 });
 
 Given("I am at the home page of the website", async () => {
-	await driver.get("https://myma-store.herokuapp.com");
+	await driver.get("http://localhost:3000/");
 	//setTimeout(myFunction, 10000);
 });
 
@@ -37,4 +38,5 @@ Then("I will be directed to the finance textbook page", async () => {
 		.findElement(webdriver.By.xpath(`//*[@id="root"]/div/main/div[3]/p[1]/h1`))
 		.getText();
 	console.log(text);
+	expect(text).to.include(verifyText);
 });
