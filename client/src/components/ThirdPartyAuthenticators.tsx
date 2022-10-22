@@ -2,7 +2,10 @@
 import { Button } from "semantic-ui-react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { gapi } from "gapi-script";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ApplicationContext } from "../context";
+import { User } from "../entities";
+import { useHistory } from "react-router-dom";
 
 type ThirdPartyAuthenticatorsProps = {
 	action: "login" | "sign-up";
@@ -10,19 +13,28 @@ type ThirdPartyAuthenticatorsProps = {
 
 const clientId = "887279930655-lb7apr295ikt6fua81mg50p8il4tue1k.apps.googleusercontent.com";
 
-//useEffect(() => {
-	const initClient = () => {
-		  gapi.client.init({
-		  clientId: clientId,
-		  scope: ''
-		});
-	 };
-	 gapi.load('client:auth2', initClient);
- //});
-
 const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (props): JSX.Element => {
+	const ctx = useContext(ApplicationContext);
+	//const history = useHistory();
+
+	useEffect(() => {
+		const initClient = () => {
+			gapi.client.init({
+				clientId: clientId,
+				scope: ""
+			});
+		};
+		gapi.load("client:auth2", initClient);
+	});
+
 	const onSuccess = (res: any) => {
 		console.log("success:", res);
+		const user: User = {
+			id: res.profileObj.googleId,
+			name: res.profileObj.name,
+			email: res.profileObj.email
+		};
+		ctx.setUser!(user);
 	};
 	const onFailure = (err: any) => {
 		console.log("failed:", err);
