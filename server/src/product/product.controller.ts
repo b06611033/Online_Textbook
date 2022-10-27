@@ -59,8 +59,13 @@ export default class ProductController {
 	@ApiNotFoundResponse({ description: "No product with that code name exists" })
 	public async getProduct(@Param("codeName") codeName: string): Promise<Product> {
 		const product = await this.productRepository.findOne(
-			{ codeName },
-			{ relations: ["subscriptions", "company"] }
+			{
+				where: {codeName: codeName},
+				relations: {
+					subscriptions: true,
+					company: true
+				}
+			}
 		);
 
 		if (product === undefined) {

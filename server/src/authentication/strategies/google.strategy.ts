@@ -44,8 +44,9 @@ export default class GoogleStrategy extends PassportStrategy(
 	): Promise<void> {
 		const user =
 			(await this.userRepository.findOne(
-				{ email: profile.emails![0].value },
-				{ relations: ["roles"] }
+				{
+					where: { email: profile.emails![0].value },
+					relations: { roles: true } }
 			)) ??
 			(await this.userRepository.save(
 				this.userRepository.create({
@@ -56,10 +57,6 @@ export default class GoogleStrategy extends PassportStrategy(
 					roles: [(await this.roleRepository.getRoleCache()).USER!]
 				})
 			));
-
-		if (user === undefined) {
-			return done(new InternalServerErrorException());
-		}
 
 		return done(undefined, user);
 	}

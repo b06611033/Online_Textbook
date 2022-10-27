@@ -207,7 +207,7 @@ export default class AuthenticationController {
 	@Get("activate")
 	public async activate(@Query("activationCode") activationCode: string): Promise<void> {
 		const user = await this.userService.activateAccount(activationCode);
-		if (user === undefined) {
+		if (user === null) {
 			throw new NotFoundException("The provided activation code is not correct");
 		}
 	}
