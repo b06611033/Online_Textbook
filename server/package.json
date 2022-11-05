@@ -10,7 +10,7 @@
 		"lint:fix": "eslint --fix 'src/**/*.ts' && prettier --config ../.prettierrc.yml --write 'src/**/*.ts'",
 		"test": "jest",
 		"typeorm": "ts-node ./node_modules/typeorm/cli.js",
-		"start:prod": "node dist/index.js"
+		"start:prod": "node dist/index.ts"
 	},
 	"dependencies": {
 		"@godaddy/terminus": "^4.11.2",
