@@ -14,11 +14,14 @@ import JwtStrategy from "./strategies/jwt.strategy";
 import AuthenticationService from "./authentication.service";
 import LocalStrategy from "./strategies/local.strategy";
 import AuthenticationController from "./authentication.controller";
+import { User } from "../user/user.entity";
+import { Role } from "../authorization/role.entity";
+import RoleService from "../authorization/role.service";
 
 @Module({
 	imports: [
 		ServerConfigModule,
-		TypeOrmModule.forFeature([UserRepository, ProductRepository, RoleRepository]),
+		TypeOrmModule.forFeature([UserRepository, ProductRepository, RoleRepository, User, Role]),
 		PassportModule.register({ session: false }),
 		JwtModule.registerAsync({
 			imports: [ServerConfigModule],
@@ -28,7 +31,7 @@ import AuthenticationController from "./authentication.controller";
 		EmailModule
 	],
 	controllers: [AuthenticationController],
-	providers: [GoogleStrategy, JwtStrategy, LocalStrategy, AuthenticationService]
+	providers: [GoogleStrategy, JwtStrategy, LocalStrategy, AuthenticationService, RoleService]
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class AuthenticationModule {}

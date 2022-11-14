@@ -86,9 +86,10 @@ export default class EmailService implements OnModuleDestroy {
 			EmailService.logger.debug(
 				`Activated account for ${user.email} with activation code ${user.activationCode}`
 			);
+			console.log("enabled");
 			return;
 		}
-
+		console.log("already enabled");
 		this.transporter
 			.sendMail({
 				from: this.from,

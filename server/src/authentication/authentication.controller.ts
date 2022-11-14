@@ -67,16 +67,18 @@ export default class AuthenticationController {
 	public async googleLoginCallback(
 		@Req() req: IncomingMessage & Request
 	): Promise<{ url: string }> {
-		console.log("lol1");
 		const user = req.user as User;
+		console.log(user.name);
+		console.log(user.id);
+		console.log(user.email);
 		if (!user.activatedAccount) {
 			await this.emailService.activateAccount(user);
-			console.log("lol2");
+			console.log("activated");
 			return {
 				url: `${this.mymaConfigService.mymaStoreDomain}${this.mymaConfigService.mymaActivateAccountRoute}`
 			};
 		}
-
+		console.log("already activated");
 		/* eslint-disable @typescript-eslint/ban-ts-comment, require-atomic-updates */
 		// @ts-ignore 2551
 		req._cookies = [
@@ -90,7 +92,6 @@ export default class AuthenticationController {
 			}
 		] as CookieSettings[];
 		/* eslint-enable */
-
 		return {
 			url: `${this.mymaConfigService.mymaStoreDomain}${this.mymaConfigService.mymaRootRoute}`
 		};

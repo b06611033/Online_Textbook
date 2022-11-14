@@ -12,6 +12,16 @@ type ThirdPartyAuthenticatorsProps = {
 };
 
 const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (props): JSX.Element => {
+	const ctx = useContext(ApplicationContext);
+	const onSuccess = (res: any) => {
+		console.log("success:", res);
+		const user: User = {
+			id: res.profileObj.googleId,
+			name: res.profileObj.name,
+			email: res.profileObj.email
+		};
+		ctx.setUser!(user);
+	};
 	return (
 		<Button
 			color="red"
@@ -23,6 +33,7 @@ const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (props
 					`${process.env.REACT_APP_SERVER_DOMAIN}/api/authentication/google/login`
 				)
 			}
+			onSuccess={onSuccess}
 			size="medium"
 		/>
 	);
