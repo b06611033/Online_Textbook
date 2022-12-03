@@ -52,6 +52,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  console.log("In redirect route.");
   console.log(req.user);
   return res.redirect("http://localhost:3000/");
 });
