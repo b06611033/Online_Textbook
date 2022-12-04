@@ -57,4 +57,10 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   return res.redirect("http://localhost:3000/");
 });
 
+router.get("checkSession", passport.authenticate("google"), (req, res) => {
+  console.log("In checkSession route.");
+  console.log(req.user);
+  return res.send("called");
+});
+
 module.exports = router;
