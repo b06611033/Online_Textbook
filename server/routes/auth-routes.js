@@ -3,11 +3,23 @@ const passport = require("passport");
 const User = require("../models/user-model");
 const alert = require("alert");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.get("/login", (req, res) => {
   return res.render("login", { user: req.user });
 });
 
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login",
+  }),
+  (req, res) => {
+    return res.redirect("/profile");
+  }
+);
+
+/*
 router.get("/signup", (req, res) => {
   return res.render("signup", { user: req.user });
 });
@@ -26,16 +38,7 @@ router.post("/signup", async (req, res) => {
     return res.redirect("/auth/login");
   }
 });
-
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/auth/login",
-  }),
-  (req, res) => {
-    return res.redirect("/profile");
-  }
-);
+*/
 
 router.get("/logout", (req, res) => {
   req.logOut((err) => {
@@ -43,6 +46,7 @@ router.get("/logout", (req, res) => {
     else res.redirect("/auth/login");
   });
 });
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -51,16 +55,21 @@ router.get(
   })
 );
 
-router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  console.log("In redirect route.");
+router.get("/google/callback", passport.authenticate("google"), (req, res) => {
+  console.log("In callback route.");
   console.log(req.user);
-  return res.redirect("http://localhost:3000/");
-});
 
-router.get("checkSession", passport.authenticate("google"), (req, res) => {
-  console.log("In checkSession route.");
-  console.log(req.user);
-  return res.send("called");
+  // Create a json web token for user
+  const foundUser = req.user;
+  const tokenObject = { _id: foundUser._id, email: foundUser.email }; // Using _id may be buggy?
+  const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
+  return res.send({
+    message: "Login and JWT created",
+    token: "JWT " + token,
+    user: foundUser,
+  });
+
+  //return res.redirect("http://localhost:3000/");
 });
 
 module.exports = router;

@@ -1,9 +1,11 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
-const User = require("../models/user-model");
 const LocalStrategy = require("passport-local");
+const JwtStratey = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 const bcrypt = require("bcrypt");
 const alert = require("alert");
+const User = require("../models/user-model");
 
 passport.serializeUser((user, done) => {
   console.log("Serialize user");
@@ -23,7 +25,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/redirect",
+      callbackURL: "/auth/google/callback",
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Using google strategy");
