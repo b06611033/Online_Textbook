@@ -63,13 +63,31 @@ router.get("/google/callback", passport.authenticate("google"), (req, res) => {
   const foundUser = req.user;
   const tokenObject = { _id: foundUser._id, email: foundUser.email }; // Using _id may be buggy?
   const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
-  return res.send({
-    message: "Login and JWT created",
-    token: "JWT " + token,
-    user: foundUser,
-  });
+
+  var responseHTML =
+    '<html><head><title>Main</title></head><body></body><script>res = %value%; window.opener.postMessage(res, "*");window.close();</script></html>';
+  responseHTML = responseHTML.replace(
+    "%value%",
+    JSON.stringify({
+      message: "Login and JWT created",
+      token: "JWT " + token,
+      user: foundUser,
+    })
+  );
+  res.status(200).send(responseHTML);
+
+  // return res.send({
+  //   message: "Login and JWT created",
+  //   token: "JWT " + token,
+  //   user: foundUser,
+  // });
 
   //return res.redirect("http://localhost:3000/");
+});
+
+router.get("/test", (req, res) => {
+  console.log("return success");
+  return res.status(200).send("return success");
 });
 
 module.exports = router;
