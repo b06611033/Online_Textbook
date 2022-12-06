@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && yarn --only=dev && yarn && yarn build"
   },
   "dependencies": {
     "alert": "^5.1.1",
@@ -19,5 +20,8 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
+  },
+  "engines" :{
+    "node": "16.17.1"
   }
 }

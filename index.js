@@ -8,13 +8,15 @@ require("./config/passport");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
+const path = require("path");
+const port = process.env.Port || 8080; 
 
 const corsOptions = {
   origin: "http://localhost:3000",
 };
 
 mongoose
-  .connect("mongodb://localhost:27017/MYMathDB")
+  .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
     console.log("connecting to mongodb");
   })
@@ -25,6 +27,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -39,6 +42,12 @@ app.use(passport.session());
 // set routes
 app.use("/auth", authRoutes);
 
-app.listen(8080, () => {
+if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
+app.listen(port, () => {
   console.log("running server on port 8080");
 });
