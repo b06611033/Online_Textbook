@@ -49,8 +49,6 @@ The client has a single environment variable, and the is the location of the
 server to make requests to, which is `REACT_APP_SERVER_URL`. You can put it in a
 `.env` file for `create-react-app` to pick it up.
 
----
-
 Now you should be able to run the server with `yarn start`. Navigate to
 `localhost:8080` in your web browser to see the site.
 
@@ -111,6 +109,9 @@ The server mounts Swagger/OpenAPI documentation at `/api/docs`.
 After you successfully run up the server, in your web browser, go to localhost:8080/api/docs to view the documentation for the server. 
 Try out the health check endpoint. Should be the first one that you see.
 
+
+
+---
 
 ## Production Deployment
 
