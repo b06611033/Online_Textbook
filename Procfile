@@ -1,1 +1,0 @@
-web: yarn run build-client && node index.js
