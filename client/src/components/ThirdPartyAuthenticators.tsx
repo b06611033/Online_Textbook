@@ -15,11 +15,27 @@ const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (
 ): JSX.Element => {
   const history = useHistory();
   const ctx = useContext(ApplicationContext);
+  const w_width = 550;
+  const w_height = 500;
+  const x = (screen.width - 30 - w_width) / 2;
+  const y = (screen.height - 10 - w_height) / 2;
+  const w_config =
+    "location=1,status=1,scrollbars=1," +
+    "width=" +
+    w_width +
+    ",height=" +
+    w_height +
+    ",top=" +
+    y +
+    ",left=" +
+    x;
+
   const handleLogin = () => {
     window.open(
       `${process.env.REACT_APP_SERVER_DOMAIN}/auth/google`,
       "mywindow",
-      "location=1,status=1,scrollbars=1, width=500,height=500"
+      w_config
+      //"location=1,status=1,scrollbars=1,width=500,height=500"
     );
 
     const listener = window.addEventListener("message", (message) => {
