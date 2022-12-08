@@ -3,13 +3,12 @@
 This repository serves as the collection of code that makes up the MYMathApps
 store. In it, we have the `server` and the `client`.
 
-## Contributing
+## Contributing and Development
 
 The store relies on having a MariaDB instance running, and optionally a build
 of the MYMA Calculus textbook somewhere on your system. A `docker-compose` file
-has been included that provides a MariaDB container and a PhpMyAdmin container
-if you choose to visually see the database. To start the two services, you can
-run `docker-compose -f docker-compose.dev.yml up -d mariadb phpmyadmin`.
+has been included that provides a MariaDB container as the database of the web application. 
+To start the database services, you can run `docker-compose -f docker-compose.dev.yml up -d mariadb`.
 
 Both the client and the server have `yarn` scripts to `build` the compiled code,
 or to run them with their `start` commands`*`.
@@ -19,15 +18,12 @@ to the client, just rebuild it and refresh your browser. You can in theory start
 the client with `yarn start`, but requests won't be proxied correctly.
 Proxying will be setup at some point. Sorry for the inconvenience.
 
-### Swagger/OpenAPI
-
-The server mounts Swagger/OpenAPI documentation at `/api/docs`.
-
 ### Dependencies
 
 * `nodejs` > 12
 * `yarn`
 * Docker or another container technology like Podman
+
 
 ### Setup
 
@@ -37,20 +33,6 @@ yarn
 cd ../server
 yarn
 ```
-
-### Sucessful Commits
-
-Each time you make a commit gitlab will run a set of commands (see
-`.gitlab-ci.yml`) that will check to see if the changes you've made follow
-proper formatting standards and practices used in typescript.  `eslint` checks
-to make sure you use proper practices example alphabetically ordered imports,
-avoided unused variables etc.  `prettier` checks to see if you've properly
-formatted your files - indentation, long lines etc.  Once you've made a commit,
-say on branch `feature-xyz` and pushed to gitlab, you should head over to
-[https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz](https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz)
-and check if your changes pass the formatting and best practices tests. A green
-arrow will appear next to your commit if it does (note that it might take a few
-minutes for the checks to take place).
 
 ### Environment Variables
 
@@ -64,7 +46,7 @@ Refer to list of environment variables and their purpose in the
 #### Client
 
 The client has a single environment variable, and the is the location of the
-server to make requests to, which is `REACT_APP_SERVER_URL`. You can it in a
+server to make requests to, which is `REACT_APP_SERVER_URL`. You can put it in a
 `.env` file for `create-react-app` to pick it up.
 
 ---
@@ -84,20 +66,23 @@ Now you should be able to run the server with `yarn start`. Navigate to
 REACT_APP_SERVER_DOMAIN=https://mymathapps.com
 ```
 
-##### `server/production.env`
+##### `server/development.env`
 
 ```text
-MYMA_STORE_DATABASE_HOST=mariadb
+MYMA_STORE_DATABASE_HOST=localhost
 MYMA_STORE_DATABASE_PORT=3306
 MYMA_STORE_DATABASE_USERNAME=root
-MYMA_STORE_DATABASE_PASSWORD=password
+MYMA_STORE_DATABASE_PASSWORD=yasskin
 MYMA_STORE_DATABASE=MYMAStore
 MYMA_JWT_SECRET=secret
-MYMA_STATIC_SITE_PATH=/myma-store/coronavirus-client/public
+MYMA_STATIC_SITE_PATH=/myma-store/client/public
 MYMA_PRODUCTS_PATH=/myma-store/products
 MYMA_CONTENT_ROOT_ROUTE=/content/MYMACalculus
-MYMA_NOT_FOUND_ROUTE=/not-found
-MYMA_UNAUTHORIZED_ROUTE=/unauthorized
+MYMA_EMAIL_ENABLED=true
+MAILGUN_SERVER=smtp.mailgun.org
+MAILGUN_PORT=465
+MAILGUN_USERNAME=noreply@mymathapps.com
+MAILGUN_PASSWORD=password
 GOOGLE_OAUTH_CLIENT_ID=123.apps.googleusercontent.com
 GOOGLE_OAUTH_CLIENT_SECRET=12345
 GOOGLE_OAUTH_CALLBACK=https://mymathapps.com
@@ -105,24 +90,46 @@ MYMA_STORE_DOMAIN=https://mymathapps.com
 MYMA_STORE_SERVER_PORT=8080
 ```
 
-#### Commands
+#### Commands for running the database and back-end (server) side
 
 ```text
-cd client
-yarn
-yarn build
-cd ../server
-yarn
-yarn build
-node build/index.js
+docker-compose -f docker-compose.dev.yml up -d mariadb
+cd server
+yarn start
 ```
 
-### Docker Deployments
+#### Commands for running the front-end (client) side
+```text
+cd client
+yarn start
+```
 
-If you choose to use a hosted instance of MariaDB, then ignore any MariaDB
-specifics. PhpMyAdmin can be ignored if you so choose.
+### Swagger/OpenAPI
 
-#### Docker Compose
+The server mounts Swagger/OpenAPI documentation at `/api/docs`.
+
+After you successfully run up the server, in your web browser, go to localhost:8080/api/docs to view the documentation for the server. 
+Try out the health check endpoint. Should be the first one that you see.
+
+
+## Production Deployment
+
+The following parts are not related to development but give instructions for production deployment.
+Developers should discuss with the server owner for the deployment process.
+
+### Sucessful Commits
+
+Each time you make a commit gitlab will run a set of commands (see
+`.gitlab-ci.yml`) that will check to see if the changes you've made follow
+proper formatting standards and practices used in typescript.  `eslint` checks
+to make sure you use proper practices example alphabetically ordered imports,
+avoided unused variables etc.  `prettier` checks to see if you've properly
+formatted your files - indentation, long lines etc.  Once you've made a commit,
+say on branch `feature-xyz` and pushed to gitlab, you should head over to
+[https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz](https://gitlab.com/return0software/myma-team/myma-store/-/commits/feature-xyz)
+and check if your changes pass the formatting and best practices tests. A green
+arrow will appear next to your commit if it does (note that it might take a few
+minutes for the checks to take place).
 
 ##### Environment Variables
 
@@ -138,10 +145,10 @@ In a production environment, the env file is not read. The variables should
 exist in the environment however.
 
 ```text
-MYMA_STORE_DATABASE_HOST=mariadb
+MYMA_STORE_DATABASE_HOST=localhost
 MYMA_STORE_DATABASE_PORT=3306
 MYMA_STORE_DATABASE_USERNAME=root
-MYMA_STORE_DATABASE_PASSWORD=password
+MYMA_STORE_DATABASE_PASSWORD=yasskin
 MYMA_STORE_DATABASE=MYMAStore
 MYMA_JWT_SECRET=secret
 MYMA_STATIC_SITE_PATH=/myma-store/client/public
@@ -185,10 +192,10 @@ In a production environment, the env file is not read. The variables should
 exist in the environment however.
 
 ```text
-MYMA_STORE_DATABASE_HOST=mariadb
+MYMA_STORE_DATABASE_HOST=localhost
 MYMA_STORE_DATABASE_PORT=3306
 MYMA_STORE_DATABASE_USERNAME=root
-MYMA_STORE_DATABASE_PASSWORD=password
+MYMA_STORE_DATABASE_PASSWORD=yasskin
 MYMA_STORE_DATABASE=MYMAStore
 MYMA_JWT_SECRET=secret
 MYMA_STATIC_SITE_PATH=/myma-store/client/public
