@@ -10,6 +10,7 @@ type TextbookProps = {
   child: React.ReactNode;
   codeName: string;
   image: string;
+  tag: string;
 };
 
 const Textbook: React.FC<TextbookProps> = (props): JSX.Element => {
@@ -24,7 +25,12 @@ const Textbook: React.FC<TextbookProps> = (props): JSX.Element => {
 
   return (
     <>
-      <ProductHeader hasSample image={props.image} />
+      <ProductHeader
+        hasSample
+        image={props.image}
+        name={props.codeName}
+        tag={props.tag}
+      />
       <Divider></Divider>
       {props.child}
       <p>

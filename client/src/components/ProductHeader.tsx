@@ -1,3 +1,4 @@
+import { Tag } from "@cucumber/messages";
 import React, { useContext, useState } from "react";
 import {
   Container,
@@ -14,6 +15,8 @@ type ProductHeaderProps = {
   //product: Product;
   image: string;
   hasSample: boolean;
+  name: string;
+  tag: string;
 };
 
 const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
@@ -46,8 +49,8 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
   return (
     <Container style={{ marginTop: 10 }}>
       <Image centered size="medium" src={props.image} />
-      <Header as="h2">{"lol"}</Header>
-      <Header as="h4">{"motherfucker"}</Header>
+      <Header as="h2">{props.name}</Header>
+      <Header as="h4">{props.tag}</Header>
       <Button
         color="blue"
         style={{ marginBottom: 10 }}

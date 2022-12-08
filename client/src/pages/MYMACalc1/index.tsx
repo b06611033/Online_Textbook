@@ -108,7 +108,12 @@ const MYMACalc1: React.FC = (): JSX.Element => {
 };
 
 const MYMACalc1Textbook: React.FC = (): JSX.Element => (
-  <Textbook child={<MYMACalc1 />} codeName="MYMACalc1" image={thumbnail} />
+  <Textbook
+    child={<MYMACalc1 />}
+    codeName="MYMathApps Calculus 1: Differential Calculus"
+    tag="Viewing and doing, a wizard's guide to calculus"
+    image={thumbnail}
+  />
 );
 
 export default MYMACalc1Textbook;
