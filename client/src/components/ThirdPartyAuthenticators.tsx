@@ -35,7 +35,6 @@ const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (
       `${process.env.REACT_APP_SERVER_DOMAIN}/auth/google`,
       "mywindow",
       w_config
-      //"location=1,status=1,scrollbars=1,width=500,height=500"
     );
 
     const listener = window.addEventListener("message", (message) => {

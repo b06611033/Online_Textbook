@@ -9,7 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const path = require("path");
-const port = process.env.Port || 8080; 
+const port = process.env.PORT || 8080;
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -42,7 +42,10 @@ app.use(passport.session());
 // set routes
 app.use("/auth", authRoutes);
 
-if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV === "staging"
+) {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
