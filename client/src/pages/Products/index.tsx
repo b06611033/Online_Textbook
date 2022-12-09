@@ -25,8 +25,7 @@ const Products: React.FC = (): JSX.Element => {
   return (
     <Container>
       <p style={{ fontSize: 18 }}>
-        Below you will find an array of products that will assist in helping you
-        understand Calculus, Maple, and general math concepts.
+        Below you will find the products you purchased.
       </p>
       {ctx.user === undefined ? undefined : (
         <div>
@@ -52,19 +51,6 @@ const Products: React.FC = (): JSX.Element => {
         </Divider>
         <Card.Group itemsPerRow={4} stackable>
           {/* {data.products.map((product) => (
-						<ProductCard key={product.id} product={product} />
-					))} */}
-        </Card.Group>
-      </div>
-      <div>
-        <Divider horizontal>
-          <Header as="h4">
-            <Icon name="dollar sign" />
-            {"Products to Purchase"}
-          </Header>
-        </Divider>
-        <Card.Group itemsPerRow={4} stackable>
-          {/* {data?.products.map((product) => (
 						<ProductCard key={product.id} product={product} />
 					))} */}
         </Card.Group>
