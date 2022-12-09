@@ -11,12 +11,10 @@ const cors = require("cors");
 const path = require("path");
 const port = process.env.PORT || 8080;
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-};
 
+// connect with the database you created on MongoDB Atlas
 mongoose
-  .connect(process.env.MONGODB_CONNECTION)
+  .connect(process.env.MONGODB_CONNECTION)  
   .then(() => {
     console.log("connecting to mongodb");
   })

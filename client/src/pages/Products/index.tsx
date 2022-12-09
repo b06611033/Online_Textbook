@@ -27,21 +27,6 @@ const Products: React.FC = (): JSX.Element => {
       <p style={{ fontSize: 18 }}>
         Below you will find the products you purchased.
       </p>
-      {ctx.user === undefined ? undefined : (
-        <div>
-          <Divider horizontal>
-            <Header as="h4">
-              <Icon name="archive" />
-              {"Currently Owned Products"}
-            </Header>
-          </Divider>
-          <Card.Group itemsPerRow={4} stackable>
-            {/* {data.products.map((product) => (
-							<ProductCard key={product.id} product={product} />
-						))} */}
-          </Card.Group>
-        </div>
-      )}
       <div>
         <Divider horizontal>
           <Header as="h4">
