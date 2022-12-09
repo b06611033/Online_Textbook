@@ -28,14 +28,14 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
 
   const lengthOptions = [
     {
-      key: "120 days",
-      text: "120 days",
-      value: "120 days",
+      key: "5 month  20USD",
+      text: "5 month (20USD)",
+      value: "5 month  20USD",
     },
     {
-      key: "180 days",
-      text: "180 days",
-      value: "180 days",
+      key: "24 month  50USD",
+      text: "24 month (50USD)",
+      value: "24 month  50USD",
     },
   ];
 
@@ -68,13 +68,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
           <Button
             color="red"
             onClick={(event, data) => {
-              ctx.setCart!(
-                []
-                // ctx.cart.filter(
-                //   (value) =>
-                //     value.id !== props.product.subscriptions![selection].id
-                // )
-              );
+              ctx.setCart!([]);
               setInCart(false);
             }}
           >{`Remove from Cart`}</Button>
@@ -83,13 +77,14 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
             color="green"
             disabled={selection === -1}
             onClick={(event, data) => {
-              ctx.setCart!([
+              ctx.setCart!(
+                []
                 // ...ctx.cart,
                 // {
                 //   ...props.product.subscriptions![selection],
                 //   product: props.product,
                 // },
-              ]);
+              );
               setInCart(true);
             }}
           >{`Add to Cart`}</Button>
