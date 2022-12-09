@@ -10,8 +10,7 @@ const User = require("../models/user-model");
 passport.serializeUser((user, done) => {
   console.log("Serialize user");
   console.log(user);
-  done(null, user._id); // Save mongoDB id into session
-  // After signing id, return it as cookie to user
+  done(null, user._id); // Save mongoDB id into sessions
 });
 
 passport.deserializeUser(async (_id, done) => {
@@ -49,22 +48,4 @@ passport.use(
       }
     }
   )
-);
-
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    let foundUser = await User.findOne({ email: username });
-    if (foundUser) {
-      let result = await bcrypt.compare(password, foundUser.password);
-      if (result) {
-        done(null, foundUser);
-      } else {
-        alert("Login failed! Email or password incorrect");
-        done(null, false);
-      }
-    } else {
-      alert("Login failed! Email or password incorrect");
-      done(null, false);
-    }
-  })
 );

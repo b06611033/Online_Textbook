@@ -32,7 +32,7 @@ const ThirdPartyAuthenticators: React.FC<ThirdPartyAuthenticatorsProps> = (
 
   const handleLogin = () => {
     window.open(
-      `${process.env.REACT_APP_SERVER_DOMAIN}/auth/google`,
+      `${process.env.REACT_APP_SERVER_DOMAIN}/auth/google`, // call the backend google login API
       "mywindow",
       w_config
     );

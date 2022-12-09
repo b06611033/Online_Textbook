@@ -14,22 +14,13 @@ type TextbookProps = {
 };
 
 const Textbook: React.FC<TextbookProps> = (props): JSX.Element => {
-  //   const { data } = useSWR<Product, Error>(
-  //     `/api/products/${props.codeName}`,
-  //     (url) => fetch(url, { method: "GET" }).then((res) => res.json())
-  //   );
-
-  //   if (!data) {
-  //     return <Loader active inline="centered" />;
-  //   }
-
   return (
     <>
       <ProductHeader
         hasSample
         image={props.image}
-        name={props.codeName}
-        tag={props.tag}
+        name={props.codeName} // name of the product
+        tag={props.tag} // tag line that will be showed on the product page
       />
       <Divider></Divider>
       {props.child}

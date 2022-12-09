@@ -12,7 +12,7 @@ const path = require("path");
 const port = process.env.PORT || 8080;
 
 
-// connect with the database you created on MongoDB Atlas
+// Connect with the database you created on MongoDB Atlas
 mongoose
   .connect(process.env.MONGODB_CONNECTION)  
   .then(() => {
@@ -22,6 +22,7 @@ mongoose
     console.log(e);
   });
 
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -37,9 +38,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// set routes
+// Set routes
 app.use("/auth", authRoutes);
 
+// Setup for deployment on heroku
 if (
   process.env.NODE_ENV === "production" ||
   process.env.NODE_ENV === "staging"
@@ -49,6 +51,7 @@ if (
   });
 }
 
+// Run on local port 8080
 app.listen(port, () => {
   console.log("running server on port 8080");
 });

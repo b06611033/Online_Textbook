@@ -217,8 +217,8 @@ const MYMACalc3: React.FC = (): JSX.Element => {
 const MYMACalc3Textbook: React.FC = (): JSX.Element => (
   <Textbook
     child={<MYMACalc3 />}
-    codeName="MYMathApps Calculus 3: Differential Calculus"
-    tag="Viewing and doing, a wizard's guide to calculus"
+    codeName="MYMathApps Calculus 3: Differential Calculus" // the name you want to output on the product page
+    tag="Viewing and doing, a wizard's guide to calculus" // the tagline you want to output on the product page
     image={thumbnail}
   />
 );

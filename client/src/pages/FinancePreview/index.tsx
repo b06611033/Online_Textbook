@@ -74,8 +74,8 @@ const FinancePreview: React.FC = (): JSX.Element => {
 const FinanceTextbook: React.FC = (): JSX.Element => (
   <Textbook
     child={<FinancePreview />}
-    codeName="Finance with Maple"
-    tag="Viewing and doing, a wizard's guide to Finance"
+    codeName="Finance with Maple" // the name you want to output on the product page
+    tag="Viewing and doing, a wizard's guide to Finance" // the tagline you want to output on the product page
     image={""}
   />
 );

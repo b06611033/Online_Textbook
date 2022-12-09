@@ -11,7 +11,6 @@ import { ApplicationContext } from "../context";
 import { Product } from "../entities";
 
 type ProductHeaderProps = {
-  //product: Product;
   image: string;
   hasSample: boolean;
   name: string;
@@ -22,10 +21,8 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
   const ctx = useContext(ApplicationContext);
   const [selection, setSelection] = useState<number>(-1);
   const [inCart, setInCart] = useState<boolean>();
-  // ctx.cart.find((value) =>
-  //   props.product.subscriptions!.find((v) => v.id === value.id)
-  // ) !== undefined
 
+  //subscription options for the dropdown
   const lengthOptions = [
     {
       key: "5 month  20USD",
@@ -38,12 +35,6 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
       value: "24 month  50USD",
     },
   ];
-
-  //   const options: DropdownItemProps[] = props.product.subscriptions!.map(
-  //     (value, index) => {
-  //       return { key: value.id, text: `${value.length} days`, value: index };
-  //     }
-  //   );
 
   return (
     <Container style={{ marginTop: 10 }}>
@@ -77,14 +68,7 @@ const ProductHeader: React.FC<ProductHeaderProps> = (props): JSX.Element => {
             color="green"
             disabled={selection === -1}
             onClick={(event, data) => {
-              ctx.setCart!(
-                []
-                // ...ctx.cart,
-                // {
-                //   ...props.product.subscriptions![selection],
-                //   product: props.product,
-                // },
-              );
+              ctx.setCart!([]);
               setInCart(true);
             }}
           >{`Add to Cart`}</Button>
